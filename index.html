@@ -1,1491 +1,478 @@
 <!DOCTYPE html>
 
-
-
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>555 McLean Ave — Cooperative</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>555 McLean Ave — Shareholder Portal</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
-<style>
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-
-
+```
 :root {
-
-–brick: #8B3A2A;
-
-–brick-light: #C05A3A;
-
-–cream: #F7F2EA;
-
-–sand: #E8DFD0;
-
-–charcoal: #2A2520;
-
-–warm-gray: #6B6460;
-
-–gold: #C49A3C;
-
-–gold-light: #E8C96A;
-
-–white: #FEFCF8;
-
+  --cream: #f7f4ef;
+  --dark: #1a1a18;
+  --gold: #b89a5a;
+  --gold-light: #d4b87a;
+  --muted: #6b6b60;
+  --white: #ffffff;
+  --border: #e2ddd5;
 }
-
-
 
 html { scroll-behavior: smooth; }
 
-
-
 body {
-
-font-family: ‘DM Sans’, sans-serif;
-
-background: var(–cream);
-
-color: var(–charcoal);
-
-min-height: 100vh;
-
-overflow-x: hidden;
-
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  line-height: 1.6;
 }
-
-
 
 /* ── HEADER ── */
-
 header {
-
-background: var(–charcoal);
-
-color: var(–cream);
-
-padding: 0;
-
-position: sticky;
-
-top: 0;
-
-z-index: 100;
-
-box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-
+  background: var(--dark);
+  color: var(--white);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  border-bottom: 2px solid var(--gold);
 }
 
-
-
-.header-inner {
-
-max-width: 1100px;
-
-margin: 0 auto;
-
-display: flex;
-
-align-items: center;
-
-justify-content: space-between;
-
-padding: 14px 28px;
-
-gap: 16px;
-
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-light);
 }
-
-
-
-.logo-block { display: flex; align-items: center; gap: 14px; }
-
-
-
-.logo-icon {
-
-width: 44px; height: 44px;
-
-background: var(–brick);
-
-border-radius: 6px;
-
-display: flex; align-items: center; justify-content: center;
-
-font-family: ‘Playfair Display’, serif;
-
-font-size: 22px;
-
-font-weight: 900;
-
-color: var(–gold-light);
-
-flex-shrink: 0;
-
-}
-
-
-
-.logo-text { line-height: 1.2; }
-
-.logo-name { font-family: ‘Playfair Display’, serif; font-size: 17px; font-weight: 700; letter-spacing: 0.01em; }
-
-.logo-sub { font-size: 11px; color: var(–gold-light); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 400; }
-
-
-
-nav { display: flex; gap: 6px; flex-wrap: wrap; }
 
 nav a {
-
-color: var(–sand);
-
-text-decoration: none;
-
-font-size: 13px;
-
-font-weight: 500;
-
-padding: 7px 14px;
-
-border-radius: 20px;
-
-transition: all 0.2s;
-
-letter-spacing: 0.03em;
-
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-left: 1.8rem;
+  transition: color 0.2s;
 }
-
-nav a:hover { background: var(–brick); color: var(–cream); }
-
-
+nav a:hover { color: var(--gold-light); }
 
 /* ── HERO ── */
-
 .hero {
-
-background: linear-gradient(135deg, var(–charcoal) 0%, #3D2E28 60%, var(–brick) 100%);
-
-padding: 72px 28px 60px;
-
-text-align: center;
-
-position: relative;
-
-overflow: hidden;
-
+  background: var(--dark);
+  color: var(--white);
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
-
-
 
 .hero::before {
-
-content: ‘’;
-
-position: absolute;
-
-inset: 0;
-
-background-image: repeating-linear-gradient(
-
-0deg, transparent, transparent 38px,
-
-rgba(255,255,255,0.02) 38px, rgba(255,255,255,0.02) 40px
-
-),
-
-repeating-linear-gradient(
-
-90deg, transparent, transparent 38px,
-
-rgba(255,255,255,0.02) 38px, rgba(255,255,255,0.02) 40px
-
-);
-
-pointer-events: none;
-
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(184,154,90,0.18) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-
-
-.hero-address {
-
-font-family: ‘Playfair Display’, serif;
-
-font-size: clamp(36px, 6vw, 68px);
-
-font-weight: 900;
-
-color: var(–cream);
-
-line-height: 1.05;
-
-letter-spacing: -0.02em;
-
-animation: fadeUp 0.7s ease both;
-
+.hero-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 0.3rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s ease both;
 }
 
-
-
-.hero-address span { color: var(–gold-light); }
-
-
-
-.hero-tagline {
-
-font-size: 15px;
-
-color: var(–sand);
-
-margin-top: 14px;
-
-letter-spacing: 0.18em;
-
-text-transform: uppercase;
-
-font-weight: 300;
-
-animation: fadeUp 0.7s 0.15s ease both;
-
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  animation: fadeUp 0.7s ease 0.1s both;
 }
 
+.hero h1 span { color: var(--gold-light); }
 
+.hero p {
+  margin-top: 1rem;
+  color: #aaa;
+  font-size: 1rem;
+  font-weight: 300;
+  animation: fadeUp 0.7s ease 0.2s both;
+}
 
 .hero-divider {
-
-width: 60px; height: 2px;
-
-background: var(–gold);
-
-margin: 24px auto;
-
-animation: fadeUp 0.7s 0.25s ease both;
-
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 2rem auto 0;
+  animation: fadeUp 0.7s ease 0.3s both;
 }
-
-
-
-.hero-desc {
-
-max-width: 520px;
-
-margin: 0 auto;
-
-color: var(–sand);
-
-font-size: 15px;
-
-line-height: 1.7;
-
-font-weight: 300;
-
-animation: fadeUp 0.7s 0.3s ease both;
-
-}
-
-
-
-@keyframes fadeUp {
-
-from { opacity: 0; transform: translateY(22px); }
-
-to { opacity: 1; transform: translateY(0); }
-
-}
-
-
-
-/* ── NOTICE BANNER ── */
-
-.notice-banner {
-
-background: var(–gold);
-
-padding: 10px 28px;
-
-text-align: center;
-
-font-size: 13px;
-
-font-weight: 500;
-
-color: var(–charcoal);
-
-letter-spacing: 0.02em;
-
-}
-
-.notice-banner strong { font-weight: 700; }
-
-
 
 /* ── SECTIONS ── */
-
-.section {
-
-max-width: 1100px;
-
-margin: 0 auto;
-
-padding: 60px 28px;
-
+section {
+  padding: 4rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
 
 .section-title {
-
-font-family: ‘Playfair Display’, serif;
-
-font-size: 28px;
-
-font-weight: 700;
-
-color: var(–brick);
-
-margin-bottom: 6px;
-
-letter-spacing: -0.01em;
-
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--dark);
 }
 
-
-
-.section-sub {
-
-font-size: 13px;
-
-color: var(–warm-gray);
-
-margin-bottom: 32px;
-
-letter-spacing: 0.05em;
-
-text-transform: uppercase;
-
+.divider {
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+  margin-bottom: 2rem;
 }
 
-
-
-/* ── CARDS GRID ── */
-
-.cards {
-
-display: grid;
-
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-
-gap: 20px;
-
+/* ── INFO CARDS ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
 }
 
-
-
-.card {
-
-background: var(–white);
-
-border-radius: 12px;
-
-border: 1px solid var(–sand);
-
-overflow: hidden;
-
-transition: box-shadow 0.25s, transform 0.25s;
-
-cursor: pointer;
-
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  padding: 1.5rem;
+  border-radius: 2px;
 }
 
-.card:hover { box-shadow: 0 8px 32px rgba(42,37,32,0.12); transform: translateY(-3px); }
-
-
-
-.card-header {
-
-padding: 20px 22px 14px;
-
-border-bottom: 1px solid var(–sand);
-
-display: flex;
-
-align-items: center;
-
-gap: 12px;
-
+.info-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--dark);
 }
 
-
-
-.card-icon {
-
-width: 38px; height: 38px;
-
-background: var(–sand);
-
-border-radius: 8px;
-
-display: flex; align-items: center; justify-content: center;
-
-font-size: 18px;
-
-flex-shrink: 0;
-
+.info-card p {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
+/* ── MEETINGS ── */
+#meetings { background: var(--white); max-width: 100%; padding: 4rem 2rem; }
+#meetings .inner { max-width: 900px; margin: 0 auto; }
 
+.meeting-list { list-style: none; }
 
-.card-title { font-weight: 600; font-size: 15px; color: var(–charcoal); }
+.meeting-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.meeting-item:last-child { border-bottom: none; }
 
-.card-date { font-size: 11px; color: var(–warm-gray); margin-top: 2px; letter-spacing: 0.04em; }
+.meeting-date {
+  background: var(--dark);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  min-width: 64px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.meeting-date .day { font-size: 1.5rem; font-weight: 700; line-height: 1; }
+.meeting-date .month { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
 
+.meeting-info h4 {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+.meeting-info p { font-size: 0.85rem; color: var(--muted); }
 
-
-.card-body { padding: 16px 22px 20px; }
-
-.card-body p { font-size: 13.5px; line-height: 1.65; color: var(–warm-gray); }
-
-
-
-.tag {
-
-display: inline-block;
-
-font-size: 10px;
-
-font-weight: 600;
-
-padding: 3px 9px;
-
-border-radius: 20px;
-
-letter-spacing: 0.07em;
-
-text-transform: uppercase;
-
-margin-top: 12px;
-
+.badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--white);
+  padding: 0.15rem 0.55rem;
+  border-radius: 2px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
 }
 
-.tag-notice { background: #FFF0E0; color: #B05A20; }
-
-.tag-finance { background: #E8F4EC; color: #2A7A45; }
-
-.tag-maintenance { background: #E8EEF8; color: #2A4A8A; }
-
-.tag-policy { background: #F2E8F8; color: #6A2A9A; }
-
-.tag-update { background: #FFF8E0; color: #8A6A20; }
-
-
-
-/* ── ANNOUNCEMENTS FEED ── */
-
-.feed { display: flex; flex-direction: column; gap: 16px; }
-
-
-
-.feed-item {
-
-background: var(–white);
-
-border-radius: 10px;
-
-border-left: 4px solid var(–brick);
-
-padding: 18px 22px;
-
-border: 1px solid var(–sand);
-
-border-left: 4px solid var(–brick);
-
-transition: box-shadow 0.2s;
-
+/* ── UPDATES ── */
+.update-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 1rem;
+  border-radius: 0 2px 2px 0;
 }
 
-.feed-item:hover { box-shadow: 0 4px 18px rgba(42,37,32,0.09); }
+.update-card .update-meta {
+  font-size: 0.75rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
 
+.update-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
 
+.update-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.7; }
 
-.feed-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-
-.feed-date { font-size: 12px; color: var(–warm-gray); }
-
-.feed-title { font-weight: 600; font-size: 15px; color: var(–charcoal); margin-bottom: 6px; }
-
-.feed-body { font-size: 13.5px; line-height: 1.65; color: var(–warm-gray); }
-
-
-
-/* ── CONTACTS TABLE ── */
+/* ── CONTACT ── */
+#contact { background: var(--dark); color: var(--white); max-width: 100%; padding: 4rem 2rem; }
+#contact .inner { max-width: 900px; margin: 0 auto; }
+#contact .section-title { color: var(--white); }
 
 .contact-grid {
-
-display: grid;
-
-grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-
-gap: 16px;
-
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
-
-
-.contact-card {
-
-background: var(–white);
-
-border: 1px solid var(–sand);
-
-border-radius: 10px;
-
-padding: 20px 22px;
-
-transition: box-shadow 0.2s;
-
+.contact-item h4 {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.4rem;
 }
 
-.contact-card:hover { box-shadow: 0 4px 18px rgba(42,37,32,0.09); }
-
-
-
-.contact-role { font-size: 10px; font-weight: 700; color: var(–brick); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-
-.contact-name { font-weight: 600; font-size: 15px; color: var(–charcoal); margin-bottom: 8px; }
-
-.contact-info { font-size: 13px; color: var(–warm-gray); line-height: 1.7; }
-
-.contact-info a { color: var(–brick); text-decoration: none; }
-
-.contact-info a:hover { text-decoration: underline; }
-
-
-
-/* ── DOCUMENTS LIST ── */
-
-.doc-list { display: flex; flex-direction: column; gap: 10px; }
-
-.doc-item {
-
-background: var(–white);
-
-border: 1px solid var(–sand);
-
-border-radius: 8px;
-
-padding: 14px 20px;
-
-display: flex;
-
-align-items: center;
-
-gap: 14px;
-
-transition: box-shadow 0.2s;
-
-cursor: pointer;
-
-text-decoration: none;
-
-color: inherit;
-
-}
-
-.doc-item:hover { box-shadow: 0 4px 14px rgba(42,37,32,0.09); border-color: var(–brick-light); }
-
-.doc-emoji { font-size: 20px; flex-shrink: 0; }
-
-.doc-name { font-weight: 500; font-size: 14px; color: var(–charcoal); }
-
-.doc-size { font-size: 11px; color: var(–warm-gray); margin-top: 2px; }
-
-.doc-arrow { margin-left: auto; color: var(–warm-gray); font-size: 18px; }
-
-
-
-/* ── DIVIDER ── */
-
-.section-divider {
-
-border: none;
-
-border-top: 1px solid var(–sand);
-
-max-width: 1100px;
-
-margin: 0 auto;
-
-}
-
-
+.contact-item p { font-size: 0.9rem; color: #ccc; line-height: 1.7; }
+.contact-item a { color: var(--gold-light); text-decoration: none; }
+.contact-item a:hover { text-decoration: underline; }
 
 /* ── FOOTER ── */
-
 footer {
-
-background: var(–charcoal);
-
-color: var(–warm-gray);
-
-padding: 32px 28px;
-
-text-align: center;
-
-font-size: 12.5px;
-
-line-height: 1.8;
-
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
 }
 
-footer strong { color: var(–sand); }
-
-
-
-/* ── RESPONSIVE ── */
-
-@media (max-width: 640px) {
-
-.header-inner { flex-direction: column; align-items: flex-start; gap: 10px; }
-
-nav { gap: 4px; }
-
-.hero { padding: 50px 20px 40px; }
-
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-</style>
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
 
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  nav { display: none; }
+  .hero h1 { font-size: 2rem; }
+}
+```
 
-
+  </style>
 </head>
-
 <body>
 
+  <!-- HEADER -->
 
-
-<!-- HEADER -->
-
-
-
-<header>
-
-  <div class="header-inner">
-
-    <div class="logo-block">
-
-      <div class="logo-icon">555</div>
-
-      <div class="logo-text">
-
-        <div class="logo-name">McLean Ave Cooperative</div>
-
-        <div class="logo-sub">Shareholder Portal · Yonkers, NY</div>
-
-      </div>
-
-    </div>
-
+  <header>
+    <div class="logo">555 McLean Ave</div>
     <nav>
-
-      <a href="#announcements">Announcements</a>
-
-      <a href="#documents">Documents</a>
-
-      <a href="#maintenance">Maintenance</a>
-
-      <a href="#contacts">Contacts</a>
-
+      <a href="#about">About</a>
+      <a href="#meetings">Meetings</a>
+      <a href="#updates">Updates</a>
+      <a href="#contact">Contact</a>
     </nav>
+  </header>
 
+  <!-- HERO -->
+
+  <div class="hero">
+    <div class="hero-tag">Cooperative Housing</div>
+    <h1>555 McLean Ave<br><span>Resident Portal</span></h1>
+    <p>Yonkers, New York · Est. Community</p>
+    <div class="hero-divider"></div>
   </div>
 
-</header>
+  <!-- ABOUT -->
 
+  <section id="about">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">About Our Cooperative</h2>
+    <div class="divider"></div>
+    <div class="info-grid">
+      <div class="info-card fade-in">
+        <h3>🏢 Our Building</h3>
+        <p>555 McLean Ave is a resident-owned cooperative community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
+      </div>
+      <div class="info-card fade-in">
+        <h3>📋 Board of Directors</h3>
+        <p>Elected by shareholders, our Board oversees operations, finances, and building policy. Board members volunteer their time for the community.</p>
+      </div>
+      <div class="info-card fade-in">
+        <h3>📜 House Rules</h3>
+        <p>All residents are expected to follow co-op house rules. Copies are available from the managing agent or by request from the board.</p>
+      </div>
+      <div class="info-card fade-in">
+        <h3>🔧 Maintenance</h3>
+        <p>For repairs and maintenance requests, contact the managing agent directly. Emergency issues should be reported immediately.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- MEETINGS -->
 
-<!-- NOTICE BANNER -->
+  <div id="meetings">
+    <div class="inner">
+      <div class="section-label">Upcoming</div>
+      <h2 class="section-title">Board Meetings</h2>
+      <div class="divider"></div>
+      <ul class="meeting-list">
+        <li class="meeting-item fade-in">
+          <div class="meeting-date"><div class="day">15</div><div class="month">May</div></div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting <span class="badge">Upcoming</span></h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave · All shareholders welcome to attend</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date"><div class="day">19</div><div class="month">Jun</div></div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date"><div class="day">17</div><div class="month">Jul</div></div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date"><div class="day">Oct</div><div class="month">TBD</div></div>
+          <div class="meeting-info">
+            <h4>Annual Shareholders Meeting</h4>
+            <p>Date & time to be announced · All shareholders strongly encouraged to attend</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
+  <!-- UPDATES -->
 
+  <section id="updates">
+    <div class="section-label">News & Notices</div>
+    <h2 class="section-title">Building Updates</h2>
+    <div class="divider"></div>
 
-<div class="notice-banner">
-
-  📣 <strong>Next Board Meeting:</strong> Thursday, May 15, 2026 at 7:00 PM — Community Room, 1st Floor
-
+```
+<div class="update-card fade-in">
+  <div class="update-meta">April 2026 · General Notice</div>
+  <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
+  <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
 </div>
 
-
-
-<!-- HERO -->
-
-
-
-<div class="hero">
-
-  <div class="hero-address"><span>555</span> McLean Avenue</div>
-
-  <div class="hero-tagline">Cooperative · Yonkers, New York</div>
-
-  <div class="hero-divider"></div>
-
-  <p class="hero-desc">
-
-    Your central hub for shareholder information, building announcements, financial updates, and community resources. Everything you need, in one place.
-
-  </p>
-
+<div class="update-card fade-in">
+  <div class="update-meta">April 2026 · Maintenance</div>
+  <h4>Spring Building Inspection</h4>
+  <p>Our annual spring inspection of common areas, roof, and mechanical systems is scheduled for mid-May. Access to certain areas may be temporarily restricted. Details to follow.</p>
 </div>
 
+<div class="update-card fade-in">
+  <div class="update-meta">March 2026 · Reminder</div>
+  <h4>Maintenance Fee Payment Reminder</h4>
+  <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
+</div>
+```
 
+  </section>
 
-<!-- QUICK INFO CARDS -->
+  <!-- CONTACT -->
 
-
-
-<section class="section" id="info">
-
-  <div class="section-title">Building Overview</div>
-
-  <div class="section-sub">Quick reference for shareholders</div>
-
-
-
-  <div class="cards">
-
-    <div class="card">
-
-      <div class="card-header">
-
-        <div class="card-icon">🏢</div>
-
-        <div>
-
-          <div class="card-title">Property Details</div>
-
-          <div class="card-date">555 McLean Ave, Yonkers, NY 10705</div>
-
+  <div id="contact">
+    <div class="inner">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Contact Information</h2>
+      <div class="divider" style="background:var(--gold);"></div>
+      <div class="contact-grid">
+        <div class="contact-item fade-in">
+          <h4>Building Address</h4>
+          <p>555 McLean Ave<br>Yonkers, NY 10705</p>
         </div>
-
-      </div>
-
-      <div class="card-body">
-
-        <p>Residential cooperative building. All shareholders are advised to keep their contact information up to date with management.</p>
-
-        <span class="tag tag-update">General Info</span>
-
-      </div>
-
-    </div>
-
-
-
-```
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">💰</div>
-
-    <div>
-
-      <div class="card-title">Monthly Maintenance</div>
-
-      <div class="card-date">Due on the 1st of each month</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>Maintenance charges are due by the 1st of every month. Late fees apply after the 10th. Checks payable to <strong>555 McLean Ave Corp.</strong></p>
-
-    <span class="tag tag-finance">Finance</span>
-
-  </div>
-
-</div>
-
-
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">📋</div>
-
-    <div>
-
-      <div class="card-title">House Rules</div>
-
-      <div class="card-date">Last updated: January 2026</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>All shareholders and residents must comply with the building's house rules. Key updates were made regarding noise and common area usage.</p>
-
-    <span class="tag tag-policy">Policy</span>
-
-  </div>
-
-</div>
-
-
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">🔧</div>
-
-    <div>
-
-      <div class="card-title">Maintenance Requests</div>
-
-      <div class="card-date">Submit via email or phone</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>Non-emergency maintenance requests should be submitted via email. Emergency issues (leaks, heat/hot water) should be called in immediately.</p>
-
-    <span class="tag tag-maintenance">Maintenance</span>
-
-  </div>
-
-</div>
-
-
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">🅿️</div>
-
-    <div>
-
-      <div class="card-title">Parking</div>
-
-      <div class="card-date">Assigned & Visitor Parking</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>Assigned parking spaces are allocated per proprietary lease. Visitor parking is available in designated spots only. No overnight visitor parking without prior approval.</p>
-
-    <span class="tag tag-policy">Policy</span>
-
-  </div>
-
-</div>
-
-
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">🐾</div>
-
-    <div>
-
-      <div class="card-title">Pet Policy</div>
-
-      <div class="card-date">Board approval required</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>Pets require prior written board approval. All dogs must be leashed in common areas. Please pick up after your pets on the grounds.</p>
-
-    <span class="tag tag-policy">Policy</span>
-
-  </div>
-
-</div>
-
-```
-
-
-
-  </div>
-
-</section>
-
-
-
-<hr class="section-divider">
-
-
-
-<!-- ANNOUNCEMENTS -->
-
-
-
-<section class="section" id="announcements">
-
-  <div class="section-title">Announcements</div>
-
-  <div class="section-sub">Recent building news & updates</div>
-
-
-
-  <div class="feed">
-
-
-
-```
-
-<div class="feed-item">
-
-  <div class="feed-meta">
-
-    <span class="tag tag-maintenance">Maintenance</span>
-
-    <span class="feed-date">April 28, 2026</span>
-
-  </div>
-
-  <div class="feed-title">Hallway Painting — Floors 3–6 Scheduled</div>
-
-  <div class="feed-body">Work crews will be painting hallways on floors 3 through 6 starting Monday, May 5 through May 9. Please remove personal items from hallway floors. Minor disruption is expected during working hours (8am–5pm).</div>
-
-</div>
-
-
-
-<div class="feed-item">
-
-  <div class="feed-meta">
-
-    <span class="tag tag-finance">Finance</span>
-
-    <span class="feed-date">April 15, 2026</span>
-
-  </div>
-
-  <div class="feed-title">2025 Annual Financial Statements Available</div>
-
-  <div class="feed-body">The audited 2025 annual financial statements are now available for shareholder review. Copies have been distributed via mail and are available in the Documents section below. Please contact management with any questions.</div>
-
-</div>
-
-
-
-<div class="feed-item">
-
-  <div class="feed-meta">
-
-    <span class="tag tag-notice">Notice</span>
-
-    <span class="feed-date">April 5, 2026</span>
-
-  </div>
-
-  <div class="feed-title">Water Shut-Off: April 18, 9 AM – 2 PM</div>
-
-  <div class="feed-body">There will be a building-wide water shut-off on Friday, April 18 from 9:00 AM to approximately 2:00 PM for main line maintenance. Please plan accordingly and store water in advance if needed.</div>
-
-</div>
-
-
-
-<div class="feed-item">
-
-  <div class="feed-meta">
-
-    <span class="tag tag-update">Update</span>
-
-    <span class="feed-date">March 20, 2026</span>
-
-  </div>
-
-  <div class="feed-title">New Package Locker System Installed</div>
-
-  <div class="feed-body">A new smart package locker system has been installed in the lobby. Shareholders will receive an access code via email/text when packages are delivered. The system is now live and operational. Please contact management to register your preferred notification method.</div>
-
-</div>
-
-
-
-<div class="feed-item">
-
-  <div class="feed-meta">
-
-    <span class="tag tag-policy">Policy</span>
-
-    <span class="feed-date">February 10, 2026</span>
-
-  </div>
-
-  <div class="feed-title">Reminder: Subletting Requires Board Approval</div>
-
-  <div class="feed-body">All shareholders are reminded that subletting of apartments requires prior written board approval per the proprietary lease. Unauthorized subletting (including short-term rentals via Airbnb etc.) is a violation of your lease and grounds for action.</div>
-
-</div>
-
-```
-
-
-
-  </div>
-
-</section>
-
-
-
-<hr class="section-divider">
-
-
-
-<!-- DOCUMENTS -->
-
-
-
-<section class="section" id="documents">
-
-  <div class="section-title">Documents & Forms</div>
-
-  <div class="section-sub">Key resources for shareholders</div>
-
-
-
-  <div class="doc-list">
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">📄</span>
-
-      <div>
-
-        <div class="doc-name">Proprietary Lease</div>
-
-        <div class="doc-size">PDF · Governing document</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">📋</span>
-
-      <div>
-
-        <div class="doc-name">House Rules (2026 Edition)</div>
-
-        <div class="doc-size">PDF · Updated January 2026</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">📊</span>
-
-      <div>
-
-        <div class="doc-name">2025 Annual Financial Statements</div>
-
-        <div class="doc-size">PDF · Audited · April 2026</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">📅</span>
-
-      <div>
-
-        <div class="doc-name">2026 Board Meeting Minutes</div>
-
-        <div class="doc-size">PDF · January & February</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">🔧</span>
-
-      <div>
-
-        <div class="doc-name">Maintenance Request Form</div>
-
-        <div class="doc-size">PDF · Submit to management</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">🏠</span>
-
-      <div>
-
-        <div class="doc-name">Alteration Agreement / Renovation Form</div>
-
-        <div class="doc-size">PDF · Required before any work</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">📝</span>
-
-      <div>
-
-        <div class="doc-name">Sublet Application Package</div>
-
-        <div class="doc-size">PDF · Board approval required</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-    <a class="doc-item" href="#">
-
-      <span class="doc-emoji">🐾</span>
-
-      <div>
-
-        <div class="doc-name">Pet Registration Form</div>
-
-        <div class="doc-size">PDF · Submit with vet records</div>
-
-      </div>
-
-      <span class="doc-arrow">↓</span>
-
-    </a>
-
-  </div>
-
-</section>
-
-
-
-<hr class="section-divider">
-
-
-
-<!-- MAINTENANCE -->
-
-
-
-<section class="section" id="maintenance">
-
-  <div class="section-title">Maintenance & Repairs</div>
-
-  <div class="section-sub">How to submit requests</div>
-
-
-
-  <div class="cards">
-
-    <div class="card">
-
-      <div class="card-header">
-
-        <div class="card-icon">🚨</div>
-
-        <div>
-
-          <div class="card-title">Emergencies</div>
-
-          <div class="card-date">Call immediately — 24/7</div>
-
+        <div class="contact-item fade-in">
+          <h4>Managing Agent</h4>
+          <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
         </div>
-
+        <div class="contact-item fade-in">
+          <h4>Board of Directors</h4>
+          <p>For board matters:<br><a href="mailto:board@example.com">board@example.com</a></p>
+        </div>
+        <div class="contact-item fade-in">
+          <h4>Emergencies</h4>
+          <p>Building emergencies:<br><a href="tel:+19145550000">(914) 555-0000</a></p>
+        </div>
       </div>
-
-      <div class="card-body">
-
-        <p>For water leaks, no heat/hot water, gas smell, elevator stuck, or other urgent emergencies — call management directly at any hour. Do <strong>not</strong> email for emergencies.</p>
-
-        <span class="tag tag-notice">Urgent</span>
-
-      </div>
-
     </div>
-
-
-
-```
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">📧</div>
-
-    <div>
-
-      <div class="card-title">Non-Emergency Requests</div>
-
-      <div class="card-date">Email or form submission</div>
-
-    </div>
-
   </div>
 
-  <div class="card-body">
-
-    <p>Submit non-urgent requests via the Maintenance Request Form (see Documents above) or by emailing management. Include your unit number and a description of the issue.</p>
-
-    <span class="tag tag-maintenance">Routine</span>
-
-  </div>
-
-</div>
-
-
-
-<div class="card">
-
-  <div class="card-header">
-
-    <div class="card-icon">🏗️</div>
-
-    <div>
-
-      <div class="card-title">Renovations / Alterations</div>
-
-      <div class="card-date">Prior approval required</div>
-
-    </div>
-
-  </div>
-
-  <div class="card-body">
-
-    <p>Any work beyond minor repairs requires board approval via the Alteration Agreement. This includes flooring, kitchen/bath renovations, and any structural changes. Work without approval may result in fines.</p>
-
-    <span class="tag tag-policy">Policy</span>
-
-  </div>
-
-</div>
-
-```
-
-
-
-  </div>
-
-</section>
-
-
-
-<hr class="section-divider">
-
-
-
-<!-- CONTACTS -->
-
-
-
-<section class="section" id="contacts">
-
-  <div class="section-title">Contacts</div>
-
-  <div class="section-sub">Who to reach for what</div>
-
-
-
-  <div class="contact-grid">
-
-    <div class="contact-card">
-
-      <div class="contact-role">Building Management</div>
-
-      <div class="contact-name">Management Office</div>
-
-      <div class="contact-info">
-
-        📍 On-site office hours: Mon–Fri 9am–5pm<br>
-
-        📞 <a href="tel:+19145550100">(914) 555-0100</a><br>
-
-        ✉️ <a href="mailto:management@555mclean.com">management@555mclean.com</a>
-
-      </div>
-
-    </div>
-
-
-
-```
-
-<div class="contact-card">
-
-  <div class="contact-role">Board President</div>
-
-  <div class="contact-name">Board of Directors</div>
-
-  <div class="contact-info">
-
-    Contact through management for board-related matters.<br>
-
-    ✉️ <a href="mailto:board@555mclean.com">board@555mclean.com</a><br>
-
-    Meetings held monthly — see announcements.
-
-  </div>
-
-</div>
-
-
-
-<div class="contact-card">
-
-  <div class="contact-role">Superintendent</div>
-
-  <div class="contact-name">Building Super</div>
-
-  <div class="contact-info">
-
-    📍 Basement level, Unit B1<br>
-
-    📞 <a href="tel:+19145550199">(914) 555-0199</a><br>
-
-    Available Mon–Sat, 8am–6pm
-
-  </div>
-
-</div>
-
-
-
-<div class="contact-card">
-
-  <div class="contact-role">Emergency — After Hours</div>
-
-  <div class="contact-name">24/7 Emergency Line</div>
-
-  <div class="contact-info">
-
-    For urgent building emergencies only<br>
-
-    📞 <a href="tel:+19145550911">(914) 555-0911</a><br>
-
-    Heat, hot water, major leaks, security
-
-  </div>
-
-</div>
-
-
-
-<div class="contact-card">
-
-  <div class="contact-role">Trash & Recycling</div>
-
-  <div class="contact-name">Waste Collection</div>
-
-  <div class="contact-info">
-
-    Trash: Sun, Tue, Thu (place out by 8pm)<br>
-
-    Recycling: Monday & Friday<br>
-
-    Bulk items: schedule with super
-
-  </div>
-
-</div>
-
-
-
-<div class="contact-card">
-
-  <div class="contact-role">Local Resources</div>
-
-  <div class="contact-name">Yonkers City Services</div>
-
-  <div class="contact-info">
-
-    🚒 Fire non-emergency: (914) 377-7441<br>
-
-    🚓 Police non-emergency: (914) 377-7900<br>
-
-    🏙️ City of Yonkers: yonkersny.gov
-
-  </div>
-
-</div>
-
-```
-
-
-
-  </div>
-
-</section>
-
-
-
-<!-- FOOTER -->
-
-
-
-<footer>
-
-  <strong>555 McLean Avenue Cooperative · Yonkers, New York 10705</strong><br>
-
-  This portal is for shareholder informational use only. For official correspondence, please contact management directly.<br><br>
-
-  <span style="font-size:11px; opacity:0.6;">© 2026 555 McLean Ave Corp. · All information subject to change by the Board of Directors.</span>
-
-</footer>
-
-
+  <!-- FOOTER -->
+
+  <footer>
+    © 2026 555 McLean Ave Cooperative · Yonkers, New York · All rights reserved
+  </footer>
+
+  <script>
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
 
 </body>
-
 </html>
