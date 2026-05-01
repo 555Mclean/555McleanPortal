@@ -1,16 +1,20 @@
-<!DOCTYPE html>
+l<!DOCTYPE html>
 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>555 McLean Ave — Cooperative</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#000000">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 ```
 :root {
+  color-scheme: dark;
+
   --bg: #000000;
   --bg-2: #0a0a0a;
   --bg-card: #141414;
@@ -25,11 +29,14 @@
   --white: #ffffff;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  background: #000000 !important;
+}
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  background: var(--bg);
+  background: #000000 !important;
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
