@@ -624,9 +624,97 @@
       line-height: 1.6;
     }
 
+    .wl-counts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .wl-count-card {
+      background: var(--bg-card);
+      padding: 2rem;
+    }
+
+    .wl-count-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+
+    .wl-slots {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .wl-slot {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 10px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .wl-slot.filled {
+      background: var(--blue-glow);
+      border-color: rgba(41,151,255,0.3);
+    }
+
+    .wl-slot-pos {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      min-width: 1.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .wl-slot.filled .wl-slot-pos {
+      color: rgba(41,151,255,0.6);
+    }
+
+    .wl-slot-apt {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: -0.01em;
+    }
+
+    .wl-slot.filled .wl-slot-apt {
+      color: var(--blue);
+    }
+
+    .wl-slot-empty {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      font-style: italic;
+      padding: 0.75rem 0;
+    }
+
+    .wl-count-footer {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      margin-top: 0.75rem;
+    }
+
+    .wl-count-footer strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
     @media (max-width: 540px) {
-      .wl-field-row { grid-template-columns: 1fr; }
-      .wl-tab-btn { max-width: none; }
+      .wl-counts { grid-template-columns: 1fr; }
     }
 
     /* ── MOBILE ── */
@@ -782,6 +870,27 @@
       <h2 class="section-title">Waiting Lists</h2>
       <p class="section-sub">Submit your information to be added to the parking or storage waiting list. The board will contact you when a spot becomes available.</p>
 
+      <!-- ── BOARD: add or remove apartment numbers from each list below ── -->
+      <script>
+        const WL_DATA = {
+          parking: ['2A', '4B', '7C'],
+          storage: ['1D', '3A', '5B', '6C', '8A']
+        };
+      </script>
+
+      <div class="wl-counts" id="wl-counts-display">
+        <div class="wl-count-card">
+          <div class="wl-count-label">🚗 Parking Queue</div>
+          <div class="wl-slots" id="parking-slots"></div>
+          <div class="wl-count-footer" id="parking-footer"></div>
+        </div>
+        <div class="wl-count-card">
+          <div class="wl-count-label">📦 Storage Queue</div>
+          <div class="wl-slots" id="storage-slots"></div>
+          <div class="wl-count-footer" id="storage-footer"></div>
+        </div>
+      </div>
+
       <div class="wl-tabs">
         <button class="wl-tab-btn active" onclick="switchWLTab('parking', this)">🚗 Parking Spot</button>
         <button class="wl-tab-btn" onclick="switchWLTab('storage', this)">📦 Storage Unit</button>
@@ -908,6 +1017,36 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    function renderSlots(type) {
+      const apts = WL_DATA[type];
+      const slotsEl = document.getElementById(type + '-slots');
+      const footerEl = document.getElementById(type + '-footer');
+      slotsEl.innerHTML = '';
+
+      if (apts.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'wl-slot-empty';
+        empty.textContent = 'No one on the list yet — sign up below.';
+        slotsEl.appendChild(empty);
+        footerEl.innerHTML = '';
+      } else {
+        apts.forEach(function(apt, i) {
+          const slot = document.createElement('div');
+          slot.className = 'wl-slot filled';
+          slot.innerHTML =
+            '<span class="wl-slot-pos">#' + (i + 1) + '</span>' +
+            '<span class="wl-slot-apt">Apt ' + apt + '</span>';
+          slotsEl.appendChild(slot);
+        });
+        const next = apts.length + 1;
+        footerEl.innerHTML =
+          '<strong>' + apts.length + ' ' + (apts.length === 1 ? 'person' : 'people') + '</strong> currently waiting · Sign up to join at <strong>#' + next + '</strong>';
+      }
+    }
+
+    renderSlots('parking');
+    renderSlots('storage');
 
     function switchWLTab(type, btn) {
       document.querySelectorAll('.wl-tab-btn').forEach(b => b.classList.remove('active'));
