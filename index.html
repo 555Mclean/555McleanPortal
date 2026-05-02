@@ -1,5 +1,4 @@
-l<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -11,511 +10,595 @@ l<!DOCTYPE html>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-```
-:root {
-  color-scheme: dark;
+    :root {
+      color-scheme: dark;
+      --bg: #000000;
+      --bg-2: #0a0a0a;
+      --bg-card: #141414;
+      --bg-card-hover: #1c1c1e;
+      --border: rgba(255,255,255,0.1);
+      --border-light: rgba(255,255,255,0.06);
+      --text: #f5f5f7;
+      --text-secondary: #86868b;
+      --text-tertiary: #515154;
+      --blue: #2997ff;
+      --blue-glow: rgba(41,151,255,0.15);
+      --white: #ffffff;
+    }
 
-  --bg: #000000;
-  --bg-2: #0a0a0a;
-  --bg-card: #141414;
-  --bg-card-hover: #1c1c1e;
-  --border: rgba(255,255,255,0.1);
-  --border-light: rgba(255,255,255,0.06);
-  --text: #f5f5f7;
-  --text-secondary: #86868b;
-  --text-tertiary: #515154;
-  --blue: #2997ff;
-  --blue-glow: rgba(41,151,255,0.15);
-  --white: #ffffff;
-}
+    html {
+      scroll-behavior: smooth;
+      background: #000000 !important;
+    }
 
-html {
-  scroll-behavior: smooth;
-  background: #000000 !important;
-}
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+      background: #000000 !important;
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  background: #000000 !important;
-  color: var(--text);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
+    /* ── HEADER ── */
+    header {
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
 
-/* ── HEADER ── */
-header {
-  background: rgba(0,0,0,0.72);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--border-light);
-  padding: 0 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 52px;
-}
+    .logo {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
 
-.logo {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text);
-}
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-left: 2rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
 
-nav a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  margin-left: 2rem;
-  transition: color 0.2s;
-}
-nav a:hover { color: var(--text); }
+    /* ── HERO ── */
+    .hero {
+      background: var(--bg);
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── HERO ── */
-.hero {
-  background: var(--bg);
-  padding: 8rem 2rem 6rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(41,151,255,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -40%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(ellipse, rgba(41,151,255,0.12) 0%, transparent 65%);
-  pointer-events: none;
-}
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--blue);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
 
-.hero-tag {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--blue);
-  margin-bottom: 1.2rem;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.1s forwards;
-}
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
 
-.hero h1 {
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  color: var(--text);
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.2s forwards;
-}
+    .hero h1 span {
+      background: linear-gradient(135deg, #2997ff 0%, #64a8ff 50%, #a0c4ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-.hero h1 span {
-  background: linear-gradient(135deg, #2997ff 0%, #64a8ff 50%, #a0c4ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+    .hero p {
+      margin-top: 1.2rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.3s forwards;
+    }
 
-.hero p {
-  margin-top: 1.2rem;
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.3s forwards;
-}
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.4s forwards;
+    }
 
-.hero-cta {
-  margin-top: 2.5rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: fadeUp 0.7s ease 0.4s forwards;
-}
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.8rem;
+      border-radius: 980px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
 
-.btn-primary {
-  background: var(--blue);
-  color: #fff;
-  border: none;
-  padding: 0.75rem 1.8rem;
-  border-radius: 980px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.2s, transform 0.15s;
-}
-.btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--blue);
+      border: 1px solid rgba(41,151,255,0.4);
+      padding: 0.75rem 1.8rem;
+      border-radius: 980px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { background: rgba(41,151,255,0.08); border-color: var(--blue); transform: scale(1.02); }
 
-.btn-ghost {
-  background: transparent;
-  color: var(--blue);
-  border: 1px solid rgba(41,151,255,0.4);
-  padding: 0.75rem 1.8rem;
-  border-radius: 980px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
-}
-.btn-ghost:hover { background: rgba(41,151,255,0.08); border-color: var(--blue); transform: scale(1.02); }
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 2rem;
+      max-width: 980px;
+      margin: 0 auto;
+    }
 
-/* ── SECTIONS ── */
-section {
-  padding: 6rem 2rem;
-  max-width: 980px;
-  margin: 0 auto;
-}
+    .section-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.6rem;
+    }
 
-.section-eyebrow {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 0.6rem;
-}
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
 
-.section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 1rem;
-}
+    .section-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 540px;
+      margin-bottom: 3rem;
+    }
 
-.section-sub {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  font-weight: 300;
-  max-width: 540px;
-  margin-bottom: 3rem;
-}
+    /* ── INFO CARDS ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      overflow: hidden;
+    }
 
-/* ── INFO CARDS ── */
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1px;
-  background: var(--border-light);
-  border: 1px solid var(--border-light);
-  border-radius: 18px;
-  overflow: hidden;
-}
+    .info-card {
+      background: var(--bg-card);
+      padding: 2rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .info-card:hover { background: var(--bg-card-hover); }
 
-.info-card {
-  background: var(--bg-card);
-  padding: 2rem;
-  transition: background 0.2s;
-  position: relative;
-}
-.info-card:hover { background: var(--bg-card-hover); }
+    .info-card .icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
 
-.info-card .icon {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  display: block;
-}
+    .info-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
 
-.info-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
+    .info-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-weight: 300;
+    }
 
-.info-card p {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  line-height: 1.65;
-  font-weight: 300;
-}
+    /* ── MEETINGS ── */
+    #meetings {
+      background: var(--bg-2);
+      max-width: 100%;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    #meetings .inner { max-width: 980px; margin: 0 auto; }
 
-/* ── MEETINGS ── */
-#meetings {
-  background: var(--bg-2);
-  max-width: 100%;
-  padding: 6rem 2rem;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
-}
-#meetings .inner { max-width: 980px; margin: 0 auto; }
+    .meeting-list { list-style: none; }
 
-.meeting-list { list-style: none; }
+    .meeting-item {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1.4rem 0;
+      border-bottom: 1px solid var(--border-light);
+      transition: opacity 0.2s;
+    }
+    .meeting-item:last-child { border-bottom: none; }
+    .meeting-item:hover { opacity: 0.8; }
 
-.meeting-item {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-  padding: 1.4rem 0;
-  border-bottom: 1px solid var(--border-light);
-  transition: opacity 0.2s;
-}
-.meeting-item:last-child { border-bottom: none; }
-.meeting-item:hover { opacity: 0.8; }
+    .meeting-date {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-align: center;
+      padding: 0.8rem 1.2rem;
+      min-width: 68px;
+      flex-shrink: 0;
+    }
+    .meeting-date .day {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      line-height: 1;
+    }
+    .meeting-date .month {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      font-weight: 500;
+    }
 
-.meeting-date {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  text-align: center;
-  padding: 0.8rem 1.2rem;
-  min-width: 68px;
-  flex-shrink: 0;
-}
-.meeting-date .day {
-  font-size: 1.6rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  line-height: 1;
-}
-.meeting-date .month {
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-top: 3px;
-  font-weight: 500;
-}
+    .meeting-info h4 {
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.2rem;
+      color: var(--text);
+    }
+    .meeting-info p { font-size: 0.83rem; color: var(--text-secondary); font-weight: 300; }
 
-.meeting-info h4 {
-  font-weight: 500;
-  font-size: 0.95rem;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.2rem;
-  color: var(--text);
-}
-.meeting-info p { font-size: 0.83rem; color: var(--text-secondary); font-weight: 300; }
+    .badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--blue-glow);
+      color: var(--blue);
+      border: 1px solid rgba(41,151,255,0.3);
+      padding: 0.18rem 0.6rem;
+      border-radius: 980px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
 
-.badge {
-  display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: var(--blue-glow);
-  color: var(--blue);
-  border: 1px solid rgba(41,151,255,0.3);
-  padding: 0.18rem 0.6rem;
-  border-radius: 980px;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-}
+    /* ── UPDATES ── */
+    .update-grid {
+      display: grid;
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      overflow: hidden;
+    }
 
-/* ── UPDATES ── */
-.update-grid {
-  display: grid;
-  gap: 1px;
-  background: var(--border-light);
-  border: 1px solid var(--border-light);
-  border-radius: 18px;
-  overflow: hidden;
-}
+    .update-card {
+      background: var(--bg-card);
+      padding: 2rem 2.4rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .update-card:hover { background: var(--bg-card-hover); }
 
-.update-card {
-  background: var(--bg-card);
-  padding: 2rem 2.4rem;
-  transition: background 0.2s;
-  position: relative;
-}
-.update-card:hover { background: var(--bg-card-hover); }
+    .update-card .update-meta {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
 
-.update-card .update-meta {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--blue);
-  margin-bottom: 0.5rem;
-}
+    .update-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
 
-.update-card h4 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.4rem;
-  color: var(--text);
-}
+    .update-card p {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 620px;
+    }
 
-.update-card p {
-  font-size: 0.87rem;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  font-weight: 300;
-  max-width: 620px;
-}
+    .update-card .arrow {
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 1.2rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .update-card:hover .arrow { color: var(--blue); transform: translateY(-50%) translateX(3px); }
 
-.update-card .arrow {
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-tertiary);
-  font-size: 1.2rem;
-  transition: color 0.2s, transform 0.2s;
-}
-.update-card:hover .arrow { color: var(--blue); transform: translateY(-50%) translateX(3px); }
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #contact .inner { max-width: 980px; margin: 0 auto; }
 
-/* ── CONTACT ── */
-#contact {
-  background: var(--bg);
-  max-width: 100%;
-  padding: 6rem 2rem;
-  border-top: 1px solid var(--border-light);
-}
-#contact .inner { max-width: 980px; margin: 0 auto; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--border-light);
-  border: 1px solid var(--border-light);
-  border-radius: 18px;
-  overflow: hidden;
-  margin-top: 3rem;
-}
+    .contact-item {
+      background: var(--bg-card);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+    .contact-item:hover { background: var(--bg-card-hover); }
 
-.contact-item {
-  background: var(--bg-card);
-  padding: 2rem;
-  transition: background 0.2s;
-}
-.contact-item:hover { background: var(--bg-card-hover); }
+    .contact-item h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+    }
 
-.contact-item h4 {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 0.6rem;
-}
+    .contact-item p {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 300;
+    }
 
-.contact-item p {
-  font-size: 0.9rem;
-  color: var(--text);
-  line-height: 1.7;
-  font-weight: 300;
-}
+    .contact-item a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .contact-item a:hover { opacity: 0.7; }
 
-.contact-item a {
-  color: var(--blue);
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-.contact-item a:hover { opacity: 0.7; }
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-light);
+      letter-spacing: -0.01em;
+    }
 
-/* ── FOOTER ── */
-footer {
-  text-align: center;
-  padding: 2rem;
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
-  border-top: 1px solid var(--border-light);
-  letter-spacing: -0.01em;
-}
+    footer a { color: var(--text-tertiary); text-decoration: none; }
+    footer a:hover { color: var(--text-secondary); }
 
-footer a { color: var(--text-tertiary); text-decoration: none; }
-footer a:hover { color: var(--text-secondary); }
+    /* ── SCROLL REVEAL ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in:nth-child(2) { transition-delay: 0.08s; }
+    .fade-in:nth-child(3) { transition-delay: 0.16s; }
+    .fade-in:nth-child(4) { transition-delay: 0.24s; }
 
-/* ── SCROLL REVEAL ── */
-.fade-in {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-.fade-in:nth-child(2) { transition-delay: 0.08s; }
-.fade-in:nth-child(3) { transition-delay: 0.16s; }
-.fade-in:nth-child(4) { transition-delay: 0.24s; }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+    /* ── DIVIDER ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      margin: 5rem 0;
+      padding: 3rem 0;
+      text-align: center;
+    }
 
-/* ── DIVIDER ── */
-.stat-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
-  margin: 5rem 0;
-  padding: 3rem 0;
-  text-align: center;
-}
+    .stat-row .stat {
+      padding: 0 2rem;
+      border-right: 1px solid var(--border-light);
+    }
+    .stat-row .stat:last-child { border-right: none; }
 
-.stat-row .stat {
-  padding: 0 2rem;
-  border-right: 1px solid var(--border-light);
-}
-.stat-row .stat:last-child { border-right: none; }
+    .stat-row .stat-num {
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      display: block;
+    }
+    .stat-row .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
 
-.stat-row .stat-num {
-  font-size: 2.4rem;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  color: var(--text);
-  display: block;
-}
-.stat-row .stat-label {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  font-weight: 300;
-  letter-spacing: -0.01em;
-}
+    /* ── WAITING LISTS ── */
+    #waitlist {
+      background: var(--bg-2);
+      max-width: 100%;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    #waitlist .inner { max-width: 980px; margin: 0 auto; }
 
-/* ── MOBILE ── */
-@media (max-width: 680px) {
-  nav { display: none; }
-  .hero h1 { font-size: 2.4rem; }
-  .stat-row { grid-template-columns: 1fr; }
-  .stat-row .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 1.5rem 0; }
-  .stat-row .stat:last-child { border-bottom: none; }
-  .update-card .arrow { display: none; }
-}
-```
+    .waitlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
 
+    .waitlist-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 18px;
+      padding: 2rem;
+    }
+
+    .waitlist-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .waitlist-card-header .icon {
+      font-size: 1.6rem;
+    }
+
+    .waitlist-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .waitlist-card .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .wl-form { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .wl-form input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 1rem;
+      font-size: 0.875rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .wl-form input::placeholder { color: var(--text-tertiary); }
+    .wl-form input:focus { border-color: var(--blue); }
+
+    .wl-form .btn-primary {
+      margin-top: 0.25rem;
+      width: 100%;
+      text-align: center;
+      font-size: 0.875rem;
+      padding: 0.7rem 1rem;
+    }
+
+    .wl-success {
+      display: none;
+      text-align: center;
+      padding: 1.5rem 0 0.5rem;
+    }
+    .wl-success .check { font-size: 2rem; margin-bottom: 0.5rem; }
+    .wl-success p {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .wl-success strong { color: var(--text); font-weight: 500; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 680px) {
+      nav { display: none; }
+      .hero h1 { font-size: 2.4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .stat-row .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 1.5rem 0; }
+      .stat-row .stat:last-child { border-bottom: none; }
+      .update-card .arrow { display: none; }
+    }
   </style>
 </head>
 <body>
 
   <!-- HEADER -->
-
   <header>
     <div class="logo">555 McLean Ave</div>
     <nav>
       <a href="#about">About</a>
       <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
+      <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <!-- HERO -->
-
   <div class="hero">
     <div class="hero-tag">Cooperative Housing · Yonkers, New York</div>
     <h1>555 McLean Ave<br><span>Resident Portal.</span></h1>
@@ -527,161 +610,197 @@ footer a:hover { color: var(--text-secondary); }
   </div>
 
   <!-- ABOUT -->
-
   <section id="about">
     <div class="section-eyebrow">Who We Are</div>
     <h2 class="section-title">About Our<br>Cooperative</h2>
     <p class="section-sub">A resident-owned community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
 
-```
-<div class="info-grid">
-  <div class="info-card fade-in">
-    <span class="icon">🏢</span>
-    <h3>Our Building</h3>
-    <p>555 McLean Ave is a resident-owned cooperative community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
-  </div>
-  <div class="info-card fade-in">
-    <span class="icon">📋</span>
-    <h3>Board of Directors</h3>
-    <p>Elected by shareholders, our Board oversees operations, finances, and building policy. Board members volunteer their time for the community.</p>
-  </div>
-  <div class="info-card fade-in">
-    <span class="icon">📜</span>
-    <h3>House Rules</h3>
-    <p>All residents are expected to follow co-op house rules. Copies are available from the managing agent or by request from the board.</p>
-  </div>
-  <div class="info-card fade-in">
-    <span class="icon">🔧</span>
-    <h3>Maintenance</h3>
-    <p>For repairs and maintenance requests, contact the managing agent directly. Emergency issues should be reported immediately.</p>
-  </div>
-</div>
-```
-
+    <div class="info-grid">
+      <div class="info-card fade-in">
+        <span class="icon">🏢</span>
+        <h3>Our Building</h3>
+        <p>555 McLean Ave is a resident-owned cooperative community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
+      </div>
+      <div class="info-card fade-in">
+        <span class="icon">📋</span>
+        <h3>Board of Directors</h3>
+        <p>Elected by shareholders, our Board oversees operations, finances, and building policy. Board members volunteer their time for the community.</p>
+      </div>
+      <div class="info-card fade-in">
+        <span class="icon">📜</span>
+        <h3>House Rules</h3>
+        <p>All residents are expected to follow co-op house rules. Copies are available from the managing agent or by request from the board.</p>
+      </div>
+      <div class="info-card fade-in">
+        <span class="icon">🔧</span>
+        <h3>Maintenance</h3>
+        <p>For repairs and maintenance requests, contact the managing agent directly. Emergency issues should be reported immediately.</p>
+      </div>
+    </div>
   </section>
 
   <!-- MEETINGS -->
-
   <div id="meetings">
     <div class="inner">
       <div class="section-eyebrow">Upcoming</div>
       <h2 class="section-title">Board Meetings</h2>
       <p class="section-sub">All shareholders are welcome to attend monthly board meetings held in the Community Room.</p>
 
-```
-  <ul class="meeting-list">
-    <li class="meeting-item fade-in">
-      <div class="meeting-date">
-        <div class="day">15</div>
-        <div class="month">May</div>
-      </div>
-      <div class="meeting-info">
-        <h4>Monthly Board Meeting <span class="badge">Upcoming</span></h4>
-        <p>7:00 PM · Community Room, 555 McLean Ave · All shareholders welcome to attend</p>
-      </div>
-    </li>
-    <li class="meeting-item fade-in">
-      <div class="meeting-date">
-        <div class="day">19</div>
-        <div class="month">Jun</div>
-      </div>
-      <div class="meeting-info">
-        <h4>Monthly Board Meeting</h4>
-        <p>7:00 PM · Community Room, 555 McLean Ave</p>
-      </div>
-    </li>
-    <li class="meeting-item fade-in">
-      <div class="meeting-date">
-        <div class="day">17</div>
-        <div class="month">Jul</div>
-      </div>
-      <div class="meeting-info">
-        <h4>Monthly Board Meeting</h4>
-        <p>7:00 PM · Community Room, 555 McLean Ave</p>
-      </div>
-    </li>
-    <li class="meeting-item fade-in">
-      <div class="meeting-date">
-        <div class="day">TBD</div>
-        <div class="month">Oct</div>
-      </div>
-      <div class="meeting-info">
-        <h4>Annual Shareholders Meeting</h4>
-        <p>Date & time to be announced · All shareholders strongly encouraged to attend</p>
-      </div>
-    </li>
-  </ul>
-</div>
-```
-
+      <ul class="meeting-list">
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">15</div>
+            <div class="month">May</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting <span class="badge">Upcoming</span></h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave · All shareholders welcome to attend</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">19</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">17</div>
+            <div class="month">Jul</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>7:00 PM · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Oct</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Annual Shareholders Meeting</h4>
+            <p>Date & time to be announced · All shareholders strongly encouraged to attend</p>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <!-- UPDATES -->
-
   <section id="updates">
     <div class="section-eyebrow">News & Notices</div>
     <h2 class="section-title">Building Updates</h2>
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
 
-```
-<div class="update-grid">
-  <div class="update-card fade-in">
-    <div class="update-meta">April 2026 · General Notice</div>
-    <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
-    <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
-    <span class="arrow">›</span>
-  </div>
-  <div class="update-card fade-in">
-    <div class="update-meta">April 2026 · Maintenance</div>
-    <h4>Spring Building Inspection</h4>
-    <p>Our annual spring inspection of common areas, roof, and mechanical systems is scheduled for mid-May. Access to certain areas may be temporarily restricted. Details to follow.</p>
-    <span class="arrow">›</span>
-  </div>
-  <div class="update-card fade-in">
-    <div class="update-meta">March 2026 · Reminder</div>
-    <h4>Maintenance Fee Payment Reminder</h4>
-    <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
-    <span class="arrow">›</span>
-  </div>
-</div>
-```
-
+    <div class="update-grid">
+      <div class="update-card fade-in">
+        <div class="update-meta">April 2026 · General Notice</div>
+        <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
+        <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in">
+        <div class="update-meta">April 2026 · Maintenance</div>
+        <h4>Spring Building Inspection</h4>
+        <p>Our annual spring inspection of common areas, roof, and mechanical systems is scheduled for mid-May. Access to certain areas may be temporarily restricted. Details to follow.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in">
+        <div class="update-meta">March 2026 · Reminder</div>
+        <h4>Maintenance Fee Payment Reminder</h4>
+        <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
+        <span class="arrow">›</span>
+      </div>
+    </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- WAITING LISTS -->
+  <div id="waitlist">
+    <div class="inner">
+      <div class="section-eyebrow">Join the Queue</div>
+      <h2 class="section-title">Waiting Lists</h2>
+      <p class="section-sub">Submit your information below to be added to the parking or storage unit waiting list. The board will contact you when a spot becomes available.</p>
 
+      <div class="waitlist-grid">
+
+        <!-- Parking -->
+        <div class="waitlist-card fade-in">
+          <div class="waitlist-card-header">
+            <span class="icon">🚗</span>
+            <h3>Parking Spot</h3>
+          </div>
+          <p class="card-desc">Join the waiting list for an available parking space in the building garage. Spots are assigned in the order requests are received.</p>
+          <div class="wl-form" id="parking-form">
+            <input type="text"  id="p-name"  placeholder="Full Name" required />
+            <input type="text"  id="p-unit"  placeholder="Apartment / Unit #" required />
+            <input type="email" id="p-email" placeholder="Email Address" required />
+            <input type="tel"   id="p-phone" placeholder="Phone Number (optional)" />
+            <button class="btn-primary" onclick="submitWaitlist('parking')">Join Parking List</button>
+          </div>
+          <div class="wl-success" id="parking-success">
+            <div class="check">✅</div>
+            <p><strong>You're on the list!</strong><br>We've received your request for a parking spot. The board will reach out when one becomes available.</p>
+          </div>
+        </div>
+
+        <!-- Storage -->
+        <div class="waitlist-card fade-in">
+          <div class="waitlist-card-header">
+            <span class="icon">📦</span>
+            <h3>Storage Unit</h3>
+          </div>
+          <p class="card-desc">Join the waiting list for an available storage unit in the building. Units are assigned based on availability and request order.</p>
+          <div class="wl-form" id="storage-form">
+            <input type="text"  id="s-name"  placeholder="Full Name" required />
+            <input type="text"  id="s-unit"  placeholder="Apartment / Unit #" required />
+            <input type="email" id="s-email" placeholder="Email Address" required />
+            <input type="tel"   id="s-phone" placeholder="Phone Number (optional)" />
+            <button class="btn-primary" onclick="submitWaitlist('storage')">Join Storage List</button>
+          </div>
+          <div class="wl-success" id="storage-success">
+            <div class="check">✅</div>
+            <p><strong>You're on the list!</strong><br>We've received your request for a storage unit. The board will reach out when one becomes available.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
   <div id="contact">
     <div class="inner">
       <div class="section-eyebrow">Get In Touch</div>
       <h2 class="section-title">Contact<br>Information</h2>
       <p class="section-sub">Reach out to the board or managing agent for any questions, maintenance requests, or emergency situations.</p>
 
-```
-  <div class="contact-grid">
-    <div class="contact-item fade-in">
-      <h4>Building Address</h4>
-      <p>555 McLean Ave<br>Yonkers, NY 10705</p>
+      <div class="contact-grid">
+        <div class="contact-item fade-in">
+          <h4>Building Address</h4>
+          <p>555 McLean Ave<br>Yonkers, NY 10705</p>
+        </div>
+        <div class="contact-item fade-in">
+          <h4>Managing Agent</h4>
+          <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
+        </div>
+        <div class="contact-item fade-in">
+          <h4>Board of Directors</h4>
+          <p>For board matters:<br><a href="mailto:board@example.com">board@example.com</a></p>
+        </div>
+        <div class="contact-item fade-in">
+          <h4>Emergencies</h4>
+          <p>Building emergencies:<br><a href="tel:+19145550000">(914) 555-0000</a></p>
+        </div>
+      </div>
     </div>
-    <div class="contact-item fade-in">
-      <h4>Managing Agent</h4>
-      <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
-    </div>
-    <div class="contact-item fade-in">
-      <h4>Board of Directors</h4>
-      <p>For board matters:<br><a href="mailto:board@example.com">board@example.com</a></p>
-    </div>
-    <div class="contact-item fade-in">
-      <h4>Emergencies</h4>
-      <p>Building emergencies:<br><a href="tel:+19145550000">(914) 555-0000</a></p>
-    </div>
-  </div>
-</div>
-```
-
   </div>
 
   <!-- FOOTER -->
-
   <footer>
     Copyright © 2026 555 McLean Ave Cooperative · Yonkers, New York · All rights reserved
   </footer>
@@ -697,6 +816,34 @@ footer a:hover { color: var(--text-secondary); }
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    function submitWaitlist(type) {
+      const prefix = type === 'parking' ? 'p' : 's';
+      const name  = document.getElementById(`${prefix}-name`).value.trim();
+      const unit  = document.getElementById(`${prefix}-unit`).value.trim();
+      const email = document.getElementById(`${prefix}-email`).value.trim();
+
+      if (!name || !unit || !email) {
+        alert('Please fill in your name, unit number, and email address.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      const phone = document.getElementById(`${prefix}-phone`).value.trim();
+      const label = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
+      const subject = encodeURIComponent(`Waiting List Request – ${label}`);
+      const body = encodeURIComponent(
+        `Waiting List: ${label}\n\nName: ${name}\nApartment: ${unit}\nEmail: ${email}${phone ? '\nPhone: ' + phone : ''}`
+      );
+
+      window.location.href = `mailto:board@example.com?subject=${subject}&body=${body}`;
+
+      document.getElementById(`${type}-form`).style.display = 'none';
+      document.getElementById(`${type}-success`).style.display = 'block';
+    }
   </script>
 
 </body>
