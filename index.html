@@ -3,37 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>555 McLean Ave — Cooperative</title>
+  <title>555 McLean Ave — Resident Portal</title>
   <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#000000">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <meta name="theme-color" content="#0e1117">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      color-scheme: dark;
-      --bg: #000000;
-      --bg-2: #0a0a0a;
-      --bg-card: #141414;
-      --bg-card-hover: #1c1c1e;
+      --bg: #0e1117;
+      --bg-2: #141820;
+      --bg-card: #181d2a;
+      --bg-card-hover: #1e2436;
       --border: rgba(255,255,255,0.1);
-      --border-light: rgba(255,255,255,0.06);
-      --text: #f5f5f7;
-      --text-secondary: #86868b;
-      --text-tertiary: #515154;
-      --blue: #2997ff;
-      --blue-glow: rgba(41,151,255,0.15);
-      --white: #ffffff;
+      --border-light: rgba(255,255,255,0.07);
+      --text: #eef0f6;
+      --text-secondary: #8a8fa8;
+      --text-tertiary: #4d5268;
+      --blue: #5b9cf6;
+      --blue-glow: rgba(91,156,246,0.15);
+      --amber: #f0a84b;
+      --amber-glow: rgba(240,168,75,0.12);
+      --green: #4ade80;
+      --green-glow: rgba(74,222,128,0.12);
+      --red: #f87171;
     }
 
-    html {
-      scroll-behavior: smooth;
-      background: #000000 !important;
-    }
+    html { scroll-behavior: smooth; background: var(--bg); }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-      background: #000000 !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
@@ -41,7 +41,7 @@
 
     /* ── HEADER ── */
     header {
-      background: rgba(0,0,0,0.72);
+      background: rgba(14,17,23,0.88);
       backdrop-filter: saturate(180%) blur(20px);
       -webkit-backdrop-filter: saturate(180%) blur(20px);
       border-bottom: 1px solid var(--border-light);
@@ -52,23 +52,39 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 52px;
+      height: 56px;
     }
 
     .logo {
-      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--text);
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--amber) 0%, #e8944a 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
     }
 
     nav a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 400;
       letter-spacing: -0.01em;
-      margin-left: 2rem;
+      margin-left: 1.8rem;
       transition: color 0.2s;
     }
     nav a:hover { color: var(--text); }
@@ -76,7 +92,7 @@
     /* ── HERO ── */
     .hero {
       background: var(--bg);
-      padding: 8rem 2rem 6rem;
+      padding: 7rem 2rem 5rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -85,57 +101,81 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -40%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(41,151,255,0.12) 0%, transparent 65%);
+      top: -30%;
+      left: 25%;
+      width: 650px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(240,168,75,0.07) 0%, transparent 65%);
       pointer-events: none;
     }
 
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: 15%;
+      width: 550px;
+      height: 450px;
+      background: radial-gradient(ellipse, rgba(91,156,246,0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
     .hero-tag {
-      display: inline-block;
-      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
       font-weight: 500;
-      letter-spacing: 0.01em;
-      color: var(--blue);
-      margin-bottom: 1.2rem;
+      letter-spacing: 0.02em;
+      color: var(--amber);
+      background: var(--amber-glow);
+      border: 1px solid rgba(240,168,75,0.25);
+      padding: 0.3rem 0.9rem;
+      border-radius: 980px;
+      margin-bottom: 1.6rem;
       opacity: 0;
       animation: fadeUp 0.7s ease 0.1s forwards;
     }
 
     .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
+      font-size: clamp(2.5rem, 6vw, 4.4rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.06;
       color: var(--text);
       opacity: 0;
       animation: fadeUp 0.7s ease 0.2s forwards;
     }
 
-    .hero h1 span {
-      background: linear-gradient(135deg, #2997ff 0%, #64a8ff 50%, #a0c4ff 100%);
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--amber) 0%, #e8a440 50%, #f5c57a 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
-    .hero p {
+    .hero-sub {
       margin-top: 1.2rem;
       color: var(--text-secondary);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 300;
-      letter-spacing: -0.01em;
+      line-height: 1.7;
       opacity: 0;
       animation: fadeUp 0.7s ease 0.3s forwards;
     }
 
     .hero-cta {
-      margin-top: 2.5rem;
+      margin-top: 2.2rem;
       display: flex;
-      gap: 1rem;
+      gap: 0.75rem;
       justify-content: center;
       flex-wrap: wrap;
       opacity: 0;
@@ -146,9 +186,9 @@
       background: var(--blue);
       color: #fff;
       border: none;
-      padding: 0.75rem 1.8rem;
+      padding: 0.7rem 1.6rem;
       border-radius: 980px;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 500;
       cursor: pointer;
       letter-spacing: -0.01em;
@@ -156,54 +196,115 @@
       display: inline-block;
       transition: background 0.2s, transform 0.15s;
     }
-    .btn-primary:hover { background: #0077ed; transform: scale(1.02); }
+    .btn-primary:hover { background: #4a8aef; transform: scale(1.02); }
 
     .btn-ghost {
       background: transparent;
-      color: var(--blue);
-      border: 1px solid rgba(41,151,255,0.4);
-      padding: 0.75rem 1.8rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      padding: 0.7rem 1.6rem;
       border-radius: 980px;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 500;
       cursor: pointer;
       letter-spacing: -0.01em;
       text-decoration: none;
       display: inline-block;
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
     }
-    .btn-ghost:hover { background: rgba(41,151,255,0.08); border-color: var(--blue); transform: scale(1.02); }
+    .btn-ghost:hover { background: var(--bg-card); color: var(--text); border-color: var(--border); transform: scale(1.02); }
+
+    /* ── QUICK ACTIONS ── */
+    .quick-actions-wrap {
+      background: var(--bg-2);
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0 2rem;
+    }
+
+    .quick-actions {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .qa-tile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.4rem 1.5rem;
+      text-decoration: none;
+      border-right: 1px solid var(--border-light);
+      transition: background 0.2s;
+      color: inherit;
+    }
+    .qa-tile:last-child { border-right: none; }
+    .qa-tile:hover { background: var(--bg-card); }
+
+    .qa-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .qa-icon.amber { background: var(--amber-glow); }
+    .qa-icon.blue  { background: var(--blue-glow); }
+    .qa-icon.green { background: var(--green-glow); }
+    .qa-icon.red   { background: rgba(248,113,113,0.12); }
+
+    .qa-text { line-height: 1.3; min-width: 0; }
+    .qa-text small {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 0.2rem;
+    }
+    .qa-text strong {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
 
     /* ── SECTIONS ── */
     section {
-      padding: 6rem 2rem;
+      padding: 5.5rem 2rem;
       max-width: 980px;
       margin: 0 auto;
     }
 
     .section-eyebrow {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 0.6rem;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 600;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      margin-bottom: 1rem;
+      margin-bottom: 0.9rem;
     }
 
     .section-sub {
-      font-size: 1rem;
+      font-size: 0.97rem;
       color: var(--text-secondary);
       font-weight: 300;
-      max-width: 540px;
-      margin-bottom: 3rem;
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 2.8rem;
     }
 
     /* ── INFO CARDS ── */
@@ -213,7 +314,7 @@
       gap: 1px;
       background: var(--border-light);
       border: 1px solid var(--border-light);
-      border-radius: 18px;
+      border-radius: 20px;
       overflow: hidden;
     }
 
@@ -221,18 +322,23 @@
       background: var(--bg-card);
       padding: 2rem;
       transition: background 0.2s;
-      position: relative;
     }
     .info-card:hover { background: var(--bg-card-hover); }
 
     .info-card .icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      display: block;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      background: var(--amber-glow);
     }
 
     .info-card h3 {
-      font-size: 1rem;
+      font-size: 0.97rem;
       font-weight: 600;
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
@@ -240,19 +346,108 @@
     }
 
     .info-card p {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-secondary);
-      line-height: 1.65;
+      line-height: 1.7;
       font-weight: 300;
+    }
+
+    /* ── STATS ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 4rem;
+    }
+
+    .stat-row .stat {
+      background: var(--bg-card);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .stat-row .stat-num {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      display: block;
+    }
+
+    .stat-row .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-top: 0.2rem;
+    }
+
+    /* ── RESOURCES ── */
+    #resources {
+      background: var(--bg-2);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    #resources .inner { max-width: 980px; margin: 0 auto; }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .resource-item {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .resource-item:hover { background: var(--bg-card-hover); }
+
+    .resource-item .res-icon { font-size: 1.5rem; }
+
+    .resource-item h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .resource-item p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .resource-item .res-link {
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-top: 0.25rem;
     }
 
     /* ── MEETINGS ── */
     #meetings {
-      background: var(--bg-2);
+      background: var(--bg);
       max-width: 100%;
-      padding: 6rem 2rem;
+      padding: 5.5rem 2rem;
       border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
     }
     #meetings .inner { max-width: 980px; margin: 0 auto; }
 
@@ -267,52 +462,60 @@
       transition: opacity 0.2s;
     }
     .meeting-item:last-child { border-bottom: none; }
-    .meeting-item:hover { opacity: 0.8; }
+    .meeting-item:hover { opacity: 0.75; }
 
     .meeting-date {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 14px;
       text-align: center;
-      padding: 0.8rem 1.2rem;
-      min-width: 68px;
+      padding: 0.8rem 1.1rem;
+      min-width: 64px;
       flex-shrink: 0;
     }
+
+    .meeting-date.next {
+      background: var(--amber-glow);
+      border-color: rgba(240,168,75,0.3);
+    }
+
     .meeting-date .day {
-      font-size: 1.6rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 700;
       letter-spacing: -0.03em;
       color: var(--text);
       line-height: 1;
     }
+    .meeting-date.next .day { color: var(--amber); }
+
     .meeting-date .month {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-secondary);
       margin-top: 3px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .meeting-info h4 {
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.95rem;
       letter-spacing: -0.01em;
       margin-bottom: 0.2rem;
       color: var(--text);
     }
-    .meeting-info p { font-size: 0.83rem; color: var(--text-secondary); font-weight: 300; }
+    .meeting-info p { font-size: 0.82rem; color: var(--text-secondary); font-weight: 300; }
 
     .badge {
       display: inline-block;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      background: var(--blue-glow);
-      color: var(--blue);
-      border: 1px solid rgba(41,151,255,0.3);
-      padding: 0.18rem 0.6rem;
+      background: var(--amber-glow);
+      color: var(--amber);
+      border: 1px solid rgba(240,168,75,0.3);
+      padding: 0.15rem 0.55rem;
       border-radius: 980px;
       margin-left: 0.5rem;
       vertical-align: middle;
@@ -324,7 +527,7 @@
       gap: 1px;
       background: var(--border-light);
       border: 1px solid var(--border-light);
-      border-radius: 18px;
+      border-radius: 20px;
       overflow: hidden;
     }
 
@@ -337,7 +540,7 @@
     .update-card:hover { background: var(--bg-card-hover); }
 
     .update-card .update-meta {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -346,7 +549,7 @@
     }
 
     .update-card h4 {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 600;
       letter-spacing: -0.02em;
       margin-bottom: 0.4rem;
@@ -354,11 +557,11 @@
     }
 
     .update-card p {
-      font-size: 0.87rem;
+      font-size: 0.86rem;
       color: var(--text-secondary);
       line-height: 1.7;
       font-weight: 300;
-      max-width: 620px;
+      max-width: 600px;
     }
 
     .update-card .arrow {
@@ -372,123 +575,11 @@
     }
     .update-card:hover .arrow { color: var(--blue); transform: translateY(-50%) translateX(3px); }
 
-    /* ── CONTACT ── */
-    #contact {
-      background: var(--bg);
-      max-width: 100%;
-      padding: 6rem 2rem;
-      border-top: 1px solid var(--border-light);
-    }
-    #contact .inner { max-width: 980px; margin: 0 auto; }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border-light);
-      border: 1px solid var(--border-light);
-      border-radius: 18px;
-      overflow: hidden;
-      margin-top: 3rem;
-    }
-
-    .contact-item {
-      background: var(--bg-card);
-      padding: 2rem;
-      transition: background 0.2s;
-    }
-    .contact-item:hover { background: var(--bg-card-hover); }
-
-    .contact-item h4 {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      margin-bottom: 0.6rem;
-    }
-
-    .contact-item p {
-      font-size: 0.9rem;
-      color: var(--text);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .contact-item a {
-      color: var(--blue);
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .contact-item a:hover { opacity: 0.7; }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-      border-top: 1px solid var(--border-light);
-      letter-spacing: -0.01em;
-    }
-
-    footer a { color: var(--text-tertiary); text-decoration: none; }
-    footer a:hover { color: var(--text-secondary); }
-
-    /* ── SCROLL REVEAL ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .fade-in:nth-child(2) { transition-delay: 0.08s; }
-    .fade-in:nth-child(3) { transition-delay: 0.16s; }
-    .fade-in:nth-child(4) { transition-delay: 0.24s; }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── DIVIDER ── */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-      margin: 5rem 0;
-      padding: 3rem 0;
-      text-align: center;
-    }
-
-    .stat-row .stat {
-      padding: 0 2rem;
-      border-right: 1px solid var(--border-light);
-    }
-    .stat-row .stat:last-child { border-right: none; }
-
-    .stat-row .stat-num {
-      font-size: 2.4rem;
-      font-weight: 600;
-      letter-spacing: -0.04em;
-      color: var(--text);
-      display: block;
-    }
-    .stat-row .stat-label {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      letter-spacing: -0.01em;
-    }
-
     /* ── WAITING LISTS ── */
     #waitlist {
       background: var(--bg-2);
       max-width: 100%;
-      padding: 6rem 2rem;
+      padding: 5.5rem 2rem;
       border-top: 1px solid var(--border-light);
       border-bottom: 1px solid var(--border-light);
     }
@@ -516,17 +607,13 @@
       letter-spacing: -0.01em;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    .wl-tab-btn.active {
-      background: var(--bg-card);
-      color: var(--text);
-      border-color: var(--border);
-    }
+    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border); }
     .wl-tab-btn:not(.active):hover { color: var(--text); }
 
     .wl-panel {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
-      border-radius: 18px;
+      border-radius: 20px;
       padding: 2rem;
       display: none;
     }
@@ -550,9 +637,9 @@
 
     .wl-field label {
       display: block;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--text-secondary);
       margin-bottom: 0.35rem;
@@ -581,15 +668,11 @@
       flex-wrap: wrap;
       gap: 0.75rem;
     }
-
-    .wl-submit-row .btn-primary {
-      font-size: 0.875rem;
-      padding: 0.65rem 1.6rem;
-    }
+    .wl-submit-row .btn-primary { font-size: 0.875rem; padding: 0.65rem 1.6rem; }
 
     .wl-error {
       font-size: 0.78rem;
-      color: #ff6b6b;
+      color: var(--red);
       margin-top: 0.75rem;
       display: none;
     }
@@ -597,18 +680,18 @@
     .wl-success {
       display: none;
       text-align: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1rem;
     }
     .wl-success-icon {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgba(41,151,255,0.12);
+      background: var(--green-glow);
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto 1rem;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
     .wl-success h4 {
       font-size: 1rem;
@@ -630,18 +713,15 @@
       gap: 1px;
       background: var(--border-light);
       border: 1px solid var(--border-light);
-      border-radius: 18px;
+      border-radius: 20px;
       overflow: hidden;
       margin-bottom: 2rem;
     }
 
-    .wl-count-card {
-      background: var(--bg-card);
-      padding: 2rem;
-    }
+    .wl-count-card { background: var(--bg-card); padding: 2rem; }
 
     .wl-count-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -649,12 +729,7 @@
       margin-bottom: 1.2rem;
     }
 
-    .wl-slots {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 1rem;
-    }
+    .wl-slots { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
 
     .wl-slot {
       display: flex;
@@ -668,7 +743,7 @@
 
     .wl-slot.filled {
       background: var(--blue-glow);
-      border-color: rgba(41,151,255,0.3);
+      border-color: rgba(91,156,246,0.25);
     }
 
     .wl-slot-pos {
@@ -678,10 +753,7 @@
       min-width: 1.4rem;
       letter-spacing: 0.02em;
     }
-
-    .wl-slot.filled .wl-slot-pos {
-      color: rgba(41,151,255,0.6);
-    }
+    .wl-slot.filled .wl-slot-pos { color: rgba(91,156,246,0.6); }
 
     .wl-slot-apt {
       font-size: 0.875rem;
@@ -689,10 +761,7 @@
       color: var(--text-secondary);
       letter-spacing: -0.01em;
     }
-
-    .wl-slot.filled .wl-slot-apt {
-      color: var(--blue);
-    }
+    .wl-slot.filled .wl-slot-apt { color: var(--blue); }
 
     .wl-slot-empty {
       font-size: 0.78rem;
@@ -707,24 +776,153 @@
       font-weight: 300;
       margin-top: 0.75rem;
     }
+    .wl-count-footer strong { color: var(--text); font-weight: 500; }
 
-    .wl-count-footer strong {
-      color: var(--text);
-      font-weight: 500;
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #contact .inner { max-width: 980px; margin: 0 auto; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 3rem;
     }
 
-    @media (max-width: 540px) {
-      .wl-counts { grid-template-columns: 1fr; }
+    .contact-item {
+      background: var(--bg-card);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+    .contact-item:hover { background: var(--bg-card-hover); }
+
+    .contact-item .cicon {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .contact-item h4 {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-item p {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .contact-item a { color: var(--blue); text-decoration: none; transition: opacity 0.2s; }
+    .contact-item a:hover { opacity: 0.7; }
+    .contact-item a.emergency { color: var(--red); font-weight: 600; font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-2);
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .footer-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .footer-logo-mark {
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(135deg, var(--amber) 0%, #e8944a 100%);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .footer-brand-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .footer-copy {
+      font-size: 0.73rem;
+      color: var(--text-tertiary);
+      margin-top: 0.3rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text-secondary); }
+
+    /* ── SCROLL REVEAL ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in:nth-child(2) { transition-delay: 0.07s; }
+    .fade-in:nth-child(3) { transition-delay: 0.14s; }
+    .fade-in:nth-child(4) { transition-delay: 0.21s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── MOBILE ── */
     @media (max-width: 680px) {
       nav { display: none; }
-      .hero h1 { font-size: 2.4rem; }
+      .hero h1 { font-size: 2.3rem; }
+      .quick-actions { grid-template-columns: repeat(2, 1fr); }
+      .qa-tile { border-right: none; border-bottom: 1px solid var(--border-light); }
+      .qa-tile:nth-child(odd) { border-right: 1px solid var(--border-light); }
+      .qa-tile:nth-last-child(-n+2) { border-bottom: none; }
       .stat-row { grid-template-columns: 1fr; }
-      .stat-row .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 1.5rem 0; }
-      .stat-row .stat:last-child { border-bottom: none; }
       .update-card .arrow { display: none; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 540px) {
+      .wl-counts { grid-template-columns: 1fr; }
+      .wl-field-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -732,9 +930,13 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo">555 McLean Ave</div>
+    <a href="#" class="logo">
+      <div class="logo-mark">🏠</div>
+      555 McLean Ave
+    </a>
     <nav>
       <a href="#about">About</a>
+      <a href="#resources">Resources</a>
       <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
       <a href="#waitlist">Waiting Lists</a>
@@ -744,60 +946,159 @@
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-tag">Cooperative Housing · Yonkers, New York</div>
-    <h1>555 McLean Ave<br><span>Resident Portal.</span></h1>
-    <p>Your home. Your community. Your cooperative.</p>
-    <div class="hero-cta">
-      <a href="#meetings" class="btn-primary">View Meetings</a>
-      <a href="#contact" class="btn-ghost">Contact Board</a>
+    <div class="hero-inner">
+      <div class="hero-tag">🏡 Cooperative Housing · Yonkers, New York</div>
+      <h1>Welcome Home to<br><em>555 McLean Ave</em></h1>
+      <p class="hero-sub">Your resident portal for building news, upcoming meetings,<br>community resources, and more.</p>
+      <div class="hero-cta">
+        <a href="#meetings" class="btn-primary">View Upcoming Meetings</a>
+        <a href="#updates" class="btn-ghost">Latest Updates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <div class="quick-actions-wrap">
+    <div class="quick-actions">
+      <a href="#meetings" class="qa-tile">
+        <div class="qa-icon amber">📅</div>
+        <div class="qa-text">
+          <small>Next Meeting</small>
+          <strong>May 15 · 7:00 PM</strong>
+        </div>
+      </a>
+      <a href="mailto:info@example.com" class="qa-tile">
+        <div class="qa-icon blue">🔧</div>
+        <div class="qa-text">
+          <small>Maintenance Request</small>
+          <strong>Contact Managing Agent</strong>
+        </div>
+      </a>
+      <a href="#waitlist" class="qa-tile">
+        <div class="qa-icon green">🚗</div>
+        <div class="qa-text">
+          <small>Waiting Lists</small>
+          <strong>Parking &amp; Storage</strong>
+        </div>
+      </a>
+      <a href="tel:+19145550000" class="qa-tile">
+        <div class="qa-icon red">🚨</div>
+        <div class="qa-text">
+          <small>Building Emergency</small>
+          <strong>(914) 555-0000</strong>
+        </div>
+      </a>
     </div>
   </div>
 
   <!-- ABOUT -->
   <section id="about">
     <div class="section-eyebrow">Who We Are</div>
-    <h2 class="section-title">About Our<br>Cooperative</h2>
-    <p class="section-sub">A resident-owned community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
+    <h2 class="section-title">A Community<br>We Call Home</h2>
+    <p class="section-sub">555 McLean Ave is a resident-owned cooperative where neighbors look out for one another. Everything we do is guided by our shared commitment to a safe, welcoming building.</p>
 
     <div class="info-grid">
       <div class="info-card fade-in">
-        <span class="icon">🏢</span>
+        <div class="icon">🏢</div>
         <h3>Our Building</h3>
-        <p>555 McLean Ave is a resident-owned cooperative community committed to maintaining a safe, welcoming, and well-managed home for all shareholders.</p>
+        <p>A resident-owned cooperative in Yonkers, NY. As shareholders, each resident has a real stake in our community and a voice in how our home is run.</p>
       </div>
       <div class="info-card fade-in">
-        <span class="icon">📋</span>
+        <div class="icon">👥</div>
         <h3>Board of Directors</h3>
-        <p>Elected by shareholders, our Board oversees operations, finances, and building policy. Board members volunteer their time for the community.</p>
+        <p>Elected by shareholders, our volunteer Board oversees day-to-day operations, building finances, and community policy. Meetings are open to all residents.</p>
       </div>
       <div class="info-card fade-in">
-        <span class="icon">📜</span>
+        <div class="icon">📜</div>
         <h3>House Rules</h3>
-        <p>All residents are expected to follow co-op house rules. Copies are available from the managing agent or by request from the board.</p>
+        <p>Our house rules keep the building comfortable for everyone. Copies are available from the managing agent or by emailing the board directly.</p>
       </div>
       <div class="info-card fade-in">
-        <span class="icon">🔧</span>
+        <div class="icon">🔧</div>
         <h3>Maintenance</h3>
-        <p>For repairs and maintenance requests, contact the managing agent directly. Emergency issues should be reported immediately.</p>
+        <p>For repairs and service requests, contact the managing agent. For building emergencies — water, fire, gas — call our emergency line immediately.</p>
+      </div>
+    </div>
+
+    <div class="stat-row fade-in">
+      <div class="stat">
+        <span class="stat-num">68</span>
+        <span class="stat-label">Residential Units</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">1962</span>
+        <span class="stat-label">Year Established</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Resident Owned</span>
       </div>
     </div>
   </section>
+
+  <!-- RESOURCES -->
+  <div id="resources">
+    <div class="inner">
+      <div class="section-eyebrow">Resident Resources</div>
+      <h2 class="section-title">Everything<br>You Need</h2>
+      <p class="section-sub">Quick access to the documents, contacts, and services that keep our building running smoothly.</p>
+
+      <div class="resource-grid">
+        <a href="mailto:info@example.com" class="resource-item fade-in">
+          <div class="res-icon">🔧</div>
+          <h4>Maintenance Request</h4>
+          <p>Report a repair or service issue to the managing agent.</p>
+          <span class="res-link">Email the agent →</span>
+        </a>
+        <a href="mailto:board@example.com" class="resource-item fade-in">
+          <div class="res-icon">📋</div>
+          <h4>House Rules</h4>
+          <p>Request a copy of the co-op's current house rules from the board.</p>
+          <span class="res-link">Request via email →</span>
+        </a>
+        <a href="mailto:board@example.com" class="resource-item fade-in">
+          <div class="res-icon">📄</div>
+          <h4>Meeting Minutes</h4>
+          <p>Request minutes from recent board meetings as a shareholder.</p>
+          <span class="res-link">Request via email →</span>
+        </a>
+        <a href="mailto:board@example.com" class="resource-item fade-in">
+          <div class="res-icon">💬</div>
+          <h4>Contact the Board</h4>
+          <p>Reach out to the Board of Directors with questions or concerns.</p>
+          <span class="res-link">board@example.com →</span>
+        </a>
+        <a href="#waitlist" class="resource-item fade-in">
+          <div class="res-icon">🚗</div>
+          <h4>Parking Waitlist</h4>
+          <p>Join the waitlist for an available parking spot in the building.</p>
+          <span class="res-link">Sign up below →</span>
+        </a>
+        <a href="#waitlist" class="resource-item fade-in">
+          <div class="res-icon">📦</div>
+          <h4>Storage Waitlist</h4>
+          <p>Join the waitlist for an available storage unit in the building.</p>
+          <span class="res-link">Sign up below →</span>
+        </a>
+      </div>
+    </div>
+  </div>
 
   <!-- MEETINGS -->
   <div id="meetings">
     <div class="inner">
       <div class="section-eyebrow">Upcoming</div>
       <h2 class="section-title">Board Meetings</h2>
-      <p class="section-sub">All shareholders are welcome to attend monthly board meetings held in the Community Room.</p>
+      <p class="section-sub">All shareholders are welcome — and encouraged — to attend monthly board meetings held in the Community Room.</p>
 
       <ul class="meeting-list">
         <li class="meeting-item fade-in">
-          <div class="meeting-date">
+          <div class="meeting-date next">
             <div class="day">15</div>
             <div class="month">May</div>
           </div>
           <div class="meeting-info">
-            <h4>Monthly Board Meeting <span class="badge">Upcoming</span></h4>
+            <h4>Monthly Board Meeting <span class="badge">Coming Up</span></h4>
             <p>7:00 PM · Community Room, 555 McLean Ave · All shareholders welcome to attend</p>
           </div>
         </li>
@@ -828,7 +1129,7 @@
           </div>
           <div class="meeting-info">
             <h4>Annual Shareholders Meeting</h4>
-            <p>Date & time to be announced · All shareholders strongly encouraged to attend</p>
+            <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
           </div>
         </li>
       </ul>
@@ -837,13 +1138,13 @@
 
   <!-- UPDATES -->
   <section id="updates">
-    <div class="section-eyebrow">News & Notices</div>
+    <div class="section-eyebrow">News &amp; Notices</div>
     <h2 class="section-title">Building Updates</h2>
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
 
     <div class="update-grid">
       <div class="update-card fade-in">
-        <div class="update-meta">April 2026 · General Notice</div>
+        <div class="update-meta">May 2026 · General Notice</div>
         <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
         <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
         <span class="arrow">›</span>
@@ -870,13 +1171,7 @@
       <h2 class="section-title">Waiting Lists</h2>
       <p class="section-sub">Submit your information to be added to the parking or storage waiting list. The board will contact you when a spot becomes available.</p>
 
-      <!-- ── BOARD: add or remove apartment numbers from each list below ── -->
-      <script>
-        const WL_DATA = {
-          parking: ['2A', '4B', '7C'],
-          storage: ['1D', '3A', '5B', '6C', '8A']
-        };
-      </script>
+      <!-- ── BOARD: edit WL_DATA in main.js to add/remove apartment numbers ── -->
 
       <div class="wl-counts" id="wl-counts-display">
         <div class="wl-count-card">
@@ -977,25 +1272,29 @@
   <div id="contact">
     <div class="inner">
       <div class="section-eyebrow">Get In Touch</div>
-      <h2 class="section-title">Contact<br>Information</h2>
-      <p class="section-sub">Reach out to the board or managing agent for any questions, maintenance requests, or emergency situations.</p>
+      <h2 class="section-title">We're Here<br>to Help</h2>
+      <p class="section-sub">Reach out to the board or managing agent for questions, maintenance requests, or anything else you need.</p>
 
       <div class="contact-grid">
         <div class="contact-item fade-in">
+          <span class="cicon">📍</span>
           <h4>Building Address</h4>
           <p>555 McLean Ave<br>Yonkers, NY 10705</p>
         </div>
         <div class="contact-item fade-in">
+          <span class="cicon">🏢</span>
           <h4>Managing Agent</h4>
           <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
         </div>
         <div class="contact-item fade-in">
+          <span class="cicon">👥</span>
           <h4>Board of Directors</h4>
           <p>For board matters:<br><a href="mailto:board@example.com">board@example.com</a></p>
         </div>
         <div class="contact-item fade-in">
+          <span class="cicon">🚨</span>
           <h4>Emergencies</h4>
-          <p>Building emergencies:<br><a href="tel:+19145550000">(914) 555-0000</a></p>
+          <p>Building emergencies:<br><a href="tel:+19145550000" class="emergency">(914) 555-0000</a></p>
         </div>
       </div>
     </div>
@@ -1003,85 +1302,29 @@
 
   <!-- FOOTER -->
   <footer>
-    Copyright © 2026 555 McLean Ave Cooperative · Yonkers, New York · All rights reserved
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-logo-mark">🏠</div>
+          <span class="footer-brand-name">555 McLean Ave Cooperative</span>
+        </div>
+        <p class="footer-copy">Yonkers, New York · Est. 1962 · Resident-Owned · Copyright © 2026</p>
+      </div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#resources">Resources</a>
+        <a href="#meetings">Meetings</a>
+        <a href="#waitlist">Waiting Lists</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
   </footer>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-    function renderSlots(type) {
-      const apts = WL_DATA[type];
-      const slotsEl = document.getElementById(type + '-slots');
-      const footerEl = document.getElementById(type + '-footer');
-      slotsEl.innerHTML = '';
-
-      if (apts.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'wl-slot-empty';
-        empty.textContent = 'No one on the list yet — sign up below.';
-        slotsEl.appendChild(empty);
-        footerEl.innerHTML = '';
-      } else {
-        apts.forEach(function(apt, i) {
-          const slot = document.createElement('div');
-          slot.className = 'wl-slot filled';
-          slot.innerHTML =
-            '<span class="wl-slot-pos">#' + (i + 1) + '</span>' +
-            '<span class="wl-slot-apt">Apt ' + apt + '</span>';
-          slotsEl.appendChild(slot);
-        });
-        const next = apts.length + 1;
-        footerEl.innerHTML =
-          '<strong>' + apts.length + ' ' + (apts.length === 1 ? 'person' : 'people') + '</strong> currently waiting · Sign up to join at <strong>#' + next + '</strong>';
-      }
-    }
-
-    renderSlots('parking');
-    renderSlots('storage');
-
-    function switchWLTab(type, btn) {
-      document.querySelectorAll('.wl-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.wl-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('wl-panel-' + type).classList.add('active');
-    }
-
-    function submitWaitlist(type) {
-      const prefix = type === 'parking' ? 'p' : 's';
-      const name  = document.getElementById(prefix + '-name').value.trim();
-      const unit  = document.getElementById(prefix + '-unit').value.trim();
-      const email = document.getElementById(prefix + '-email').value.trim();
-      const phone = document.getElementById(prefix + '-phone').value.trim();
-      const errorEl = document.getElementById(type + '-error');
-
-      const valid = name && unit && email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      errorEl.style.display = valid ? 'none' : 'block';
-      if (!valid) return;
-
-      const label   = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
-      const subject = encodeURIComponent('Waiting List Request – ' + label);
-      const body    = encodeURIComponent(
-        'Waiting List: ' + label +
-        '\n\nName: ' + name +
-        '\nApartment: ' + unit +
-        '\nEmail: ' + email +
-        (phone ? '\nPhone: ' + phone : '')
-      );
-
-      window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
-
-      document.getElementById(type + '-form').style.display = 'none';
-      document.getElementById(type + '-success').style.display = 'block';
-    }
+  <script type="module">
+    import { init, switchWLTab, submitWaitlist } from './main.js';
+    window.switchWLTab = switchWLTab;
+    window.submitWaitlist = submitWaitlist;
+    init();
   </script>
 
 </body>
