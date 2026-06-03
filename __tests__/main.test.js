@@ -71,12 +71,12 @@ describe('renderSlots', () => {
     expect(positions[2].textContent).toBe('#3');
   });
 
-  it('displays the apartment number in each slot', () => {
+  it('displays the slot identifier in each slot', () => {
     renderSlots('parking');
     const apts = document.querySelectorAll('#parking-slots .wl-slot-apt');
-    expect(apts[0].textContent).toBe('Apt 2A');
-    expect(apts[1].textContent).toBe('Apt 4B');
-    expect(apts[2].textContent).toBe('Apt 7C');
+    expect(apts[0].textContent).toBe('2A');
+    expect(apts[1].textContent).toBe('4B');
+    expect(apts[2].textContent).toBe('7C');
   });
 
   it('uses plural "people" in the footer when count > 1', () => {
