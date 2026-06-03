@@ -1,6 +1,6 @@
 export const WL_DATA = {
-  parking: ['2A', '4B', '7C'],
-  storage: ['1D', '3A', '5B', '6C', '8A'],
+  parking: ['P55501', 'P55502', 'P55503'],
+  storage: ['S55501', 'S55502', 'S55503', 'S55504', 'S55505'],
 };
 
 export function renderSlots(type) {
@@ -21,7 +21,7 @@ export function renderSlots(type) {
       slot.className = 'wl-slot filled';
       slot.innerHTML =
         '<span class="wl-slot-pos">#' + (i + 1) + '</span>' +
-        '<span class="wl-slot-apt">Apt ' + apt + '</span>';
+        '<span class="wl-slot-apt">' + apt + '</span>';
       slotsEl.appendChild(slot);
     });
     const next = apts.length + 1;
