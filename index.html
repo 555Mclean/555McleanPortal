@@ -31,6 +31,19 @@
       --shadow-sm: 0 1px 3px rgba(120,70,20,0.08);
     }
 
+    /* ── SCROLL PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--amber), #e07a50);
+      z-index: 200;
+      transition: width 0.1s linear;
+      border-radius: 0 2px 2px 0;
+    }
+
     html { scroll-behavior: smooth; background: var(--bg); }
 
     body {
@@ -87,9 +100,12 @@
       font-weight: 400;
       letter-spacing: -0.01em;
       margin-left: 1.8rem;
-      transition: color 0.2s;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
     }
     nav a:hover { color: var(--text); }
+    nav a.active { color: var(--amber); font-weight: 600; background: var(--amber-glow); }
 
     /* ── HERO ── */
     .hero {
@@ -324,9 +340,17 @@
     .info-card {
       background: var(--bg-card);
       padding: 2rem;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .info-card:hover { background: var(--bg-card-hover); }
+    .info-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 32px rgba(120,70,20,0.13);
+      z-index: 1;
+      position: relative;
+    }
+    .info-card:hover .icon { transform: scale(1.1); }
+    .info-card .icon { transition: transform 0.25s ease; }
 
     .info-card .icon {
       width: 42px;
@@ -416,12 +440,20 @@
       padding: 1.8rem;
       text-decoration: none;
       color: inherit;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.25s ease, box-shadow 0.25s ease;
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
     }
-    .resource-item:hover { background: var(--bg-card-hover); }
+    .resource-item:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 32px rgba(120,70,20,0.13);
+      z-index: 1;
+      position: relative;
+    }
+    .resource-item:hover .res-icon { transform: scale(1.15); }
+    .resource-item .res-icon { transition: transform 0.25s ease; display: inline-block; }
 
     .resource-item .res-icon { font-size: 1.5rem; }
 
@@ -810,9 +842,17 @@
     .contact-item {
       background: var(--bg-card);
       padding: 2rem;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.25s ease, box-shadow 0.25s ease;
     }
-    .contact-item:hover { background: var(--bg-card-hover); }
+    .contact-item:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 32px rgba(120,70,20,0.13);
+      z-index: 1;
+      position: relative;
+    }
+    .contact-item:hover .cicon { transform: scale(1.15); }
+    .contact-item .cicon { transition: transform 0.25s ease; }
 
     .contact-item .cicon {
       font-size: 1.5rem;
@@ -941,6 +981,8 @@
   </style>
 </head>
 <body>
+
+  <div id="progress-bar"></div>
 
   <!-- HEADER -->
   <header>
@@ -1331,6 +1373,27 @@
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     init();
+
+    // Scroll progress bar
+    const bar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (window.scrollY / total * 100) + '%';
+    }, { passive: true });
+
+    // Active nav highlight
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+    sections.forEach(s => navObserver.observe(s));
   </script>
 
 </body>
