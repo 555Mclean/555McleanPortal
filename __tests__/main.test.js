@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { WL_DATA, renderSlots, switchWLTab, submitWaitlist, init } from '../main.js';
+import { WL_DATA, renderSlots, switchWLTab, submitWaitlist, submitNewsletter, init } from '../main.js';
 
 // ─── DOM fixture ────────────────────────────────────────────────────────────
 
@@ -335,6 +335,124 @@ describe('submitWaitlist', () => {
     fillForm('p', { name: '   ', unit: '4B', email: 'jane@test.com' });
     submitWaitlist('parking');
     expect(document.getElementById('parking-error').style.display).toBe('block');
+  });
+});
+
+// ─── submitNewsletter ────────────────────────────────────────────────────────
+
+describe('submitNewsletter', () => {
+  let locationMock;
+
+  function setupNlDOM() {
+    document.body.innerHTML = `
+      <div id="nl-form">
+        <input id="nl-name" />
+        <input id="nl-unit" />
+        <input id="nl-email" />
+        <input id="nl-phone" />
+      </div>
+      <div id="nl-error" style="display:none"></div>
+      <div id="nl-success" style="display:none"></div>
+    `;
+  }
+
+  function fillNl({ name = '', unit = '', email = '', phone = '' } = {}) {
+    document.getElementById('nl-name').value = name;
+    document.getElementById('nl-unit').value = unit;
+    document.getElementById('nl-email').value = email;
+    document.getElementById('nl-phone').value = phone;
+  }
+
+  beforeEach(() => {
+    setupNlDOM();
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('shows the error element when name is missing', () => {
+    fillNl({ unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(document.getElementById('nl-error').style.display).toBe('block');
+  });
+
+  it('shows the error element when apartment is missing', () => {
+    fillNl({ name: 'Jane', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(document.getElementById('nl-error').style.display).toBe('block');
+  });
+
+  it('shows the error element when email is missing', () => {
+    fillNl({ name: 'Jane', unit: '4B' });
+    submitNewsletter();
+    expect(document.getElementById('nl-error').style.display).toBe('block');
+  });
+
+  it('shows the error element when email is invalid', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'notanemail' });
+    submitNewsletter();
+    expect(document.getElementById('nl-error').style.display).toBe('block');
+  });
+
+  it('does not navigate when validation fails', () => {
+    fillNl({ unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(locationMock.href).toBe('');
+  });
+
+  it('hides the error on a valid submission', () => {
+    document.getElementById('nl-error').style.display = 'block';
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(document.getElementById('nl-error').style.display).toBe('none');
+  });
+
+  it('navigates to a mailto: URL on valid submission', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(locationMock.href).toMatch(/^mailto:board@example\.com/);
+  });
+
+  it('includes the sign-up subject line', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(locationMock.href).toContain(encodeURIComponent('Building Updates Sign-Up'));
+  });
+
+  it('includes name, apartment, and email in the body', () => {
+    fillNl({ name: 'Jane Smith', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    const decoded = decodeURIComponent(locationMock.href);
+    expect(decoded).toContain('Name: Jane Smith');
+    expect(decoded).toContain('Apartment: 4B');
+    expect(decoded).toContain('Email: jane@test.com');
+  });
+
+  it('includes phone in the body when provided', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com', phone: '(914) 555-1234' });
+    submitNewsletter();
+    expect(decodeURIComponent(locationMock.href)).toContain('Phone: (914) 555-1234');
+  });
+
+  it('omits phone from the body when not provided', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(decodeURIComponent(locationMock.href)).not.toContain('Phone:');
+  });
+
+  it('hides the form on success', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(document.getElementById('nl-form').style.display).toBe('none');
+  });
+
+  it('shows the success message on success', () => {
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(document.getElementById('nl-success').style.display).toBe('block');
   });
 });
 
