@@ -350,8 +350,6 @@
       position: relative;
     }
     .info-card:hover .icon { transform: scale(1.1); }
-    .info-card .icon { transition: transform 0.25s ease; }
-
     .info-card .icon {
       width: 42px;
       height: 42px;
@@ -362,6 +360,7 @@
       font-size: 1.2rem;
       margin-bottom: 1.2rem;
       background: var(--amber-glow);
+      transition: transform 0.25s ease;
     }
 
     .info-card h3 {
@@ -962,9 +961,81 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── ELECTION BANNER ── */
+    .election-banner {
+      background: var(--amber);
+      color: #fff;
+      padding: 0.65rem 2rem;
+      font-size: 0.84rem;
+      font-weight: 500;
+      position: relative;
+      z-index: 99;
+    }
+    .election-banner-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .election-banner strong { font-weight: 700; }
+    .election-banner .countdown-pill {
+      background: rgba(255,255,255,0.2);
+      border-radius: 980px;
+      padding: 0.1rem 0.55rem;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+    .election-banner-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0 0.25rem;
+      margin-left: 0.75rem;
+      flex-shrink: 0;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .election-banner-close:hover { color: #fff; }
+
     /* ── MOBILE ── */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 1.25rem;
+      line-height: 1;
+      padding: 0.2rem;
+      transition: color 0.2s;
+    }
+    .nav-toggle:hover { color: var(--text); }
+
     @media (max-width: 680px) {
-      nav { display: none; }
+      .nav-toggle { display: flex; align-items: center; }
+      nav {
+        display: none;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: rgba(250,246,239,0.97);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-light);
+        padding: 0.75rem 1.5rem 1rem;
+        flex-direction: column;
+        gap: 0.15rem;
+        z-index: 99;
+        box-shadow: 0 8px 24px rgba(120,70,20,0.08);
+      }
+      nav.open { display: flex; }
+      nav a { margin-left: 0; padding: 0.5rem 0.6rem; }
       .hero h1 { font-size: 2.3rem; }
       .quick-actions { grid-template-columns: repeat(2, 1fr); }
       .qa-tile { border-right: none; border-bottom: 1px solid var(--border-light); }
@@ -984,13 +1055,22 @@
 
   <div id="progress-bar"></div>
 
+  <!-- ELECTION BANNER -->
+  <div class="election-banner" id="election-banner">
+    <div class="election-banner-inner">
+      <span>🗳️</span>
+      <span>Annual Shareholder Election — <strong>June 8, 2026</strong> · P.S. 21, 100 Lee Ave, Yonkers · 7:00 PM · <span id="banner-countdown" class="countdown-pill"></span></span>
+      <button class="election-banner-close" onclick="dismissBanner()" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+
   <!-- HEADER -->
   <header>
     <a href="#" class="logo">
       <div class="logo-mark">🏠</div>
       555 McLean Ave
     </a>
-    <nav>
+    <nav id="main-nav">
       <a href="#about">About</a>
       <a href="#resources">Resources</a>
       <a href="#meetings">Meetings</a>
@@ -998,6 +1078,7 @@
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" onclick="toggleNav()">☰</button>
   </header>
 
   <!-- HERO -->
@@ -1005,7 +1086,7 @@
     <div class="hero-inner">
       <div class="hero-tag">🏡 Cooperative Housing · Yonkers, New York</div>
       <h1>Welcome Home to<br><em>555 McLean Ave</em></h1>
-      <p class="hero-sub">Your resident portal for building news, upcoming meetings,<br>community resources, and more.</p>
+      <p class="hero-sub">Your resident portal for building news, meetings, and resources.<br>Annual Shareholder Election is <strong>June 8, 2026</strong> — mark your calendar.</p>
       <div class="hero-cta">
         <a href="#meetings" class="btn-primary">View Upcoming Meetings</a>
         <a href="#updates" class="btn-ghost">Latest Updates</a>
@@ -1131,7 +1212,7 @@
     <div class="inner">
       <div class="section-eyebrow">Upcoming</div>
       <h2 class="section-title">Board Meetings</h2>
-      <p class="section-sub">All shareholders are welcome — and encouraged — to attend monthly board meetings held in the Community Room.</p>
+      <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
 
       <ul class="meeting-list">
         <li class="meeting-item fade-in">
@@ -1141,7 +1222,7 @@
           </div>
           <div class="meeting-info">
             <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
-            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · All shareholders in good standing are eligible to vote</p>
+            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id="meeting-countdown"></span></p>
           </div>
         </li>
         <li class="meeting-item fade-in">
@@ -1356,7 +1437,7 @@
           <div class="footer-logo-mark">🏠</div>
           <span class="footer-brand-name">555 McLean Ave Cooperative</span>
         </div>
-        <p class="footer-copy">Yonkers, New York · Est. 1962 · Resident-Owned · Copyright © 2026</p>
+        <p class="footer-copy">Yonkers, New York · Resident-Owned Cooperative · Copyright © 2026</p>
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
@@ -1394,6 +1475,48 @@
       });
     }, { threshold: 0.35 });
     sections.forEach(s => navObserver.observe(s));
+
+    // Election countdown
+    function electionCountdown() {
+      const election = new Date('2026-06-08T19:00:00');
+      const now = new Date();
+      const diffMs = election - now;
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      let label = '';
+      if (diffDays > 1)       label = diffDays + ' days away';
+      else if (diffDays === 1) label = 'Tomorrow!';
+      else if (diffDays === 0) label = 'Today!';
+      document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
+        if (el) el.textContent = label;
+      });
+    }
+    electionCountdown();
+
+    // Dismissible banner
+    window.dismissBanner = function() {
+      const banner = document.getElementById('election-banner');
+      if (banner) banner.style.display = 'none';
+    };
+
+    // Mobile hamburger
+    window.toggleNav = function() {
+      const nav = document.getElementById('main-nav');
+      const btn = document.getElementById('nav-toggle');
+      const open = nav.classList.toggle('open');
+      btn.textContent = open ? '✕' : '☰';
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    // Close nav on link click (mobile)
+    document.querySelectorAll('#main-nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        const nav = document.getElementById('main-nav');
+        const btn = document.getElementById('nav-toggle');
+        nav.classList.remove('open');
+        btn.textContent = '☰';
+        btn.setAttribute('aria-label', 'Open menu');
+      });
+    });
   </script>
 
 </body>
