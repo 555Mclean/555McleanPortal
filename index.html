@@ -378,41 +378,6 @@
       font-weight: 300;
     }
 
-    /* ── STATS ── */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border-light);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 4rem;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-row .stat {
-      background: var(--bg-card);
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .stat-row .stat-num {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      color: var(--text);
-      display: block;
-    }
-
-    .stat-row .stat-label {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      margin-top: 0.2rem;
-    }
-
     /* ── RESOURCES ── */
     #resources {
       background: var(--bg-2);
@@ -452,9 +417,7 @@
       position: relative;
     }
     .resource-item:hover .res-icon { transform: scale(1.15); }
-    .resource-item .res-icon { transition: transform 0.25s ease; display: inline-block; }
-
-    .resource-item .res-icon { font-size: 1.5rem; }
+    .resource-item .res-icon { transition: transform 0.25s ease; display: inline-block; font-size: 1.5rem; }
 
     .resource-item h4 {
       font-size: 0.9rem;
@@ -851,12 +814,11 @@
       position: relative;
     }
     .contact-item:hover .cicon { transform: scale(1.15); }
-    .contact-item .cicon { transition: transform 0.25s ease; }
-
     .contact-item .cicon {
       font-size: 1.5rem;
       display: block;
       margin-bottom: 1rem;
+      transition: transform 0.25s ease;
     }
 
     .contact-item h4 {
@@ -1443,6 +1405,7 @@
         <a href="#about">About</a>
         <a href="#resources">Resources</a>
         <a href="#meetings">Meetings</a>
+        <a href="#updates">Updates</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
       </div>
@@ -1476,19 +1439,37 @@
     }, { threshold: 0.35 });
     sections.forEach(s => navObserver.observe(s));
 
-    // Election countdown
+    // Election countdown + post-election cleanup
     function electionCountdown() {
-      const election = new Date('2026-06-08T19:00:00');
-      const now = new Date();
-      const diffMs = election - now;
-      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const electionDay = new Date('2026-06-08'); electionDay.setHours(0, 0, 0, 0);
+      const diffDays = Math.round((electionDay - today) / (1000 * 60 * 60 * 24));
+
       let label = '';
-      if (diffDays > 1)       label = diffDays + ' days away';
+      if (diffDays > 1)        label = diffDays + ' days away';
       else if (diffDays === 1) label = 'Tomorrow!';
       else if (diffDays === 0) label = 'Today!';
+
       document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
-        if (el) el.textContent = label;
+        if (!el) return;
+        el.textContent = label;
+        el.style.display = label ? '' : 'none';
       });
+
+      if (diffDays < 0) {
+        // Hide banner
+        const banner = document.getElementById('election-banner');
+        if (banner) banner.style.display = 'none';
+        // Remove all "Coming Up" badges
+        document.querySelectorAll('.badge').forEach(b => b.remove());
+        // Update quick action tile to reflect no scheduled meeting
+        const qaStrong = document.querySelector('.qa-tile .qa-text strong');
+        if (qaStrong && qaStrong.textContent.includes('Jun 8')) {
+          qaStrong.textContent = 'Next Meeting TBD';
+          const qaSmall = qaStrong.previousElementSibling;
+          if (qaSmall) qaSmall.textContent = 'Upcoming';
+        }
+      }
     }
     electionCountdown();
 
