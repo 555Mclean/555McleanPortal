@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>555 McLean Ave — Resident Portal</title>
+  <meta name="description" content="Resident portal for 555 McLean Ave Cooperative — building news, board meetings, waiting lists, and community resources. Yonkers, NY.">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#faf7f2">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -1426,7 +1427,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('section[id], div[id]');
+    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #waitlist, #contact');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
