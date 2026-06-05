@@ -1443,7 +1443,7 @@
     // Election countdown + post-election cleanup
     function electionCountdown() {
       const today = new Date(); today.setHours(0, 0, 0, 0);
-      const electionDay = new Date('2026-06-08'); electionDay.setHours(0, 0, 0, 0);
+      const electionDay = new Date(2026, 5, 8); // June 8 in local time (month is 0-indexed)
       const diffDays = Math.round((electionDay - today) / (1000 * 60 * 60 * 24));
 
       let label = '';
@@ -1460,7 +1460,7 @@
       if (diffDays < 0) {
         // Hide banner
         const banner = document.getElementById('election-banner');
-        if (banner) banner.style.display = 'none';
+        if (banner) banner.remove();
         // Remove all "Coming Up" badges
         document.querySelectorAll('.badge').forEach(b => b.remove());
         // Update quick action tile to reflect no scheduled meeting
