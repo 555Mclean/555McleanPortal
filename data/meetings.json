@@ -1,0 +1,29 @@
+[
+  {
+    "day": "8",
+    "month": "Jun",
+    "isoDate": "2026-06-08",
+    "next": true,
+    "title": "Annual Shareholder Election",
+    "badge": "Coming Up",
+    "detail": "P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id=\"meeting-countdown\"></span>"
+  },
+  {
+    "day": "TBD",
+    "month": "Jul",
+    "title": "Monthly Board Meeting",
+    "detail": "Date &amp; time to be announced · Community Room, 555 McLean Ave"
+  },
+  {
+    "day": "TBD",
+    "month": "Aug",
+    "title": "Monthly Board Meeting",
+    "detail": "Date &amp; time to be announced · Community Room, 555 McLean Ave"
+  },
+  {
+    "day": "TBD",
+    "month": "Oct",
+    "title": "Annual Shareholders Meeting",
+    "detail": "Date &amp; time to be announced · All shareholders strongly encouraged to attend"
+  }
+]

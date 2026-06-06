@@ -2,6 +2,7 @@
   "name": "555McleanPortal",
   "type": "module",
   "scripts": {
+    "build": "node build.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage"

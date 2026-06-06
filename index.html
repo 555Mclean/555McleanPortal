@@ -29,7 +29,6 @@
       --green-glow: rgba(45,122,82,0.1);
       --red: #b03020;
       --shadow: 0 1px 4px rgba(120,70,20,0.09), 0 6px 20px rgba(120,70,20,0.06);
-      --shadow-sm: 0 1px 3px rgba(120,70,20,0.08);
     }
 
     /* ── SCROLL PROGRESS BAR ── */
@@ -653,8 +652,6 @@
       gap: 0.75rem;
       margin-bottom: 0.75rem;
     }
-    .wl-field-row.full { grid-template-columns: 1fr; }
-
     .wl-field label {
       display: block;
       font-size: 0.7rem;
@@ -1022,7 +1019,6 @@
       .qa-tile { border-right: none; border-bottom: 1px solid var(--border-light); }
       .qa-tile:nth-child(odd) { border-right: 1px solid var(--border-light); }
       .qa-tile:nth-last-child(-n+2) { border-bottom: none; }
-      .stat-row { grid-template-columns: 1fr; }
       .update-card .arrow { display: none; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
@@ -1196,7 +1192,9 @@
       <h2 class="section-title">Board Meetings</h2>
       <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
 
+      <!-- ── BOARD: edit data/meetings.json to add/update meeting entries ── -->
       <ul class="meeting-list">
+      <!-- MEETINGS-LIST-START -->
         <li class="meeting-item fade-in">
           <div class="meeting-date next">
             <div class="day">8</div>
@@ -1237,6 +1235,7 @@
             <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
           </div>
         </li>
+      <!-- MEETINGS-LIST-END -->
       </ul>
     </div>
   </div>
@@ -1327,7 +1326,7 @@
       <h2 class="section-title">Waiting Lists</h2>
       <p class="section-sub">Submit your information to be added to the parking or storage waiting list. The board will contact you when a spot becomes available.</p>
 
-      <!-- ── BOARD: edit WL_DATA in main.js to add/remove apartment numbers ── -->
+      <!-- ── BOARD: edit data/waitlist.json to add/remove apartment numbers ── -->
 
       <div class="wl-counts" id="wl-counts-display">
         <div class="wl-count-card">

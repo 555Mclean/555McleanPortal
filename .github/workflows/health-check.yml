@@ -1,0 +1,80 @@
+name: Weekly Health Check
+
+on:
+  schedule:
+    - cron: '0 13 * * 1'  # Every Monday at 9am ET
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  stale-content:
+    name: Check for Stale Meeting Dates
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check meeting dates
+        id: check
+        run: node scripts/check-stale.mjs
+        continue-on-error: true
+      - name: Open issue if meetings are stale
+        if: steps.check.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'stale-content';
+
+            // Create label if it doesn't exist
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+              });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: 'e4e669',
+                description: 'Site content needs updating',
+              });
+            }
+
+            // Only open if no existing open issue with this label
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+
+            if (existing.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Meeting schedule needs updating',
+                body: [
+                  'The weekly health check found no upcoming meetings with confirmed dates in `data/meetings.json`.',
+                  '',
+                  '**Action needed:** Update `data/meetings.json` with the next scheduled meeting date and push to `main`.',
+                ].join('\n'),
+                labels: [label],
+              });
+            }
