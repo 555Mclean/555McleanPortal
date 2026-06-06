@@ -45,8 +45,21 @@ function buildUpdateCard(u) {
       </div>`;
 }
 
+// ── Build filter buttons from unique categories in updates.json ──
+function buildFilterButtons(updates) {
+  const seen = new Set();
+  const cats = updates.map(u => u.category).filter(c => { if (seen.has(c)) return false; seen.add(c); return true; });
+  const allBtn = `      <button class="filter-btn active" data-filter="all" onclick="filterUpdates(this)">All</button>`;
+  const catBtns = cats.map(c => {
+    const label = CATEGORY_LABELS[c] || c.charAt(0).toUpperCase() + c.slice(1);
+    return `      <button class="filter-btn" data-filter="${c}" onclick="filterUpdates(this)">${label}</button>`;
+  });
+  return [allBtn, ...catBtns].join('\n');
+}
+
 const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 const updatesHTML  = updates.map(buildUpdateCard).join('\n');
+const filtersHTML  = buildFilterButtons(updates);
 
 // ── Build notice bar HTML (empty string when inactive) ──
 const ICONS = { info: 'ℹ️', warning: '⚠️', urgent: '🚨' };
@@ -72,6 +85,11 @@ const UPDATES_RE = /<!-- UPDATES-LIST-START -->[\s\S]*?<!-- UPDATES-LIST-END -->
 if (!UPDATES_RE.test(html)) { console.error('ERROR: UPDATES-LIST markers missing'); process.exit(1); }
 html = html.replace(UPDATES_RE,
   `<!-- UPDATES-LIST-START -->\n${updatesHTML}\n      <!-- UPDATES-LIST-END -->`);
+
+const FILTERS_RE = /<!-- FILTERS-START -->[\s\S]*?<!-- FILTERS-END -->/;
+if (!FILTERS_RE.test(html)) { console.error('ERROR: FILTERS markers missing'); process.exit(1); }
+html = html.replace(FILTERS_RE,
+  `<!-- FILTERS-START -->\n${filtersHTML}\n      <!-- FILTERS-END -->`);
 
 const NOTICE_RE = /<!-- NOTICE-BAR -->/;
 if (!NOTICE_RE.test(html)) { console.error('ERROR: NOTICE-BAR marker missing'); process.exit(1); }

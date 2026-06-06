@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>555 McLean Ave — Resident Portal</title>
   <meta name="description" content="Resident portal for 555 McLean Ave Cooperative — building news, board meetings, waiting lists, and community resources. Yonkers, NY.">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#faf7f2">
   <meta property="og:type" content="website">
   <meta property="og:title" content="555 McLean Ave — Resident Portal">
@@ -1119,6 +1119,9 @@
     .notice-info    { background: #dbeafe; color: #1e3a5f; }
     .notice-warning { background: #fef3c7; color: #78350f; }
     .notice-urgent  { background: #fee2e2; color: #5c0a0a; }
+    [data-theme="dark"] .notice-info    { background: rgba(59,130,246,0.18); color: #93c5fd; }
+    [data-theme="dark"] .notice-warning { background: rgba(217,119,6,0.18);  color: #fbbf24; }
+    [data-theme="dark"] .notice-urgent  { background: rgba(220,38,38,0.18);  color: #fca5a5; }
     .notice-bar-close {
       background: none; border: none; cursor: pointer;
       margin-left: auto; font-size: 1rem; opacity: 0.6; padding: 0 0.25rem;
@@ -1386,11 +1389,13 @@
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
 
     <div class="update-filters">
+      <!-- FILTERS-START -->
       <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
       <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
       <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
-      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General</button>
+      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General Notice</button>
       <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
+      <!-- FILTERS-END -->
     </div>
 
     <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
@@ -1479,81 +1484,81 @@
       <div class="faq-list">
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-1">
             When are maintenance fees due?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-1">
             <p>Monthly maintenance fees are due on the 1st of each month. Payments received after the 10th may be subject to late charges. Contact the managing agent with any billing questions.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-2">
             How do I submit a maintenance request?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-2">
             <p>Use the Maintenance Request link in the Resources section to email the managing agent. Please include your apartment number and a clear description of the issue. For building emergencies, use the emergency contact in the Contact section.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-3">
             How do I get on the parking or storage waiting list?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-3">
             <p>Scroll to the Waiting Lists section on this page and complete the form for parking or storage. The board will contact you when a spot becomes available. Current wait times vary — submit early.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-4">
             When are board meetings held?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-4">
             <p>Monthly board meetings are generally held on the second Tuesday of each month in the Community Room. Confirmed dates are posted in the Meetings section above. All shareholders are welcome and encouraged to attend.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-5">
             What are the rules for moving in or out?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-5">
             <p>All moves must be scheduled in advance with building management. Moves are permitted weekdays 9am–5pm only. A refundable move-in/move-out deposit is required. Contact the managing agent to coordinate and obtain the building's move policy.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-6">
             Can I sublet my apartment?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-6">
             <p>Subletting is permitted subject to board approval. You must submit an application, and the subtenant is subject to the same house rules as shareholders. Contact the board for the current subletting policy and application process.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-7">
             How do I vote in the annual shareholder election?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-7">
             <p>All shareholders in good standing are eligible to vote. Ballots and candidate information are distributed prior to the annual meeting. You may vote in person at the meeting or by proxy — contact the board for proxy voting forms.</p>
           </div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-8">
             How do I reach the board?
             <span class="faq-chevron">▾</span>
           </button>
-          <div class="faq-answer">
+          <div class="faq-answer" id="faq-a-8">
             <p>Use the contact form at the bottom of this page or email the board directly. For non-urgent matters, allow up to 5 business days for a response. Building emergencies should be reported to the emergency contact number in the Contact section.</p>
           </div>
         </div>
