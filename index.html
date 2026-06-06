@@ -1054,7 +1054,7 @@
     }
 
     /* ── FAQ ── */
-    #faq { background: var(--bg-2); padding: 5rem 2rem; }
+    #faq { background: var(--bg-2); max-width: 100%; margin: 0; padding: 5rem 2rem; border-top: 1px solid var(--border-light); }
     #faq .inner { max-width: 720px; margin: 0 auto; }
     .faq-list { margin-top: 2.5rem; }
     .faq-item { border-bottom: 1px solid var(--border); }
@@ -1763,7 +1763,7 @@
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
     window.addEventListener('scroll', () => {
-      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const total = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       bar.style.width = (window.scrollY / total * 100) + '%';
     }, { passive: true });
 
@@ -1793,7 +1793,6 @@
       else if (diffDays === 0) label = 'Today!';
 
       document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
-        if (!el) return;
         el.textContent = label;
         el.style.display = label ? '' : 'none';
       });
@@ -1802,8 +1801,8 @@
         // Hide banner
         const banner = document.getElementById('election-banner');
         if (banner) banner.remove();
-        // Remove all "Coming Up" badges
-        document.querySelectorAll('.badge').forEach(b => b.remove());
+        // Remove only "Coming Up" badges
+        document.querySelectorAll('.badge').forEach(b => { if (b.textContent.includes('Coming Up')) b.remove(); });
         // Update quick action tile to reflect no scheduled meeting
         const qaStrong = document.querySelector('.qa-tile .qa-text strong');
         if (qaStrong && qaStrong.textContent.includes('Jun 8')) {
