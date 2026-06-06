@@ -7,6 +7,13 @@
   <meta name="description" content="Resident portal for 555 McLean Ave Cooperative — building news, board meetings, waiting lists, and community resources. Yonkers, NY.">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#faf7f2">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="555 McLean Ave — Resident Portal">
+  <meta property="og:description" content="Building news, board meetings, waiting lists, and community resources for 555 McLean Ave Cooperative. Yonkers, NY.">
+  <meta property="og:url" content="https://555mclean.github.io/555McleanPortal/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="555 McLean Ave — Resident Portal">
+  <meta name="twitter:description" content="Building news, board meetings, waiting lists, and community resources for 555 McLean Ave Cooperative. Yonkers, NY.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1027,6 +1034,35 @@
       .wl-field-row { grid-template-columns: 1fr; }
     }
 
+    /* ── FAQ ── */
+    #faq { background: var(--bg-2); padding: 5rem 2rem; }
+    #faq .inner { max-width: 720px; margin: 0 auto; }
+    .faq-list { margin-top: 2.5rem; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--amber); }
+    .faq-chevron { flex-shrink: 0; font-size: 1rem; color: var(--amber); transition: transform 0.25s ease; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer p { padding-bottom: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem; }
+
     /* ── DARK MODE ── */
     [data-theme="dark"] {
       --bg: #1c1208;
@@ -1155,6 +1191,7 @@
       <a href="#updates">Updates</a>
       <a href="#newsletter">Sign Up</a>
       <a href="#waitlist">Waiting Lists</a>
+      <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
@@ -1356,7 +1393,9 @@
       <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
     </div>
 
+    <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
     <div class="update-grid">
+      <!-- UPDATES-LIST-START -->
       <div class="update-card fade-in" data-category="election">
         <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
         <h4>Annual Shareholder Election — June 8, 2026</h4>
@@ -1381,6 +1420,7 @@
         <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
         <span class="arrow">›</span>
       </div>
+      <!-- UPDATES-LIST-END -->
     </div>
   </section>
 
@@ -1428,6 +1468,99 @@
       </div>
     </div>
   </div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="inner">
+      <div class="section-eyebrow">Help</div>
+      <h2 class="section-title">Frequently Asked<br>Questions</h2>
+      <p class="section-sub">Quick answers to the questions we hear most from shareholders and residents.</p>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            When are maintenance fees due?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Monthly maintenance fees are due on the 1st of each month. Payments received after the 10th may be subject to late charges. Contact the managing agent with any billing questions.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            How do I submit a maintenance request?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Use the Maintenance Request link in the Resources section to email the managing agent. Please include your apartment number and a clear description of the issue. For building emergencies, use the emergency contact in the Contact section.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            How do I get on the parking or storage waiting list?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Scroll to the Waiting Lists section on this page and complete the form for parking or storage. The board will contact you when a spot becomes available. Current wait times vary — submit early.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            When are board meetings held?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Monthly board meetings are generally held on the second Tuesday of each month in the Community Room. Confirmed dates are posted in the Meetings section above. All shareholders are welcome and encouraged to attend.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            What are the rules for moving in or out?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>All moves must be scheduled in advance with building management. Moves are permitted weekdays 9am–5pm only. A refundable move-in/move-out deposit is required. Contact the managing agent to coordinate and obtain the building's move policy.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            Can I sublet my apartment?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Subletting is permitted subject to board approval. You must submit an application, and the subtenant is subject to the same house rules as shareholders. Contact the board for the current subletting policy and application process.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            How do I vote in the annual shareholder election?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>All shareholders in good standing are eligible to vote. Ballots and candidate information are distributed prior to the annual meeting. You may vote in person at the meeting or by proxy — contact the board for proxy voting forms.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false">
+            How do I reach the board?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer">
+            <p>Use the contact form at the bottom of this page or email the board directly. For non-urgent matters, allow up to 5 business days for a response. Building emergencies should be reported to the emergency contact number in the Contact section.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- WAITING LISTS -->
   <div id="waitlist">
@@ -1582,6 +1715,7 @@
         <a href="#updates">Updates</a>
         <a href="#newsletter">Sign Up</a>
         <a href="#waitlist">Waiting Lists</a>
+        <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
@@ -1602,7 +1736,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #contact');
+    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #faq, #contact');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1729,6 +1863,20 @@
     window.dismissNotice = function() {
       const bar = document.getElementById('notice-bar');
       if (bar) bar.remove();
+    };
+
+    // FAQ accordion
+    window.toggleFAQ = function(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     };
   </script>
 
