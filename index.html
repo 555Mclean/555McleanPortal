@@ -1034,6 +1034,27 @@
       .wl-field-row { grid-template-columns: 1fr; }
     }
 
+    /* ── SITE NOTICE / BETA ── */
+    .site-notice {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue-glow);
+      border: 1px solid rgba(43,107,158,0.2);
+      border-radius: 8px;
+      color: var(--blue);
+      font-size: 0.82rem;
+      padding: 0.65rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .site-notice::before { content: 'ℹ️'; flex-shrink: 0; }
+    .footer-beta {
+      font-size: 0.72rem;
+      color: #6b5840;
+      margin-top: 0.25rem;
+      opacity: 0.75;
+    }
+
     /* ── FAQ ── */
     #faq { background: var(--bg-2); padding: 5rem 2rem; }
     #faq .inner { max-width: 720px; margin: 0 auto; }
@@ -1678,6 +1699,8 @@
       <h2 class="section-title">We're Here<br>to Help</h2>
       <p class="section-sub">Reach out to the board or managing agent for questions, maintenance requests, or anything else you need.</p>
 
+      <p class="site-notice">This site is an early version — contact details below are temporary placeholders and will be updated after the June 8 election.</p>
+
       <div class="contact-grid">
         <div class="contact-item fade-in">
           <span class="cicon">📍</span>
@@ -1712,6 +1735,7 @@
           <span class="footer-brand-name">555 McLean Ave Cooperative</span>
         </div>
         <p class="footer-copy">Yonkers, New York · Resident-Owned Cooperative · Copyright © 2026</p>
+        <p class="footer-beta">Early version · Contact info will be updated after the election.</p>
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
