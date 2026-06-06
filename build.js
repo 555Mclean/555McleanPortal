@@ -3,9 +3,6 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from
 const escapeHTML = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const escapeAttr = s => s.replace(/'/g, '&#39;');
 
-const escapeHTML = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const escapeAttr = s => s.replace(/'/g, '&#39;');
-
 const meetings = JSON.parse(readFileSync('./data/meetings.json', 'utf8'));
 const waitlist = JSON.parse(readFileSync('./data/waitlist.json', 'utf8'));
 const notice   = JSON.parse(readFileSync('./data/notices.json',  'utf8'));
