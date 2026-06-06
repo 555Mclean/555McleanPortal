@@ -25,6 +25,7 @@
       --bg-card-hover: #fdf8f2;
       --border: rgba(140,85,40,0.15);
       --border-light: rgba(140,85,40,0.1);
+      --border-ui: rgba(140,85,40,0.35);
       --text: #1e1208;
       --text-secondary: #6b5038;
       --text-tertiary: #a88860;
@@ -226,7 +227,7 @@
     .btn-ghost {
       background: transparent;
       color: var(--text-secondary);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       padding: 0.7rem 1.6rem;
       border-radius: 980px;
       font-size: 0.875rem;
@@ -237,7 +238,7 @@
       display: inline-block;
       transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
     }
-    .btn-ghost:hover { background: var(--bg-card); color: var(--text); border-color: var(--border); transform: scale(1.02); }
+    .btn-ghost:hover { background: var(--bg-card); color: var(--text); border-color: var(--border-ui); transform: scale(1.02); }
 
     /* ── QUICK ACTIONS ── */
     .quick-actions-wrap {
@@ -620,7 +621,7 @@
       max-width: 200px;
       padding: 0.55rem 1.2rem;
       border-radius: 980px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       background: transparent;
       color: var(--text-secondary);
       font-size: 0.85rem;
@@ -630,7 +631,7 @@
       letter-spacing: -0.01em;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border); }
+    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border-ui); }
     .wl-tab-btn:not(.active):hover { color: var(--text); }
 
     .wl-panel {
@@ -670,7 +671,7 @@
     .wl-field input {
       width: 100%;
       background: var(--bg-2);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       border-radius: 10px;
       padding: 0.65rem 1rem;
       font-size: 0.875rem;
@@ -1090,6 +1091,7 @@
       --bg-card-hover: #3a2815;
       --border: rgba(200,140,60,0.2);
       --border-light: rgba(200,140,60,0.12);
+      --border-ui: rgba(200,140,60,0.45);
       --text: #f0e6d3;
       --text-secondary: #c4a06a;
       --text-tertiary: #8a6840;
@@ -1156,7 +1158,7 @@
     }
     .filter-btn {
       background: var(--bg-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       border-radius: 20px;
       color: var(--text-secondary);
       cursor: pointer;
@@ -1175,7 +1177,7 @@
       gap: 0.4rem;
       margin-top: 0.9rem;
       background: var(--bg-card);
-      border: 1px solid rgba(192,90,53,0.4);
+      border: 1px solid var(--border-ui);
       border-radius: 6px;
       color: var(--amber);
       cursor: pointer;
