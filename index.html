@@ -1044,6 +1044,14 @@
       --green-glow: rgba(45,122,82,0.18);
       --shadow: 0 1px 4px rgba(0,0,0,0.35), 0 6px 20px rgba(0,0,0,0.25);
     }
+    [data-theme="dark"] header {
+      background: rgba(28,18,8,0.93);
+    }
+    @media (max-width: 680px) {
+      [data-theme="dark"] nav {
+        background: rgba(28,18,8,0.97);
+      }
+    }
     .theme-toggle {
       background: none;
       border: none;
@@ -1074,7 +1082,7 @@
     }
     .notice-info    { background: #dbeafe; color: #1e3a5f; }
     .notice-warning { background: #fef3c7; color: #78350f; }
-    .notice-urgent  { background: #fee2e2; color: #7f1d1d; }
+    .notice-urgent  { background: #fee2e2; color: #5c0a0a; }
     .notice-bar-close {
       background: none; border: none; cursor: pointer;
       margin-left: auto; font-size: 1rem; opacity: 0.6; padding: 0 0.25rem;
@@ -1693,6 +1701,8 @@
 
     // Add to Calendar (.ics download)
     window.addToCalendar = function(dateStr, title, location, startTime, endTime) {
+      if (!dateStr) return;
+      const esc = s => s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,');
       const [y, m, d] = dateStr.split('-');
       const start = `${y}${m}${d}T${startTime.replace(':', '')}00`;
       const end   = `${y}${m}${d}T${endTime.replace(':', '')}00`;
@@ -1703,8 +1713,8 @@
         'BEGIN:VEVENT',
         'DTSTART:' + start,
         'DTEND:'   + end,
-        'SUMMARY:' + title,
-        'LOCATION:' + location,
+        'SUMMARY:' + esc(title),
+        'LOCATION:' + esc(location),
         'END:VEVENT',
         'END:VCALENDAR'
       ].join('\r\n');
