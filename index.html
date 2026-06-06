@@ -1026,9 +1026,102 @@
       .wl-counts { grid-template-columns: 1fr; }
       .wl-field-row { grid-template-columns: 1fr; }
     }
+
+    /* ── DARK MODE ── */
+    [data-theme="dark"] {
+      --bg: #1c1208;
+      --bg-2: #251a0e;
+      --bg-card: #2e1f10;
+      --bg-card-hover: #3a2815;
+      --border: rgba(200,140,60,0.2);
+      --border-light: rgba(200,140,60,0.12);
+      --text: #f0e6d3;
+      --text-secondary: #c4a06a;
+      --text-tertiary: #8a6840;
+      --blue: #5a9fd4;
+      --blue-glow: rgba(90,159,212,0.12);
+      --amber-glow: rgba(192,90,53,0.18);
+      --green-glow: rgba(45,122,82,0.18);
+      --shadow: 0 1px 4px rgba(0,0,0,0.35), 0 6px 20px rgba(0,0,0,0.25);
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.2rem 0.35rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+      margin-left: 0.5rem;
+    }
+    .theme-toggle:hover { background: var(--bg-2); }
+
+    /* ── NOTICE BAR ── */
+    .notice-bar {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .notice-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .notice-info    { background: #dbeafe; color: #1e3a5f; }
+    .notice-warning { background: #fef3c7; color: #78350f; }
+    .notice-urgent  { background: #fee2e2; color: #7f1d1d; }
+    .notice-bar-close {
+      background: none; border: none; cursor: pointer;
+      margin-left: auto; font-size: 1rem; opacity: 0.6; padding: 0 0.25rem;
+    }
+    .notice-bar-close:hover { opacity: 1; }
+
+    /* ── UPDATE FILTERS ── */
+    .update-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.3rem 0.9rem;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .filter-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+    /* ── ADD TO CALENDAR BUTTON ── */
+    .cal-btn {
+      display: inline-block;
+      margin-top: 0.65rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.3rem 0.75rem;
+      transition: all 0.2s;
+    }
+    .cal-btn:hover { border-color: var(--amber); color: var(--amber); }
   </style>
 </head>
 <body>
+
+  <!-- NOTICE-BAR -->
 
   <div id="progress-bar"></div>
 
@@ -1056,6 +1149,7 @@
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" onclick="toggleNav()">☰</button>
   </header>
 
@@ -1246,26 +1340,34 @@
     <h2 class="section-title">Building Updates</h2>
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
 
+    <div class="update-filters">
+      <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
+      <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
+      <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
+      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General</button>
+      <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
+    </div>
+
     <div class="update-grid">
-      <div class="update-card fade-in">
+      <div class="update-card fade-in" data-category="election">
         <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
         <h4>Annual Shareholder Election — June 8, 2026</h4>
         <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
         <span class="arrow">›</span>
       </div>
-      <div class="update-card fade-in">
+      <div class="update-card fade-in" data-category="general">
         <div class="update-meta">June 2026 · General Notice</div>
         <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
         <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
         <span class="arrow">›</span>
       </div>
-      <div class="update-card fade-in">
+      <div class="update-card fade-in" data-category="maintenance">
         <div class="update-meta">June 2026 · Maintenance</div>
         <h4>Spring Building Inspection</h4>
         <p>Our annual spring inspection of common areas, roof, and mechanical systems is underway. Access to certain areas may be temporarily restricted. Thank you for your patience.</p>
         <span class="arrow">›</span>
       </div>
-      <div class="update-card fade-in">
+      <div class="update-card fade-in" data-category="reminder">
         <div class="update-meta">June 2026 · Reminder</div>
         <h4>Maintenance Fee Payment Reminder</h4>
         <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
@@ -1564,6 +1666,60 @@
         btn.setAttribute('aria-label', 'Open menu');
       });
     });
+
+    // Dark mode
+    const themeBtn = document.getElementById('theme-toggle');
+    function applyTheme(dark) {
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeBtn.textContent = dark ? '☀️' : '🌙';
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    applyTheme(localStorage.getItem('theme') === 'dark');
+    window.toggleTheme = function() {
+      const dark = document.documentElement.getAttribute('data-theme') !== 'dark';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      applyTheme(dark);
+    };
+
+    // Update category filter
+    window.filterUpdates = function(btn) {
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.update-card').forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+      });
+    };
+
+    // Add to Calendar (.ics download)
+    window.addToCalendar = function(dateStr, title, location, startTime, endTime) {
+      const [y, m, d] = dateStr.split('-');
+      const start = `${y}${m}${d}T${startTime.replace(':', '')}00`;
+      const end   = `${y}${m}${d}T${endTime.replace(':', '')}00`;
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//555 McLean Ave//Resident Portal//EN',
+        'BEGIN:VEVENT',
+        'DTSTART:' + start,
+        'DTEND:'   + end,
+        'SUMMARY:' + title,
+        'LOCATION:' + location,
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'meeting.ics'; a.click();
+      URL.revokeObjectURL(url);
+    };
+
+    // Notice bar dismiss
+    window.dismissNotice = function() {
+      const bar = document.getElementById('notice-bar');
+      if (bar) bar.remove();
+    };
   </script>
 
 </body>

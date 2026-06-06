@@ -6,7 +6,12 @@
     "next": true,
     "title": "Annual Shareholder Election",
     "badge": "Coming Up",
-    "detail": "P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id=\"meeting-countdown\"></span>"
+    "detail": "P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id=\"meeting-countdown\"></span>",
+    "calendar": {
+      "location": "P.S. 21, 100 Lee Ave, Yonkers, NY 10705",
+      "startTime": "19:00",
+      "endTime": "21:00"
+    }
   },
   {
     "day": "TBD",
