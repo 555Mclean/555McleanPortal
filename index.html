@@ -462,13 +462,11 @@
     .meeting-item {
       display: flex;
       gap: 1.5rem;
-      align-items: center;
+      align-items: flex-start;
       padding: 1.4rem 0;
       border-bottom: 1px solid var(--border-light);
-      transition: opacity 0.2s;
     }
     .meeting-item:last-child { border-bottom: none; }
-    .meeting-item:hover { opacity: 0.75; }
 
     .meeting-date {
       background: var(--bg-card);
@@ -1047,7 +1045,7 @@
       padding: 0.65rem 1rem;
       margin-bottom: 2rem;
     }
-    .site-notice::before { content: 'ℹ️'; flex-shrink: 0; }
+    .site-notice::before { content: 'ℹ'; flex-shrink: 0; font-style: normal; }
     .footer-beta {
       font-size: 0.72rem;
       color: #6b5840;
@@ -1172,19 +1170,22 @@
 
     /* ── ADD TO CALENDAR BUTTON ── */
     .cal-btn {
-      display: inline-block;
-      margin-top: 0.65rem;
-      background: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.8rem;
+      background: var(--bg-2);
       border: 1px solid var(--border);
       border-radius: 6px;
       color: var(--text-secondary);
       cursor: pointer;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 500;
-      padding: 0.3rem 0.75rem;
+      padding: 0.35rem 0.9rem;
       transition: all 0.2s;
     }
-    .cal-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .cal-btn::before { content: '📅'; font-size: 0.75rem; }
+    .cal-btn:hover { background: var(--amber-glow); border-color: var(--amber); color: var(--amber); }
   </style>
 </head>
 <body>
