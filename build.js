@@ -3,10 +3,15 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from
 const escapeHTML = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const escapeAttr = s => s.replace(/'/g, '&#39;');
 
-const meetings = JSON.parse(readFileSync('./data/meetings.json', 'utf8'));
-const waitlist = JSON.parse(readFileSync('./data/waitlist.json', 'utf8'));
-const notice   = JSON.parse(readFileSync('./data/notices.json',  'utf8'));
-const updates  = JSON.parse(readFileSync('./data/updates.json',  'utf8'));
+function loadJSON(path) {
+  try { return JSON.parse(readFileSync(path, 'utf8')); }
+  catch (e) { console.error(`ERROR: Could not parse ${path} — ${e.message}`); process.exit(1); }
+}
+
+const meetings = loadJSON('./data/meetings.json');
+const waitlist = loadJSON('./data/waitlist.json');
+const notice   = loadJSON('./data/notices.json');
+const updates  = loadJSON('./data/updates.json');
 
 // ── Build meeting list HTML ──
 function buildMeetingItem(m) {

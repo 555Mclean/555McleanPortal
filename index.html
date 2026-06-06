@@ -681,7 +681,7 @@
       transition: border-color 0.2s;
     }
     .wl-field input::placeholder { color: var(--text-tertiary); }
-    .wl-field input:focus { border-color: var(--blue); }
+    .wl-field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
 
     .wl-submit-row {
       display: flex;
@@ -867,8 +867,8 @@
     footer {
       background: #2a1508;
       padding: 3rem 2rem;
-      border-top: none;
     }
+    [data-theme="dark"] footer { border-top: 1px solid rgba(200,140,60,0.15); }
 
     footer .footer-brand-name { color: #f5e8d8; }
     footer .footer-copy { color: #9a7a58; }
@@ -1082,6 +1082,23 @@
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
     .faq-item.open .faq-answer { max-height: 400px; }
     .faq-answer p { padding-bottom: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem; }
+
+    /* ── SUGGESTION CALLOUT ── */
+    .suggestion-callout {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      background: var(--amber-glow);
+      border: 1px solid rgba(192,90,53,0.2);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      flex-wrap: wrap;
+    }
+    .suggestion-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .suggestion-body { flex: 1; min-width: 180px; }
+    .suggestion-body h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+    .suggestion-body p { font-size: 0.84rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; }
 
     /* ── DARK MODE ── */
     [data-theme="dark"] {
@@ -1623,7 +1640,7 @@
         <div class="contact-item fade-in">
           <span class="cicon">🏢</span>
           <h4>Managing Agent</h4>
-          <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
+          <p>Name &amp; contact to be confirmed<br><a href="mailto:info@example.com">info@example.com</a></p>
         </div>
         <div class="contact-item fade-in">
           <span class="cicon">👥</span>
@@ -1635,6 +1652,15 @@
           <h4>Emergencies</h4>
           <p>Building emergencies:<br><a href="tel:+19145550000" class="emergency">(914) 555-0000</a></p>
         </div>
+      </div>
+
+      <div class="suggestion-callout fade-in">
+        <div class="suggestion-icon">💡</div>
+        <div class="suggestion-body">
+          <h4>Help make this portal better</h4>
+          <p>Have a suggestion for the building or this site? The board wants to hear from you — don't hesitate to reach out.</p>
+        </div>
+        <a href="mailto:board@example.com?subject=Portal%20Suggestion%20%E2%80%94%20555%20McLean%20Ave" class="btn-primary" style="flex-shrink:0;font-size:0.82rem;padding:0.6rem 1.3rem;">Share an Idea →</a>
       </div>
     </div>
   </div>
@@ -1843,17 +1869,19 @@
       });
     });
 
-    // Dark mode
+    // Dark mode — respects OS preference on first visit, persists manual choice
     const themeBtn = document.getElementById('theme-toggle');
     function applyTheme(dark) {
       document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
       themeBtn.textContent = dark ? '☀️' : '🌙';
       themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
     }
-    applyTheme(localStorage.getItem('theme') === 'dark');
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch {}
+    applyTheme(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
     window.toggleTheme = function() {
       const dark = document.documentElement.getAttribute('data-theme') !== 'dark';
-      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
       applyTheme(dark);
     };
 
