@@ -23,18 +23,28 @@ const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 
 // ── Patch index.html ──
 let html = readFileSync('./index.html', 'utf8');
+const MEETINGS_RE = /<!-- MEETINGS-LIST-START -->[\s\S]*?<!-- MEETINGS-LIST-END -->/;
+if (!MEETINGS_RE.test(html)) {
+  console.error('ERROR: MEETINGS-LIST-START/END markers not found in index.html');
+  process.exit(1);
+}
 html = html.replace(
-  /<!-- MEETINGS-LIST-START -->[\s\S]*?<!-- MEETINGS-LIST-END -->/,
+  MEETINGS_RE,
   `<!-- MEETINGS-LIST-START -->\n${meetingsHTML}\n      <!-- MEETINGS-LIST-END -->`
 );
 
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
+const WL_RE = /export const WL_DATA = \{[\s\S]*?\};/;
+if (!WL_RE.test(js)) {
+  console.error('ERROR: WL_DATA block not found in main.js');
+  process.exit(1);
+}
 const wlBlock = `export const WL_DATA = {
   parking: ${JSON.stringify(waitlist.parking)},
   storage: ${JSON.stringify(waitlist.storage)},
 };`;
-js = js.replace(/export const WL_DATA = \{[\s\S]*?\};/, wlBlock);
+js = js.replace(WL_RE, wlBlock);
 
 // ── Write dist/ ──
 mkdirSync('./dist', { recursive: true });
