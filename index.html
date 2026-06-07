@@ -1490,7 +1490,7 @@
           </div>
           <div class="meeting-info">
             <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
-            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id="meeting-countdown"></span></p>
+            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong></p>
           </div>
         </li>
         <li class="meeting-item fade-in">
@@ -1918,6 +1918,7 @@
     sections.forEach(s => navObserver.observe(s));
 
     // Election countdown + post-election cleanup
+    let countdownInterval;
     function electionCountdown() {
       const now          = new Date();
       const electionStart = new Date(2026, 5, 8, 19, 0, 0); // June 8 7:00 PM local
@@ -1955,7 +1956,7 @@
       }
     }
     electionCountdown();
-    let countdownInterval = setInterval(electionCountdown, 1000);
+    countdownInterval = setInterval(electionCountdown, 1000);
 
     // Dismissible banner
     window.dismissBanner = function() {
@@ -2031,8 +2032,11 @@
       const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement('a');
-      a.href = url; a.download = 'meeting.ics'; a.click();
-      URL.revokeObjectURL(url);
+      a.href = url; a.download = 'meeting.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     };
 
     // Notice bar dismiss
