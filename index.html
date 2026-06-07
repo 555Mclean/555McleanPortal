@@ -1206,6 +1206,137 @@
     }
     .cal-btn::before { content: '📅'; font-size: 0.75rem; }
     .cal-btn:hover { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+    /* ── BADGE PULSE ── */
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192,90,53,0.45); }
+      60%       { box-shadow: 0 0 0 5px rgba(192,90,53,0); }
+    }
+    .badge { animation: pulse-badge 2.2s ease-in-out infinite; }
+
+    /* ── BACK TO TOP ── */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      z-index: 90;
+      box-shadow: 0 4px 16px rgba(192,90,53,0.4);
+      pointer-events: none;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #a8481f; transform: translateY(-3px); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.65rem 1.5rem;
+      border-radius: 980px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 300;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── FAQ SEARCH ── */
+    .faq-search {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ui);
+      border-radius: 10px;
+      padding: 0.7rem 1rem 0.7rem 2.6rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 0.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a88860' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 0.85rem center;
+    }
+    .faq-search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+    .faq-search::placeholder { color: var(--text-tertiary); }
+    .faq-no-results { display: none; text-align: center; padding: 2rem; color: var(--text-tertiary); font-size: 0.88rem; }
+
+    /* ── COPY BUTTON ── */
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      margin-left: 0.25rem;
+      transition: color 0.2s, background 0.2s;
+      vertical-align: middle;
+    }
+    .copy-btn:hover { color: var(--blue); background: var(--blue-glow); }
+
+    /* ── NEIGHBORHOOD ── */
+    #neighborhood {
+      background: var(--bg-2);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+    }
+    #neighborhood .inner { max-width: 980px; margin: 0 auto; }
+    .neighborhood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .nbhd-card { background: var(--bg-card); padding: 1.8rem; transition: background 0.2s; }
+    .nbhd-card:hover { background: var(--bg-card-hover); }
+    .nbhd-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+    .nbhd-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .nbhd-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .nbhd-list li { font-size: 0.8rem; color: var(--text-secondary); font-weight: 300; line-height: 1.5; padding-left: 1rem; position: relative; }
+    .nbhd-list li::before { content: '·'; position: absolute; left: 0; color: var(--amber); font-weight: 700; }
+
+    /* ── PRINT ── */
+    @media print {
+      #progress-bar, header, .election-banner, .notice-bar,
+      .back-to-top, .toast, .hero-cta, .update-filters,
+      .cal-btn, .wl-tabs, .wl-submit-row, .nl-card,
+      .suggestion-callout, .footer-links, .footer-beta,
+      .theme-toggle, .nav-toggle, .faq-search { display: none !important; }
+      body { font-size: 11pt; color: #000 !important; background: #fff !important; }
+      .contact-item a[href^="mailto"]::after,
+      .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
+      .meeting-item, .contact-item, .faq-item { page-break-inside: avoid; }
+      h2 { page-break-after: avoid; }
+    }
   </style>
 </head>
 <body>
@@ -1231,6 +1362,7 @@
     </a>
     <nav id="main-nav">
       <a href="#about">About</a>
+      <a href="#neighborhood">Neighborhood</a>
       <a href="#resources">Resources</a>
       <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
@@ -1320,6 +1452,57 @@
     </div>
 
   </section>
+
+  <!-- NEIGHBORHOOD -->
+  <div id="neighborhood">
+    <div class="inner">
+      <div class="section-eyebrow">Where We Live</div>
+      <h2 class="section-title">The Neighborhood</h2>
+      <p class="section-sub">555 McLean Ave sits in a vibrant Yonkers community with easy access to transit, parks, shopping, and services.</p>
+      <div class="neighborhood-grid">
+        <div class="nbhd-card fade-in">
+          <span class="nbhd-icon">🚌</span>
+          <h4>Getting Around</h4>
+          <ul class="nbhd-list">
+            <li>Bee-Line Bus — multiple routes on McLean Ave</li>
+            <li>Metro-North — Yonkers Station (Hudson Line)</li>
+            <li>I-87 / Major Deegan Expressway nearby</li>
+            <li>NYC accessible via public transit</li>
+          </ul>
+        </div>
+        <div class="nbhd-card fade-in">
+          <span class="nbhd-icon">🌳</span>
+          <h4>Parks & Recreation</h4>
+          <ul class="nbhd-list">
+            <li>Tibbetts Brook Park — trails &amp; picnic areas</li>
+            <li>Van Cortlandt Park — golf &amp; nature trails</li>
+            <li>Untermyer Park &amp; Gardens</li>
+            <li>Hudson Riverfront parks</li>
+          </ul>
+        </div>
+        <div class="nbhd-card fade-in">
+          <span class="nbhd-icon">🛒</span>
+          <h4>Shopping &amp; Dining</h4>
+          <ul class="nbhd-list">
+            <li>McLean Ave — local shops &amp; restaurants</li>
+            <li>Cross County Shopping Center</li>
+            <li>Central Park Ave shopping corridor</li>
+            <li>Getty Square — downtown Yonkers</li>
+          </ul>
+        </div>
+        <div class="nbhd-card fade-in">
+          <span class="nbhd-icon">🏥</span>
+          <h4>Services &amp; Schools</h4>
+          <ul class="nbhd-list">
+            <li>Saint Joseph Medical Center</li>
+            <li>Montefiore Medical Center</li>
+            <li>Yonkers Public Library</li>
+            <li>P.S. 21 — local elementary school</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- RESOURCES -->
   <div id="resources">
@@ -1635,7 +1818,7 @@
         <div class="contact-item fade-in">
           <span class="cicon">📍</span>
           <h4>Building Address</h4>
-          <p>555 McLean Ave<br>Yonkers, NY 10705</p>
+          <p>555 McLean Ave<br>Yonkers, NY 10705 <button class="copy-btn" onclick="copyAddress(this)" aria-label="Copy address" title="Copy to clipboard">⎘</button></p>
         </div>
         <div class="contact-item fade-in">
           <span class="cicon">🏢</span>
@@ -1671,6 +1854,9 @@
       <div class="section-eyebrow">Help</div>
       <h2 class="section-title">Frequently Asked<br>Questions</h2>
       <p class="section-sub">Quick answers to the questions we hear most from shareholders and residents.</p>
+
+      <input type="search" class="faq-search" id="faq-search" placeholder="Search questions…" oninput="filterFAQ(this.value)" aria-label="Search frequently asked questions" />
+      <p class="faq-no-results" id="faq-no-results">No matching questions — try a different word.</p>
 
       <div class="faq-list">
 
@@ -1771,6 +1957,7 @@
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
+        <a href="#neighborhood">Neighborhood</a>
         <a href="#resources">Resources</a>
         <a href="#meetings">Meetings</a>
         <a href="#updates">Updates</a>
@@ -1797,7 +1984,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#about, #neighborhood, #resources, #meetings, #updates, #newsletter, #waitlist, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1812,27 +1999,31 @@
 
     // Election countdown + post-election cleanup
     function electionCountdown() {
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const electionDay = new Date(2026, 5, 8); // June 8 in local time (month is 0-indexed)
-      const diffDays = Math.round((electionDay - today) / (1000 * 60 * 60 * 24));
+      const now          = new Date();
+      const electionStart = new Date(2026, 5, 8, 19, 0, 0); // June 8 7:00 PM local
+      const electionEnd   = new Date(2026, 5, 8, 21, 0, 0); // June 8 9:00 PM local
+      const diff = electionStart - now;
 
       let label = '';
-      if (diffDays > 1)        label = diffDays + ' days away';
-      else if (diffDays === 1) label = 'Tomorrow!';
-      else if (diffDays === 0) label = 'Today!';
+      if (diff > 0) {
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        label = d > 0 ? `${d}d ${h}h ${m}m ${s}s` : h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`;
+      } else if (now <= electionEnd) {
+        label = 'Happening Now!';
+      }
 
       document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
         el.textContent = label;
         el.style.display = label ? '' : 'none';
       });
 
-      if (diffDays < 0) {
-        // Hide banner
+      if (now > electionEnd) {
         const banner = document.getElementById('election-banner');
         if (banner) banner.remove();
-        // Remove only "Coming Up" badges
         document.querySelectorAll('.badge').forEach(b => { if (b.textContent.includes('Coming Up')) b.remove(); });
-        // Update quick action tile to reflect no scheduled meeting
         const qaStrong = document.querySelector('.qa-tile .qa-text strong');
         if (qaStrong && qaStrong.textContent.includes('Jun 8')) {
           qaStrong.textContent = 'Next Meeting TBD';
@@ -1842,6 +2033,7 @@
       }
     }
     electionCountdown();
+    setInterval(electionCountdown, 1000);
 
     // Dismissible banner
     window.dismissBanner = function() {
@@ -1940,7 +2132,76 @@
         btn.setAttribute('aria-expanded', 'true');
       }
     };
+
+    // FAQ search filter
+    window.filterFAQ = function(val) {
+      const q = val.toLowerCase().trim();
+      let any = false;
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const match = !q || item.querySelector('.faq-question').textContent.toLowerCase().includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) any = true;
+      });
+      document.getElementById('faq-no-results').style.display = any || !q ? 'none' : 'block';
+    };
+
+    // Toast notification
+    const toastEl = document.getElementById('toast');
+    let toastTimer;
+    window.showToast = function(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3200);
+    };
+
+    // Back to top
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backToTopBtn.classList.toggle('visible', window.scrollY > 450);
+    }, { passive: true });
+
+    // Copy address
+    window.copyAddress = function(btn) {
+      navigator.clipboard.writeText('555 McLean Ave, Yonkers, NY 10705').then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓';
+        showToast('Address copied to clipboard');
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      });
+    };
+
+    // Waitlist slot stagger animation
+    const wlDisplay = document.getElementById('wl-counts-display');
+    if (wlDisplay) {
+      const wlObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.querySelectorAll('.wl-slot').forEach((slot, i) => {
+            slot.style.opacity = '0';
+            slot.style.transform = 'translateX(-12px)';
+            setTimeout(() => {
+              slot.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              slot.style.opacity = '';
+              slot.style.transform = '';
+              const posEl = slot.querySelector('.wl-slot-pos');
+              if (posEl) {
+                const target = parseInt(posEl.textContent.replace('#', ''));
+                let cur = 0;
+                const step = () => { cur++; posEl.textContent = '#' + cur; if (cur < target) setTimeout(step, 55); };
+                step();
+              }
+            }, i * 90 + 80);
+          });
+          wlObserver.unobserve(e.target);
+        });
+      }, { threshold: 0.15 });
+      wlObserver.observe(wlDisplay);
+    }
   </script>
+
+  <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 </body>
 </html>

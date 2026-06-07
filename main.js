@@ -63,6 +63,7 @@ export function submitWaitlist(type) {
 
   document.getElementById(type + '-form').style.display = 'none';
   document.getElementById(type + '-success').style.display = 'block';
+  if (window.showToast) window.showToast("You're on the list! ✓");
 }
 
 export function submitNewsletter() {
@@ -89,6 +90,7 @@ export function submitNewsletter() {
 
   document.getElementById('nl-form').style.display = 'none';
   document.getElementById('nl-success').style.display = 'block';
+  if (window.showToast) window.showToast("You're signed up! ✓");
 }
 
 export function init() {
