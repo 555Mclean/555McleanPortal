@@ -1193,8 +1193,8 @@
       align-items: center;
       gap: 0.4rem;
       margin-top: 0.9rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-ui);
+      background: var(--amber-glow);
+      border: 1.5px solid rgba(192,90,53,0.45);
       border-radius: 6px;
       color: var(--amber);
       cursor: pointer;
@@ -1458,26 +1458,26 @@
     <div class="inner">
       <div class="section-eyebrow">Where We Live</div>
       <h2 class="section-title">The Neighborhood</h2>
-      <p class="section-sub">555 McLean Ave sits in a vibrant Yonkers community with easy access to transit, parks, shopping, and services.</p>
+      <p class="section-sub">Everything below is within roughly 3 miles — walkable or a short bus ride from 555 McLean Ave.</p>
       <div class="neighborhood-grid">
         <div class="nbhd-card fade-in">
           <span class="nbhd-icon">🚌</span>
           <h4>Getting Around</h4>
           <ul class="nbhd-list">
             <li>Bee-Line Bus — multiple routes on McLean Ave</li>
-            <li>Metro-North — Yonkers Station (Hudson Line)</li>
+            <li>Express bus service to Manhattan (~45 min)</li>
             <li>I-87 / Major Deegan Expressway nearby</li>
-            <li>NYC accessible via public transit</li>
+            <li>Citi Bike &amp; local bike lanes</li>
           </ul>
         </div>
         <div class="nbhd-card fade-in">
           <span class="nbhd-icon">🌳</span>
-          <h4>Parks & Recreation</h4>
+          <h4>Parks &amp; Recreation</h4>
           <ul class="nbhd-list">
-            <li>Tibbetts Brook Park — trails &amp; picnic areas</li>
-            <li>Van Cortlandt Park — golf &amp; nature trails</li>
-            <li>Untermyer Park &amp; Gardens</li>
-            <li>Hudson Riverfront parks</li>
+            <li>Tibbetts Brook Park — trails &amp; picnic areas (~1 mi)</li>
+            <li>Van Cortlandt Park — golf &amp; nature trails (~1.5 mi)</li>
+            <li>Bronx River Parkway greenway (~1 mi)</li>
+            <li>Neighborhood parks along McLean Ave</li>
           </ul>
         </div>
         <div class="nbhd-card fade-in">
@@ -1485,19 +1485,19 @@
           <h4>Shopping &amp; Dining</h4>
           <ul class="nbhd-list">
             <li>McLean Ave — local shops &amp; restaurants</li>
-            <li>Cross County Shopping Center</li>
-            <li>Central Park Ave shopping corridor</li>
-            <li>Getty Square — downtown Yonkers</li>
+            <li>Cross County Shopping Center (~2 mi)</li>
+            <li>Central Park Ave shopping corridor (~1.5 mi)</li>
+            <li>Local supermarkets &amp; specialty grocers</li>
           </ul>
         </div>
         <div class="nbhd-card fade-in">
           <span class="nbhd-icon">🏥</span>
           <h4>Services &amp; Schools</h4>
           <ul class="nbhd-list">
-            <li>Saint Joseph Medical Center</li>
-            <li>Montefiore Medical Center</li>
-            <li>Yonkers Public Library</li>
+            <li>Saint Joseph Medical Center (~1.5 mi)</li>
+            <li>Yonkers Public Library — Crestwood branch (~1.5 mi)</li>
             <li>P.S. 21 — local elementary school</li>
+            <li>Local pharmacies &amp; urgent care on McLean Ave</li>
           </ul>
         </div>
       </div>
@@ -2015,10 +2015,11 @@
         label = 'Happening Now!';
       }
 
-      document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
-        el.textContent = label;
-        el.style.display = label ? '' : 'none';
-      });
+      const countdownEl = document.getElementById('banner-countdown');
+      if (countdownEl) {
+        countdownEl.textContent = label;
+        countdownEl.style.display = label ? '' : 'none';
+      }
 
       if (now > electionEnd) {
         clearInterval(countdownInterval);
