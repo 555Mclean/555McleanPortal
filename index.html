@@ -1297,33 +1297,6 @@
     }
     .copy-btn:hover { color: var(--blue); background: var(--blue-glow); }
 
-    /* ── NEIGHBORHOOD ── */
-    #neighborhood {
-      background: var(--bg-2);
-      max-width: 100%;
-      padding: 5.5rem 2rem;
-      border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-    }
-    #neighborhood .inner { max-width: 980px; margin: 0 auto; }
-    .neighborhood-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--border-light);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .nbhd-card { background: var(--bg-card); padding: 1.8rem; transition: background 0.2s; }
-    .nbhd-card:hover { background: var(--bg-card-hover); }
-    .nbhd-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
-    .nbhd-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.75rem; }
-    .nbhd-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
-    .nbhd-list li { font-size: 0.8rem; color: var(--text-secondary); font-weight: 300; line-height: 1.5; padding-left: 1rem; position: relative; }
-    .nbhd-list li::before { content: '·'; position: absolute; left: 0; color: var(--amber); font-weight: 700; }
-
     /* ── PRINT ── */
     @media print {
       #progress-bar, header, .election-banner, .notice-bar,
@@ -1362,7 +1335,6 @@
     </a>
     <nav id="main-nav">
       <a href="#about">About</a>
-      <a href="#neighborhood">Neighborhood</a>
       <a href="#resources">Resources</a>
       <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
@@ -1452,57 +1424,6 @@
     </div>
 
   </section>
-
-  <!-- NEIGHBORHOOD -->
-  <div id="neighborhood">
-    <div class="inner">
-      <div class="section-eyebrow">Where We Live</div>
-      <h2 class="section-title">The Neighborhood</h2>
-      <p class="section-sub">Everything below is within roughly 3 miles — walkable or a short bus ride from 555 McLean Ave.</p>
-      <div class="neighborhood-grid">
-        <div class="nbhd-card fade-in">
-          <span class="nbhd-icon">🚌</span>
-          <h4>Getting Around</h4>
-          <ul class="nbhd-list">
-            <li>Bee-Line Bus — multiple routes on McLean Ave</li>
-            <li>Express bus service to Manhattan (~45 min)</li>
-            <li>I-87 / Major Deegan Expressway nearby</li>
-            <li>Citi Bike &amp; local bike lanes</li>
-          </ul>
-        </div>
-        <div class="nbhd-card fade-in">
-          <span class="nbhd-icon">🌳</span>
-          <h4>Parks &amp; Recreation</h4>
-          <ul class="nbhd-list">
-            <li>Tibbetts Brook Park — trails &amp; picnic areas (~1 mi)</li>
-            <li>Van Cortlandt Park — golf &amp; nature trails (~1.5 mi)</li>
-            <li>Bronx River Parkway greenway (~1 mi)</li>
-            <li>Neighborhood parks along McLean Ave</li>
-          </ul>
-        </div>
-        <div class="nbhd-card fade-in">
-          <span class="nbhd-icon">🛒</span>
-          <h4>Shopping &amp; Dining</h4>
-          <ul class="nbhd-list">
-            <li>McLean Ave — local shops &amp; restaurants</li>
-            <li>Cross County Shopping Center (~2 mi)</li>
-            <li>Central Park Ave shopping corridor (~1.5 mi)</li>
-            <li>Local supermarkets &amp; specialty grocers</li>
-          </ul>
-        </div>
-        <div class="nbhd-card fade-in">
-          <span class="nbhd-icon">🏥</span>
-          <h4>Services &amp; Schools</h4>
-          <ul class="nbhd-list">
-            <li>Saint Joseph Medical Center (~1.5 mi)</li>
-            <li>Yonkers Public Library — Crestwood branch (~1.5 mi)</li>
-            <li>P.S. 21 — local elementary school</li>
-            <li>Local pharmacies &amp; urgent care on McLean Ave</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- RESOURCES -->
   <div id="resources">
@@ -1957,7 +1878,6 @@
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
-        <a href="#neighborhood">Neighborhood</a>
         <a href="#resources">Resources</a>
         <a href="#meetings">Meetings</a>
         <a href="#updates">Updates</a>
@@ -1984,7 +1904,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #neighborhood, #resources, #meetings, #updates, #newsletter, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
