@@ -574,6 +574,7 @@
     }
 
     /* ── UPDATES ── */
+    #updates { border-top: 1px solid var(--border-light); }
     .update-grid {
       display: grid;
       gap: 1px;
@@ -1382,10 +1383,10 @@
     </a>
     <nav id="main-nav">
       <a href="#about">About</a>
+      <a href="#updates">Updates</a>
+      <a href="#meetings">Meetings</a>
       <a href="#resources">Resources</a>
       <a href="#documents">Documents</a>
-      <a href="#meetings">Meetings</a>
-      <a href="#updates">Updates</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
       <a href="#newsletter">Sign Up</a>
@@ -1479,6 +1480,108 @@
     </div>
 
   </section>
+
+  <!-- UPDATES -->
+  <section id="updates">
+    <div class="section-eyebrow">News &amp; Notices</div>
+    <h2 class="section-title">Building Updates</h2>
+    <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
+
+    <div class="update-filters">
+      <!-- FILTERS-START -->
+      <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
+      <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
+      <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
+      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General Notice</button>
+      <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
+      <!-- FILTERS-END -->
+    </div>
+
+    <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
+    <div class="update-grid">
+      <!-- UPDATES-LIST-START -->
+      <div class="update-card fade-in" data-category="election">
+        <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
+        <h4>Annual Shareholder Election — June 8, 2026</h4>
+        <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="general">
+        <div class="update-meta">June 2026 · General Notice</div>
+        <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
+        <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="maintenance">
+        <div class="update-meta">June 2026 · Maintenance</div>
+        <h4>Spring Building Inspection</h4>
+        <p>Our annual spring inspection of common areas, roof, and mechanical systems is underway. Access to certain areas may be temporarily restricted. Thank you for your patience.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="reminder">
+        <div class="update-meta">June 2026 · Reminder</div>
+        <h4>Maintenance Fee Payment Reminder</h4>
+        <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
+        <span class="arrow">›</span>
+      </div>
+      <!-- UPDATES-LIST-END -->
+    </div>
+  </section>
+
+  <!-- MEETINGS -->
+  <div id="meetings">
+    <div class="inner">
+      <div class="section-eyebrow">Upcoming</div>
+      <h2 class="section-title">Board Meetings</h2>
+      <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
+
+      <!-- ── BOARD: edit data/meetings.json to add/update meeting entries ── -->
+      <ul class="meeting-list">
+      <!-- MEETINGS-LIST-START -->
+        <li class="meeting-item fade-in">
+          <div class="meeting-date next">
+            <div class="day">8</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
+            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong></p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Jul</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Aug</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Oct</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Annual Shareholders Meeting</h4>
+            <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
+          </div>
+        </li>
+      <!-- MEETINGS-LIST-END -->
+      </ul>
+    </div>
+  </div>
 
   <!-- RESOURCES -->
   <div id="resources">
@@ -1589,108 +1692,6 @@
       </div>
     </div>
   </div>
-
-  <!-- MEETINGS -->
-  <div id="meetings">
-    <div class="inner">
-      <div class="section-eyebrow">Upcoming</div>
-      <h2 class="section-title">Board Meetings</h2>
-      <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
-
-      <!-- ── BOARD: edit data/meetings.json to add/update meeting entries ── -->
-      <ul class="meeting-list">
-      <!-- MEETINGS-LIST-START -->
-        <li class="meeting-item fade-in">
-          <div class="meeting-date next">
-            <div class="day">8</div>
-            <div class="month">Jun</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
-            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong></p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Jul</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Monthly Board Meeting</h4>
-            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Aug</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Monthly Board Meeting</h4>
-            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Oct</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Annual Shareholders Meeting</h4>
-            <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
-          </div>
-        </li>
-      <!-- MEETINGS-LIST-END -->
-      </ul>
-    </div>
-  </div>
-
-  <!-- UPDATES -->
-  <section id="updates">
-    <div class="section-eyebrow">News &amp; Notices</div>
-    <h2 class="section-title">Building Updates</h2>
-    <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
-
-    <div class="update-filters">
-      <!-- FILTERS-START -->
-      <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
-      <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
-      <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
-      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General Notice</button>
-      <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
-      <!-- FILTERS-END -->
-    </div>
-
-    <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
-    <div class="update-grid">
-      <!-- UPDATES-LIST-START -->
-      <div class="update-card fade-in" data-category="election">
-        <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
-        <h4>Annual Shareholder Election — June 8, 2026</h4>
-        <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in" data-category="general">
-        <div class="update-meta">June 2026 · General Notice</div>
-        <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
-        <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in" data-category="maintenance">
-        <div class="update-meta">June 2026 · Maintenance</div>
-        <h4>Spring Building Inspection</h4>
-        <p>Our annual spring inspection of common areas, roof, and mechanical systems is underway. Access to certain areas may be temporarily restricted. Thank you for your patience.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in" data-category="reminder">
-        <div class="update-meta">June 2026 · Reminder</div>
-        <h4>Maintenance Fee Payment Reminder</h4>
-        <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
-        <span class="arrow">›</span>
-      </div>
-      <!-- UPDATES-LIST-END -->
-    </div>
-  </section>
 
   <!-- WAITING LISTS -->
   <div id="waitlist">
@@ -1995,10 +1996,10 @@
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
+        <a href="#updates">Updates</a>
+        <a href="#meetings">Meetings</a>
         <a href="#resources">Resources</a>
         <a href="#documents">Documents</a>
-        <a href="#meetings">Meetings</a>
-        <a href="#updates">Updates</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
         <a href="#newsletter">Sign Up</a>
@@ -2022,7 +2023,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #resources, #documents, #meetings, #updates, #waitlist, #contact, #newsletter, #faq');
+    const sections = document.querySelectorAll('#about, #updates, #meetings, #resources, #documents, #waitlist, #contact, #newsletter, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
