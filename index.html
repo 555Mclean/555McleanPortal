@@ -2021,6 +2021,7 @@
       });
 
       if (now > electionEnd) {
+        clearInterval(countdownInterval);
         const banner = document.getElementById('election-banner');
         if (banner) banner.remove();
         document.querySelectorAll('.badge').forEach(b => { if (b.textContent.includes('Coming Up')) b.remove(); });
@@ -2033,7 +2034,7 @@
       }
     }
     electionCountdown();
-    setInterval(electionCountdown, 1000);
+    let countdownInterval = setInterval(electionCountdown, 1000);
 
     // Dismissible banner
     window.dismissBanner = function() {
@@ -2157,18 +2158,21 @@
 
     // Back to top
     const backToTopBtn = document.getElementById('back-to-top');
-    window.addEventListener('scroll', () => {
-      backToTopBtn.classList.toggle('visible', window.scrollY > 450);
-    }, { passive: true });
+    if (backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        backToTopBtn.classList.toggle('visible', window.scrollY > 450);
+      }, { passive: true });
+    }
 
     // Copy address
     window.copyAddress = function(btn) {
+      if (!navigator.clipboard) { window.showToast('Use Ctrl+C to copy'); return; }
       navigator.clipboard.writeText('555 McLean Ave, Yonkers, NY 10705').then(() => {
         const orig = btn.textContent;
         btn.textContent = '✓';
-        showToast('Address copied to clipboard');
+        window.showToast('Address copied to clipboard');
         setTimeout(() => { btn.textContent = orig; }, 2000);
-      });
+      }).catch(() => window.showToast('Could not copy — try selecting the text manually'));
     };
 
     // Waitlist slot stagger animation
