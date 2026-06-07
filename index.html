@@ -495,6 +495,58 @@
       border-radius: 4px;
       align-self: flex-start;
     }
+    .doc-tier-heading {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .doc-tier-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+    .doc-drive-card {
+      background: var(--amber-glow);
+      border: 1.5px solid rgba(192,90,53,0.30);
+      border-radius: 16px;
+      padding: 1.8rem 2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      box-shadow: var(--shadow);
+    }
+    .doc-drive-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .doc-drive-body { flex: 1; }
+    .doc-drive-body h4 { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .doc-drive-body > p { font-size: 0.82rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; margin-bottom: 1rem; }
+    .doc-drive-contents { list-style: none; padding: 0; margin: 0 0 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
+    .doc-drive-contents li { font-size: 0.78rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem; }
+    .doc-drive-contents li::before { content: '→'; color: var(--amber); font-weight: 700; }
+    .doc-drive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--amber);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .doc-drive-btn:hover { opacity: 0.85; }
+    .doc-drive-note { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 0.6rem; }
 
     /* ── MEETINGS ── */
     #meetings {
@@ -1642,39 +1694,17 @@
     <div class="inner">
       <div class="section-eyebrow">Resident Library</div>
       <h2 class="section-title">Building<br>Documents</h2>
-      <p class="section-sub">Official co-op documents for shareholders — house rules, applications, and policies. PDFs will be posted here as they become available.</p>
+      <p class="section-sub">Official co-op documents for shareholders — house rules, applications, and policies.</p>
 
       <p class="site-notice">Documents are being compiled and will be uploaded soon. Check back for updates.</p>
 
+      <!-- PUBLIC DOCUMENTS — downloadable PDFs committed to /docs/ folder -->
+      <p class="doc-tier-heading">📂 Public Documents</p>
       <div class="doc-grid">
         <div class="doc-card fade-in">
           <span class="doc-card-icon">📋</span>
           <h4>House Rules</h4>
           <p>The building's governing house rules covering noise, moves, guests, common areas, and day-to-day living expectations.</p>
-          <span class="doc-coming">⏳ Coming Soon</span>
-        </div>
-        <div class="doc-card fade-in">
-          <span class="doc-card-icon">📜</span>
-          <h4>Proprietary Lease</h4>
-          <p>The standard proprietary lease agreement between the cooperative corporation and each shareholder-tenant.</p>
-          <span class="doc-coming">⏳ Coming Soon</span>
-        </div>
-        <div class="doc-card fade-in">
-          <span class="doc-card-icon">🏛️</span>
-          <h4>Bylaws</h4>
-          <p>The corporation's bylaws governing board elections, shareholder meetings, voting rights, and corporate procedures.</p>
-          <span class="doc-coming">⏳ Coming Soon</span>
-        </div>
-        <div class="doc-card fade-in">
-          <span class="doc-card-icon">🔄</span>
-          <h4>Sublet Application</h4>
-          <p>Required application form for shareholders seeking board approval to sublet their apartment. Submit to the board for review.</p>
-          <span class="doc-coming">⏳ Coming Soon</span>
-        </div>
-        <div class="doc-card fade-in">
-          <span class="doc-card-icon">🔨</span>
-          <h4>Alteration Agreement</h4>
-          <p>Required before any renovation or structural work. Outlines insurance requirements, approved contractors, and scope rules.</p>
           <span class="doc-coming">⏳ Coming Soon</span>
         </div>
         <div class="doc-card fade-in">
@@ -1688,6 +1718,27 @@
           <h4>Insurance Requirements</h4>
           <p>Minimum HO-6 coverage requirements for all shareholders and subtenants, including required additional insured endorsements.</p>
           <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- SHAREHOLDER DOCUMENTS — private Google Drive folder (URL to be updated by board) -->
+      <p class="doc-tier-heading">🔒 Shareholder Documents</p>
+      <div class="doc-drive-card fade-in">
+        <div class="doc-drive-icon">📁</div>
+        <div class="doc-drive-body">
+          <h4>Secure Shareholder Folder</h4>
+          <p>Sensitive co-op documents are kept in a private Google Drive folder. Sign in with your Google account and request access from the board.</p>
+          <ul class="doc-drive-contents">
+            <li>Proprietary Lease</li>
+            <li>Bylaws</li>
+            <li>Sublet Application</li>
+            <li>Alteration Agreement</li>
+          </ul>
+          <!-- TODO: Replace href with the actual shared Google Drive folder URL once created -->
+          <a href="https://drive.google.com" class="doc-drive-btn" target="_blank" rel="noopener noreferrer">
+            Open Google Drive ↗
+          </a>
+          <p class="doc-drive-note">Sign-in required · Access granted by the board</p>
         </div>
       </div>
     </div>
