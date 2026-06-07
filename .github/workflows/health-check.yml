@@ -40,7 +40,6 @@ jobs:
           script: |
             const label = 'stale-content';
 
-            // Create label if it doesn't exist
             try {
               await github.rest.issues.getLabel({
                 owner: context.repo.owner,
@@ -57,7 +56,6 @@ jobs:
               });
             }
 
-            // Only open if no existing open issue with this label
             const existing = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -74,6 +72,72 @@ jobs:
                   'The weekly health check found no upcoming meetings with confirmed dates in `data/meetings.json`.',
                   '',
                   '**Action needed:** Update `data/meetings.json` with the next scheduled meeting date and push to `main`.',
+                ].join('\n'),
+                labels: [label],
+              });
+            }
+
+  placeholder-content:
+    name: Check for Placeholder Contact Info
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check for placeholders
+        id: check
+        run: node scripts/check-placeholders.mjs
+        continue-on-error: true
+      - name: Open issue if placeholders found
+        if: steps.check.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const label = 'needs-update';
+
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+              });
+            } catch {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: 'f9d0c4',
+                description: 'Contact info or content needs updating',
+              });
+            }
+
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: label,
+            });
+
+            if (existing.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Placeholder contact info still in the portal',
+                body: [
+                  'The weekly health check found placeholder values still in `index.html`.',
+                  '',
+                  '**Items to replace:**',
+                  '- `board@example.com` → real board email address',
+                  '- `info@example.com` → managing agent email address',
+                  '- `(914) 555-0000` → real building emergency number',
+                  '- Managing agent name (currently "Name & contact to be confirmed")',
+                  '',
+                  '**Action needed:** Update `index.html` with the real contact details and push to `main`.',
+                  'This issue will close automatically once the placeholders are removed.',
                 ].join('\n'),
                 labels: [label],
               });

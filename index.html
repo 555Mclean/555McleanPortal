@@ -5,8 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>555 McLean Ave — Resident Portal</title>
   <meta name="description" content="Resident portal for 555 McLean Ave Cooperative — building news, board meetings, waiting lists, and community resources. Yonkers, NY.">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#faf7f2">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="555 McLean Ave — Resident Portal">
+  <meta property="og:description" content="Building news, board meetings, waiting lists, and community resources for 555 McLean Ave Cooperative. Yonkers, NY.">
+  <meta property="og:url" content="https://555mclean.github.io/555McleanPortal/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="555 McLean Ave — Resident Portal">
+  <meta name="twitter:description" content="Building news, board meetings, waiting lists, and community resources for 555 McLean Ave Cooperative. Yonkers, NY.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,6 +25,7 @@
       --bg-card-hover: #fdf8f2;
       --border: rgba(140,85,40,0.15);
       --border-light: rgba(140,85,40,0.1);
+      --border-ui: rgba(140,85,40,0.35);
       --text: #1e1208;
       --text-secondary: #6b5038;
       --text-tertiary: #a88860;
@@ -219,7 +227,7 @@
     .btn-ghost {
       background: transparent;
       color: var(--text-secondary);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       padding: 0.7rem 1.6rem;
       border-radius: 980px;
       font-size: 0.875rem;
@@ -230,7 +238,7 @@
       display: inline-block;
       transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
     }
-    .btn-ghost:hover { background: var(--bg-card); color: var(--text); border-color: var(--border); transform: scale(1.02); }
+    .btn-ghost:hover { background: var(--bg-card); color: var(--text); border-color: var(--border-ui); transform: scale(1.02); }
 
     /* ── QUICK ACTIONS ── */
     .quick-actions-wrap {
@@ -244,7 +252,7 @@
       max-width: 980px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     .qa-tile {
@@ -441,6 +449,53 @@
       margin-top: 0.25rem;
     }
 
+    /* ── DOCUMENTS ── */
+    #documents {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #documents .inner { max-width: 980px; margin: 0 auto; }
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 2.5rem;
+    }
+    .doc-card {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .doc-card:hover { background: var(--bg-card-hover); }
+    .doc-card-icon { font-size: 1.4rem; }
+    .doc-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+    .doc-card p { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; flex: 1; }
+    .doc-coming {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      background: var(--bg-2);
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+
     /* ── MEETINGS ── */
     #meetings {
       background: var(--bg);
@@ -455,13 +510,11 @@
     .meeting-item {
       display: flex;
       gap: 1.5rem;
-      align-items: center;
+      align-items: flex-start;
       padding: 1.4rem 0;
       border-bottom: 1px solid var(--border-light);
-      transition: opacity 0.2s;
     }
     .meeting-item:last-child { border-bottom: none; }
-    .meeting-item:hover { opacity: 0.75; }
 
     .meeting-date {
       background: var(--bg-card);
@@ -521,6 +574,7 @@
     }
 
     /* ── UPDATES ── */
+    #updates { border-top: 1px solid var(--border-light); }
     .update-grid {
       display: grid;
       gap: 1px;
@@ -615,7 +669,7 @@
       max-width: 200px;
       padding: 0.55rem 1.2rem;
       border-radius: 980px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       background: transparent;
       color: var(--text-secondary);
       font-size: 0.85rem;
@@ -625,7 +679,7 @@
       letter-spacing: -0.01em;
       transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
-    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border); }
+    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border-ui); }
     .wl-tab-btn:not(.active):hover { color: var(--text); }
 
     .wl-panel {
@@ -665,7 +719,7 @@
     .wl-field input {
       width: 100%;
       background: var(--bg-2);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-ui);
       border-radius: 10px;
       padding: 0.65rem 1rem;
       font-size: 0.875rem;
@@ -675,7 +729,7 @@
       transition: border-color 0.2s;
     }
     .wl-field input::placeholder { color: var(--text-tertiary); }
-    .wl-field input:focus { border-color: var(--blue); }
+    .wl-field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
 
     .wl-submit-row {
       display: flex;
@@ -861,8 +915,8 @@
     footer {
       background: #2a1508;
       padding: 3rem 2rem;
-      border-top: none;
     }
+    [data-theme="dark"] footer { border-top: 1px solid rgba(200,140,60,0.15); }
 
     footer .footer-brand-name { color: #f5e8d8; }
     footer .footer-copy { color: #9a7a58; }
@@ -1018,7 +1072,7 @@
       .quick-actions { grid-template-columns: repeat(2, 1fr); }
       .qa-tile { border-right: none; border-bottom: 1px solid var(--border-light); }
       .qa-tile:nth-child(odd) { border-right: 1px solid var(--border-light); }
-      .qa-tile:nth-last-child(-n+2) { border-bottom: none; }
+      .qa-tile:last-child { border-bottom: none; border-right: none; grid-column: 1 / -1; }
       .update-card .arrow { display: none; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
@@ -1026,9 +1080,289 @@
       .wl-counts { grid-template-columns: 1fr; }
       .wl-field-row { grid-template-columns: 1fr; }
     }
+
+    /* ── SITE NOTICE / BETA ── */
+    .site-notice {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue-glow);
+      border: 1px solid rgba(43,107,158,0.2);
+      border-radius: 8px;
+      color: var(--blue);
+      font-size: 0.82rem;
+      padding: 0.65rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .site-notice::before { content: 'ℹ'; flex-shrink: 0; font-style: normal; }
+    .footer-beta {
+      font-size: 0.72rem;
+      color: #6b5840;
+      margin-top: 0.25rem;
+      opacity: 0.75;
+    }
+
+    /* ── FAQ ── */
+    #faq { background: var(--bg-2); max-width: 100%; margin: 0; padding: 5rem 2rem; border-top: 1px solid var(--border-light); }
+    #faq .inner { max-width: 720px; margin: 0 auto; }
+    .faq-list { margin-top: 2.5rem; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      gap: 1rem;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--amber); }
+    .faq-chevron { flex-shrink: 0; font-size: 1rem; color: var(--amber); transition: transform 0.25s ease; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 400px; }
+    .faq-answer p { padding-bottom: 1.25rem; color: var(--text-secondary); line-height: 1.7; font-size: 0.92rem; }
+
+    /* ── SUGGESTION CALLOUT ── */
+    .suggestion-callout {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      background: var(--amber-glow);
+      border: 1px solid rgba(192,90,53,0.2);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      flex-wrap: wrap;
+    }
+    .suggestion-icon { font-size: 1.75rem; flex-shrink: 0; }
+    .suggestion-body { flex: 1; min-width: 180px; }
+    .suggestion-body h4 { font-size: 0.95rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+    .suggestion-body p { font-size: 0.84rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; }
+
+    /* ── DARK MODE ── */
+    [data-theme="dark"] {
+      --bg: #1c1208;
+      --bg-2: #251a0e;
+      --bg-card: #2e1f10;
+      --bg-card-hover: #3a2815;
+      --border: rgba(200,140,60,0.2);
+      --border-light: rgba(200,140,60,0.12);
+      --border-ui: rgba(200,140,60,0.45);
+      --text: #f0e6d3;
+      --text-secondary: #c4a06a;
+      --text-tertiary: #8a6840;
+      --blue: #5a9fd4;
+      --blue-glow: rgba(90,159,212,0.12);
+      --amber-glow: rgba(192,90,53,0.18);
+      --green-glow: rgba(45,122,82,0.18);
+      --shadow: 0 1px 4px rgba(0,0,0,0.35), 0 6px 20px rgba(0,0,0,0.25);
+    }
+    [data-theme="dark"] header {
+      background: rgba(28,18,8,0.93);
+    }
+    @media (max-width: 680px) {
+      [data-theme="dark"] nav {
+        background: rgba(28,18,8,0.97);
+      }
+    }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0.2rem 0.35rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+      margin-left: 0.5rem;
+    }
+    .theme-toggle:hover { background: var(--bg-2); }
+
+    /* ── NOTICE BAR ── */
+    .notice-bar {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: center;
+    }
+    .notice-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .notice-info    { background: #dbeafe; color: #1e3a5f; }
+    .notice-warning { background: #fef3c7; color: #78350f; }
+    .notice-urgent  { background: #fee2e2; color: #5c0a0a; }
+    [data-theme="dark"] .notice-info    { background: rgba(59,130,246,0.18); color: #93c5fd; }
+    [data-theme="dark"] .notice-warning { background: rgba(217,119,6,0.18);  color: #fbbf24; }
+    [data-theme="dark"] .notice-urgent  { background: rgba(220,38,38,0.18);  color: #fca5a5; }
+    .notice-bar-close {
+      background: none; border: none; cursor: pointer;
+      margin-left: auto; font-size: 1rem; opacity: 0.6; padding: 0 0.25rem;
+    }
+    .notice-bar-close:hover { opacity: 1; }
+
+    /* ── UPDATE FILTERS ── */
+    .update-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-ui);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.3rem 0.9rem;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .filter-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+    /* ── ADD TO CALENDAR BUTTON ── */
+    .cal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.9rem;
+      background: var(--amber-glow);
+      border: 1.5px solid rgba(192,90,53,0.45);
+      border-radius: 6px;
+      color: var(--amber);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.4rem 0.95rem;
+      transition: all 0.2s;
+      letter-spacing: -0.01em;
+    }
+    .cal-btn::before { content: '📅'; font-size: 0.75rem; }
+    .cal-btn:hover { background: var(--amber); border-color: var(--amber); color: #fff; }
+
+    /* ── BADGE PULSE ── */
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(192,90,53,0.45); }
+      60%       { box-shadow: 0 0 0 5px rgba(192,90,53,0); }
+    }
+    .badge { animation: pulse-badge 2.2s ease-in-out infinite; }
+
+    /* ── BACK TO TOP ── */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--amber);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      z-index: 90;
+      box-shadow: 0 4px 16px rgba(192,90,53,0.4);
+      pointer-events: none;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #a8481f; transform: translateY(-3px); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.65rem 1.5rem;
+      border-radius: 980px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 300;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── FAQ SEARCH ── */
+    .faq-search {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ui);
+      border-radius: 10px;
+      padding: 0.7rem 1rem 0.7rem 2.6rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 0.25rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a88860' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 0.85rem center;
+    }
+    .faq-search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+    .faq-search::placeholder { color: var(--text-tertiary); }
+    .faq-no-results { display: none; text-align: center; padding: 2rem; color: var(--text-tertiary); font-size: 0.88rem; }
+
+    /* ── COPY BUTTON ── */
+    .copy-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      margin-left: 0.25rem;
+      transition: color 0.2s, background 0.2s;
+      vertical-align: middle;
+    }
+    .copy-btn:hover { color: var(--blue); background: var(--blue-glow); }
+
+    /* ── PRINT ── */
+    @media print {
+      #progress-bar, header, .election-banner, .notice-bar,
+      .back-to-top, .toast, .hero-cta, .update-filters,
+      .cal-btn, .wl-tabs, .wl-submit-row, .nl-card,
+      .suggestion-callout, .footer-links, .footer-beta,
+      .theme-toggle, .nav-toggle, .faq-search { display: none !important; }
+      body { font-size: 11pt; color: #000 !important; background: #fff !important; }
+      .contact-item a[href^="mailto"]::after,
+      .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
+      .meeting-item, .contact-item, .faq-item { page-break-inside: avoid; }
+      h2 { page-break-after: avoid; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- NOTICE-BAR -->
 
   <div id="progress-bar"></div>
 
@@ -1049,13 +1383,16 @@
     </a>
     <nav id="main-nav">
       <a href="#about">About</a>
-      <a href="#resources">Resources</a>
-      <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
-      <a href="#newsletter">Sign Up</a>
+      <a href="#meetings">Meetings</a>
+      <a href="#resources">Resources</a>
+      <a href="#documents">Documents</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
+      <a href="#newsletter">Sign Up</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" onclick="toggleNav()">☰</button>
   </header>
 
@@ -1103,6 +1440,13 @@
           <strong>(914) 555-0000</strong>
         </div>
       </a>
+      <a href="https://www.clickpay.com/Home.html" class="qa-tile" target="_blank" rel="noopener noreferrer">
+        <div class="qa-icon green">💳</div>
+        <div class="qa-text">
+          <small>Pay Maintenance</small>
+          <strong>ClickPay Portal</strong>
+        </div>
+      </a>
     </div>
   </div>
 
@@ -1137,6 +1481,108 @@
 
   </section>
 
+  <!-- UPDATES -->
+  <section id="updates">
+    <div class="section-eyebrow">News &amp; Notices</div>
+    <h2 class="section-title">Building Updates</h2>
+    <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
+
+    <div class="update-filters">
+      <!-- FILTERS-START -->
+      <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
+      <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
+      <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
+      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General Notice</button>
+      <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
+      <!-- FILTERS-END -->
+    </div>
+
+    <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
+    <div class="update-grid">
+      <!-- UPDATES-LIST-START -->
+      <div class="update-card fade-in" data-category="election">
+        <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
+        <h4>Annual Shareholder Election — June 8, 2026</h4>
+        <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="general">
+        <div class="update-meta">June 2026 · General Notice</div>
+        <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
+        <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="maintenance">
+        <div class="update-meta">June 2026 · Maintenance</div>
+        <h4>Spring Building Inspection</h4>
+        <p>Our annual spring inspection of common areas, roof, and mechanical systems is underway. Access to certain areas may be temporarily restricted. Thank you for your patience.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="reminder">
+        <div class="update-meta">June 2026 · Reminder</div>
+        <h4>Maintenance Fee Payment Reminder</h4>
+        <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
+        <span class="arrow">›</span>
+      </div>
+      <!-- UPDATES-LIST-END -->
+    </div>
+  </section>
+
+  <!-- MEETINGS -->
+  <div id="meetings">
+    <div class="inner">
+      <div class="section-eyebrow">Upcoming</div>
+      <h2 class="section-title">Board Meetings</h2>
+      <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
+
+      <!-- ── BOARD: edit data/meetings.json to add/update meeting entries ── -->
+      <ul class="meeting-list">
+      <!-- MEETINGS-LIST-START -->
+        <li class="meeting-item fade-in">
+          <div class="meeting-date next">
+            <div class="day">8</div>
+            <div class="month">Jun</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
+            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong></p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Jul</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Aug</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Monthly Board Meeting</h4>
+            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
+          </div>
+        </li>
+        <li class="meeting-item fade-in">
+          <div class="meeting-date">
+            <div class="day">TBD</div>
+            <div class="month">Oct</div>
+          </div>
+          <div class="meeting-info">
+            <h4>Annual Shareholders Meeting</h4>
+            <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
+          </div>
+        </li>
+      <!-- MEETINGS-LIST-END -->
+      </ul>
+    </div>
+  </div>
+
   <!-- RESOURCES -->
   <div id="resources">
     <div class="inner">
@@ -1145,6 +1591,12 @@
       <p class="section-sub">Quick access to the documents, contacts, and services that keep our building running smoothly.</p>
 
       <div class="resource-grid">
+        <a href="https://www.clickpay.com/Home.html" class="resource-item fade-in" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">💳</div>
+          <h4>Pay Maintenance Online</h4>
+          <p>Make automatic maintenance payments through the ClickPay portal. Sign in with your resident account to set up autopay or make a one-time payment.</p>
+          <span class="res-link">Open ClickPay →</span>
+        </a>
         <a href="mailto:info@example.com" class="resource-item fade-in">
           <div class="res-icon">🔧</div>
           <h4>Maintenance Request</h4>
@@ -1185,135 +1637,57 @@
     </div>
   </div>
 
-  <!-- MEETINGS -->
-  <div id="meetings">
+  <!-- DOCUMENTS -->
+  <div id="documents">
     <div class="inner">
-      <div class="section-eyebrow">Upcoming</div>
-      <h2 class="section-title">Board Meetings</h2>
-      <p class="section-sub">All shareholders are welcome — and encouraged — to attend. Meeting locations are noted on each event below.</p>
+      <div class="section-eyebrow">Resident Library</div>
+      <h2 class="section-title">Building<br>Documents</h2>
+      <p class="section-sub">Official co-op documents for shareholders — house rules, applications, and policies. PDFs will be posted here as they become available.</p>
 
-      <!-- ── BOARD: edit data/meetings.json to add/update meeting entries ── -->
-      <ul class="meeting-list">
-      <!-- MEETINGS-LIST-START -->
-        <li class="meeting-item fade-in">
-          <div class="meeting-date next">
-            <div class="day">8</div>
-            <div class="month">Jun</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
-            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong> · <span id="meeting-countdown"></span></p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Jul</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Monthly Board Meeting</h4>
-            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Aug</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Monthly Board Meeting</h4>
-            <p>Date &amp; time to be announced · Community Room, 555 McLean Ave</p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
-            <div class="day">TBD</div>
-            <div class="month">Oct</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Annual Shareholders Meeting</h4>
-            <p>Date &amp; time to be announced · All shareholders strongly encouraged to attend</p>
-          </div>
-        </li>
-      <!-- MEETINGS-LIST-END -->
-      </ul>
-    </div>
-  </div>
+      <p class="site-notice">Documents are being compiled and will be uploaded soon. Check back for updates.</p>
 
-  <!-- UPDATES -->
-  <section id="updates">
-    <div class="section-eyebrow">News &amp; Notices</div>
-    <h2 class="section-title">Building Updates</h2>
-    <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
-
-    <div class="update-grid">
-      <div class="update-card fade-in">
-        <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
-        <h4>Annual Shareholder Election — June 8, 2026</h4>
-        <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in">
-        <div class="update-meta">June 2026 · General Notice</div>
-        <h4>Welcome to the 555 McLean Ave Resident Portal</h4>
-        <p>This website is your central resource for building news, meeting schedules, and community announcements. Bookmark this page and check back regularly for updates.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in">
-        <div class="update-meta">June 2026 · Maintenance</div>
-        <h4>Spring Building Inspection</h4>
-        <p>Our annual spring inspection of common areas, roof, and mechanical systems is underway. Access to certain areas may be temporarily restricted. Thank you for your patience.</p>
-        <span class="arrow">›</span>
-      </div>
-      <div class="update-card fade-in">
-        <div class="update-meta">June 2026 · Reminder</div>
-        <h4>Maintenance Fee Payment Reminder</h4>
-        <p>Monthly maintenance fees are due on the 1st of each month. Please ensure payments are submitted on time to avoid late charges. Contact the managing agent with any questions.</p>
-        <span class="arrow">›</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWSLETTER SIGNUP -->
-  <div id="newsletter">
-    <div class="inner">
-      <div class="section-eyebrow">Stay in the Loop</div>
-      <h2 class="section-title">Never Miss<br>an Update</h2>
-      <p class="section-sub">Sign up to receive building news, board meeting reminders, and community announcements directly to your inbox.</p>
-
-      <div class="nl-card fade-in">
-        <div id="nl-form">
-          <p class="wl-panel-desc">Enter your details below. The board will add you to the building communications list — no spam, just building news.</p>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-name">Full Name</label>
-              <input type="text" id="nl-name" placeholder="Jane Smith" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-unit">Apartment #</label>
-              <input type="text" id="nl-unit" placeholder="4B" />
-            </div>
-          </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-email">Email Address</label>
-              <input type="email" id="nl-email" placeholder="jane@email.com" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-phone">Phone (optional)</label>
-              <input type="tel" id="nl-phone" placeholder="(914) 555-0000" />
-            </div>
-          </div>
-          <div class="wl-submit-row">
-            <span style="font-size:0.78rem;color:var(--text-tertiary);">Used for building communications only.</span>
-            <button class="btn-primary" onclick="submitNewsletter()">Sign Me Up</button>
-          </div>
-          <div class="wl-error" id="nl-error">Please fill in your name, apartment number, and a valid email address.</div>
+      <div class="doc-grid">
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">📋</span>
+          <h4>House Rules</h4>
+          <p>The building's governing house rules covering noise, moves, guests, common areas, and day-to-day living expectations.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
         </div>
-        <div class="wl-success" id="nl-success">
-          <div class="wl-success-icon">✓</div>
-          <h4>You're signed up!</h4>
-          <p>Thanks for signing up. You'll hear from us with<br>building news, meeting dates, and announcements.</p>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">📜</span>
+          <h4>Proprietary Lease</h4>
+          <p>The standard proprietary lease agreement between the cooperative corporation and each shareholder-tenant.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🏛️</span>
+          <h4>Bylaws</h4>
+          <p>The corporation's bylaws governing board elections, shareholder meetings, voting rights, and corporate procedures.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🔄</span>
+          <h4>Sublet Application</h4>
+          <p>Required application form for shareholders seeking board approval to sublet their apartment. Submit to the board for review.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🔨</span>
+          <h4>Alteration Agreement</h4>
+          <p>Required before any renovation or structural work. Outlines insurance requirements, approved contractors, and scope rules.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🚛</span>
+          <h4>Move Policy</h4>
+          <p>Scheduling requirements, permitted hours, deposit amounts, and elevator reservation procedures for move-in and move-out.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🛡️</span>
+          <h4>Insurance Requirements</h4>
+          <p>Minimum HO-6 coverage requirements for all shareholders and subtenants, including required additional insured endorsements.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
         </div>
       </div>
     </div>
@@ -1325,6 +1699,8 @@
       <div class="section-eyebrow">Join the Queue</div>
       <h2 class="section-title">Waiting Lists</h2>
       <p class="section-sub">Submit your information to be added to the parking or storage waiting list. The board will contact you when a spot becomes available.</p>
+
+      <p class="site-notice">This is an example — waitlist data and submission handling will be updated accordingly once the board has reviewed and confirmed the process.</p>
 
       <!-- ── BOARD: edit data/waitlist.json to add/remove apartment numbers ── -->
 
@@ -1430,16 +1806,18 @@
       <h2 class="section-title">We're Here<br>to Help</h2>
       <p class="section-sub">Reach out to the board or managing agent for questions, maintenance requests, or anything else you need.</p>
 
+      <p class="site-notice">This site is an early version — contact details below are temporary placeholders and will be updated soon.</p>
+
       <div class="contact-grid">
         <div class="contact-item fade-in">
           <span class="cicon">📍</span>
           <h4>Building Address</h4>
-          <p>555 McLean Ave<br>Yonkers, NY 10705</p>
+          <p>555 McLean Ave<br>Yonkers, NY 10705 <button class="copy-btn" onclick="copyAddress(this)" aria-label="Copy address" title="Copy to clipboard">⎘</button></p>
         </div>
         <div class="contact-item fade-in">
           <span class="cicon">🏢</span>
           <h4>Managing Agent</h4>
-          <p>Contact info here<br><a href="mailto:info@example.com">info@example.com</a></p>
+          <p>Name &amp; contact to be confirmed<br><a href="mailto:info@example.com">info@example.com</a></p>
         </div>
         <div class="contact-item fade-in">
           <span class="cicon">👥</span>
@@ -1452,8 +1830,158 @@
           <p>Building emergencies:<br><a href="tel:+19145550000" class="emergency">(914) 555-0000</a></p>
         </div>
       </div>
+
+      <div class="suggestion-callout fade-in">
+        <div class="suggestion-icon">💡</div>
+        <div class="suggestion-body">
+          <h4>Help make this portal better</h4>
+          <p>Have a suggestion for the building or this site? The board wants to hear from you — don't hesitate to reach out.</p>
+        </div>
+        <a href="mailto:board@example.com?subject=Portal%20Suggestion%20%E2%80%94%20555%20McLean%20Ave" class="btn-primary" style="flex-shrink:0;font-size:0.82rem;padding:0.6rem 1.3rem;">Share an Idea →</a>
+      </div>
     </div>
   </div>
+
+  <!-- NEWSLETTER SIGNUP -->
+  <div id="newsletter">
+    <div class="inner">
+      <div class="section-eyebrow">Stay in the Loop</div>
+      <h2 class="section-title">Never Miss<br>an Update</h2>
+      <p class="section-sub">Sign up to receive building news, board meeting reminders, and community announcements directly to your inbox.</p>
+
+      <div class="nl-card fade-in">
+        <div id="nl-form">
+          <p class="wl-panel-desc">Enter your details below. The board will add you to the building communications list — no spam, just building news.</p>
+          <div class="wl-field-row">
+            <div class="wl-field">
+              <label for="nl-name">Full Name</label>
+              <input type="text" id="nl-name" placeholder="Jane Smith" />
+            </div>
+            <div class="wl-field">
+              <label for="nl-unit">Apartment #</label>
+              <input type="text" id="nl-unit" placeholder="4B" />
+            </div>
+          </div>
+          <div class="wl-field-row">
+            <div class="wl-field">
+              <label for="nl-email">Email Address</label>
+              <input type="email" id="nl-email" placeholder="jane@email.com" />
+            </div>
+            <div class="wl-field">
+              <label for="nl-phone">Phone (optional)</label>
+              <input type="tel" id="nl-phone" placeholder="(914) 555-0000" />
+            </div>
+          </div>
+          <div class="wl-submit-row">
+            <span style="font-size:0.78rem;color:var(--text-tertiary);">Used for building communications only.</span>
+            <button class="btn-primary" onclick="submitNewsletter()">Sign Me Up</button>
+          </div>
+          <div class="wl-error" id="nl-error">Please fill in your name, apartment number, and a valid email address.</div>
+        </div>
+        <div class="wl-success" id="nl-success">
+          <div class="wl-success-icon">✓</div>
+          <h4>You're signed up!</h4>
+          <p>Thanks for signing up. You'll hear from us with<br>building news, meeting dates, and announcements.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="inner">
+      <div class="section-eyebrow">Help</div>
+      <h2 class="section-title">Frequently Asked<br>Questions</h2>
+      <p class="section-sub">Quick answers to the questions we hear most from shareholders and residents.</p>
+
+      <input type="search" class="faq-search" id="faq-search" placeholder="Search questions…" oninput="filterFAQ(this.value)" aria-label="Search frequently asked questions" />
+      <p class="faq-no-results" id="faq-no-results">No matching questions — try a different word.</p>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-1">
+            When are maintenance fees due?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-1">
+            <p>Monthly maintenance fees are due on the 1st of each month. Payments received after the 10th may be subject to late charges. Contact the managing agent with any billing questions.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-2">
+            How do I submit a maintenance request?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-2">
+            <p>Use the Maintenance Request link in the Resources section to email the managing agent. Please include your apartment number and a clear description of the issue. For building emergencies, use the emergency contact in the Contact section.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-3">
+            How do I get on the parking or storage waiting list?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-3">
+            <p>Scroll to the Waiting Lists section on this page and complete the form for parking or storage. The board will contact you when a spot becomes available. Current wait times vary — submit early.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-4">
+            When are board meetings held?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-4">
+            <p>Monthly board meetings are generally held on the second Tuesday of each month in the Community Room. Confirmed dates are posted in the Meetings section above. All shareholders are welcome and encouraged to attend.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-5">
+            What are the rules for moving in or out?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-5">
+            <p>All moves must be scheduled in advance with building management. Moves are permitted weekdays 9am–5pm only. A refundable move-in/move-out deposit is required. Contact the managing agent to coordinate and obtain the building's move policy.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-6">
+            Can I sublet my apartment?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-6">
+            <p>Subletting is permitted subject to board approval. You must submit an application, and the subtenant is subject to the same house rules as shareholders. Contact the board for the current subletting policy and application process.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-7">
+            How do I vote in the annual shareholder election?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-7">
+            <p>All shareholders in good standing are eligible to vote. Ballots and candidate information are distributed prior to the annual meeting. You may vote in person at the meeting or by proxy — contact the board for proxy voting forms.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-8">
+            How do I reach the board?
+            <span class="faq-chevron">▾</span>
+          </button>
+          <div class="faq-answer" id="faq-a-8">
+            <p>Use the contact form at the bottom of this page or email the board directly. For non-urgent matters, allow up to 5 business days for a response. Building emergencies should be reported to the emergency contact number in the Contact section.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer>
@@ -1464,15 +1992,18 @@
           <span class="footer-brand-name">555 McLean Ave Cooperative</span>
         </div>
         <p class="footer-copy">Yonkers, New York · Resident-Owned Cooperative · Copyright © 2026</p>
+        <p class="footer-beta">Early version · Contact info will be updated soon.</p>
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
-        <a href="#resources">Resources</a>
-        <a href="#meetings">Meetings</a>
         <a href="#updates">Updates</a>
-        <a href="#newsletter">Sign Up</a>
+        <a href="#meetings">Meetings</a>
+        <a href="#resources">Resources</a>
+        <a href="#documents">Documents</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
+        <a href="#newsletter">Sign Up</a>
+        <a href="#faq">FAQ</a>
       </div>
     </div>
   </footer>
@@ -1487,12 +2018,12 @@
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
     window.addEventListener('scroll', () => {
-      const total = document.documentElement.scrollHeight - window.innerHeight;
+      const total = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       bar.style.width = (window.scrollY / total * 100) + '%';
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #contact');
+    const sections = document.querySelectorAll('#about, #updates, #meetings, #resources, #documents, #waitlist, #contact, #newsletter, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -1506,29 +2037,35 @@
     sections.forEach(s => navObserver.observe(s));
 
     // Election countdown + post-election cleanup
+    let countdownInterval;
     function electionCountdown() {
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const electionDay = new Date(2026, 5, 8); // June 8 in local time (month is 0-indexed)
-      const diffDays = Math.round((electionDay - today) / (1000 * 60 * 60 * 24));
+      const now          = new Date();
+      const electionStart = new Date(2026, 5, 8, 19, 0, 0); // June 8 7:00 PM local
+      const electionEnd   = new Date(2026, 5, 8, 21, 0, 0); // June 8 9:00 PM local
+      const diff = electionStart - now;
 
       let label = '';
-      if (diffDays > 1)        label = diffDays + ' days away';
-      else if (diffDays === 1) label = 'Tomorrow!';
-      else if (diffDays === 0) label = 'Today!';
+      if (diff > 0) {
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        label = d > 0 ? `${d}d ${h}h ${m}m ${s}s` : h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`;
+      } else if (now <= electionEnd) {
+        label = 'Happening Now!';
+      }
 
-      document.querySelectorAll('#banner-countdown, #meeting-countdown').forEach(el => {
-        if (!el) return;
-        el.textContent = label;
-        el.style.display = label ? '' : 'none';
-      });
+      const countdownEl = document.getElementById('banner-countdown');
+      if (countdownEl) {
+        countdownEl.textContent = label;
+        countdownEl.style.display = label ? '' : 'none';
+      }
 
-      if (diffDays < 0) {
-        // Hide banner
+      if (now > electionEnd) {
+        clearInterval(countdownInterval);
         const banner = document.getElementById('election-banner');
         if (banner) banner.remove();
-        // Remove all "Coming Up" badges
-        document.querySelectorAll('.badge').forEach(b => b.remove());
-        // Update quick action tile to reflect no scheduled meeting
+        document.querySelectorAll('.badge').forEach(b => { if (b.textContent.includes('Coming Up')) b.remove(); });
         const qaStrong = document.querySelector('.qa-tile .qa-text strong');
         if (qaStrong && qaStrong.textContent.includes('Jun 8')) {
           qaStrong.textContent = 'Next Meeting TBD';
@@ -1538,6 +2075,7 @@
       }
     }
     electionCountdown();
+    countdownInterval = setInterval(electionCountdown, 1000);
 
     // Dismissible banner
     window.dismissBanner = function() {
@@ -1564,7 +2102,154 @@
         btn.setAttribute('aria-label', 'Open menu');
       });
     });
+
+    // Dark mode — respects OS preference on first visit, persists manual choice
+    const themeBtn = document.getElementById('theme-toggle');
+    function applyTheme(dark) {
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      themeBtn.textContent = dark ? '☀️' : '🌙';
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch {}
+    applyTheme(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+    window.toggleTheme = function() {
+      const dark = document.documentElement.getAttribute('data-theme') !== 'dark';
+      try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
+      applyTheme(dark);
+    };
+
+    // Update category filter
+    window.filterUpdates = function(btn) {
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.update-card').forEach(card => {
+        card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+      });
+    };
+
+    // Add to Calendar (.ics download)
+    window.addToCalendar = function(dateStr, title, location, startTime, endTime) {
+      if (!dateStr) return;
+      const esc = s => s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,');
+      const [y, m, d] = dateStr.split('-');
+      const start = `${y}${m}${d}T${startTime.replace(':', '')}00`;
+      const end   = `${y}${m}${d}T${endTime.replace(':', '')}00`;
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//555 McLean Ave//Resident Portal//EN',
+        'BEGIN:VEVENT',
+        'DTSTART:' + start,
+        'DTEND:'   + end,
+        'SUMMARY:' + esc(title),
+        'LOCATION:' + esc(location),
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'meeting.ics';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+
+    // Notice bar dismiss
+    window.dismissNotice = function() {
+      const bar = document.getElementById('notice-bar');
+      if (bar) bar.remove();
+    };
+
+    // FAQ accordion
+    window.toggleFAQ = function(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    };
+
+    // FAQ search filter
+    window.filterFAQ = function(val) {
+      const q = val.toLowerCase().trim();
+      let any = false;
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const match = !q || item.querySelector('.faq-question').textContent.toLowerCase().includes(q);
+        item.style.display = match ? '' : 'none';
+        if (match) any = true;
+      });
+      document.getElementById('faq-no-results').style.display = any || !q ? 'none' : 'block';
+    };
+
+    // Toast notification
+    const toastEl = document.getElementById('toast');
+    let toastTimer;
+    window.showToast = function(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3200);
+    };
+
+    // Back to top
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        backToTopBtn.classList.toggle('visible', window.scrollY > 450);
+      }, { passive: true });
+    }
+
+    // Copy address
+    window.copyAddress = function(btn) {
+      if (!navigator.clipboard) { window.showToast('Use Ctrl+C to copy'); return; }
+      navigator.clipboard.writeText('555 McLean Ave, Yonkers, NY 10705').then(() => {
+        const orig = btn.textContent;
+        btn.textContent = '✓';
+        window.showToast('Address copied to clipboard');
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      }).catch(() => window.showToast('Could not copy — try selecting the text manually'));
+    };
+
+    // Waitlist slot stagger animation
+    const wlDisplay = document.getElementById('wl-counts-display');
+    if (wlDisplay) {
+      const wlObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.querySelectorAll('.wl-slot').forEach((slot, i) => {
+            slot.style.opacity = '0';
+            slot.style.transform = 'translateX(-12px)';
+            setTimeout(() => {
+              slot.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+              slot.style.opacity = '';
+              slot.style.transform = '';
+              const posEl = slot.querySelector('.wl-slot-pos');
+              if (posEl) {
+                const target = parseInt(posEl.textContent.replace('#', ''));
+                let cur = 0;
+                const step = () => { cur++; posEl.textContent = '#' + cur; if (cur < target) setTimeout(step, 55); };
+                step();
+              }
+            }, i * 90 + 80);
+          });
+          wlObserver.unobserve(e.target);
+        });
+      }, { threshold: 0.15 });
+      wlObserver.observe(wlDisplay);
+    }
   </script>
+
+  <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 </body>
 </html>

@@ -475,11 +475,9 @@ describe('init', () => {
     `;
 
     observeMock = vi.fn();
-    global.IntersectionObserver = vi.fn().mockImplementation(() => ({
-      observe: observeMock,
-      unobserve: vi.fn(),
-      disconnect: vi.fn(),
-    }));
+    global.IntersectionObserver = vi.fn(function() {
+      return { observe: observeMock, unobserve: vi.fn(), disconnect: vi.fn() };
+    });
   });
 
   it('observes every .fade-in element', () => {
@@ -499,7 +497,7 @@ describe('init', () => {
 
   it('adds the visible class to intersecting elements via the observer callback', () => {
     let capturedCallback;
-    global.IntersectionObserver = vi.fn().mockImplementation((cb) => {
+    global.IntersectionObserver = vi.fn(function(cb) {
       capturedCallback = cb;
       return { observe: vi.fn(), unobserve: vi.fn() };
     });
@@ -513,7 +511,7 @@ describe('init', () => {
 
   it('does not add the visible class for non-intersecting elements', () => {
     let capturedCallback;
-    global.IntersectionObserver = vi.fn().mockImplementation((cb) => {
+    global.IntersectionObserver = vi.fn(function(cb) {
       capturedCallback = cb;
       return { observe: vi.fn(), unobserve: vi.fn() };
     });
