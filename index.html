@@ -466,7 +466,6 @@
       border-radius: 20px;
       overflow: hidden;
       box-shadow: var(--shadow);
-      margin-top: 2.5rem;
     }
     .doc-card {
       background: var(--bg-card);
@@ -475,6 +474,8 @@
       flex-direction: column;
       gap: 0.5rem;
       transition: background 0.2s;
+      text-decoration: none;
+      color: inherit;
     }
     .doc-card:hover { background: var(--bg-card-hover); }
     .doc-card-icon { font-size: 1.4rem; }
@@ -2123,6 +2124,10 @@
           const qaSmall = qaStrong.previousElementSibling;
           if (qaSmall) qaSmall.textContent = 'Upcoming';
         }
+        const heroSub = document.querySelector('.hero-sub');
+        if (heroSub && heroSub.innerHTML.includes('June 8')) {
+          heroSub.innerHTML = 'Your resident portal for building news, meetings, and community resources.';
+        }
       }
     }
     electionCountdown();
@@ -2187,11 +2192,17 @@
       const [y, m, d] = dateStr.split('-');
       const start = `${y}${m}${d}T${startTime.replace(':', '')}00`;
       const end   = `${y}${m}${d}T${endTime.replace(':', '')}00`;
+      const pad2  = n => String(n).padStart(2, '0');
+      const now_d = new Date();
+      const dtstamp = `${now_d.getUTCFullYear()}${pad2(now_d.getUTCMonth()+1)}${pad2(now_d.getUTCDate())}T${pad2(now_d.getUTCHours())}${pad2(now_d.getUTCMinutes())}${pad2(now_d.getUTCSeconds())}Z`;
+      const uid = `${dateStr}T${startTime.replace(':','')}@555mclean.github.io`;
       const ics = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
         'PRODID:-//555 McLean Ave//Resident Portal//EN',
         'BEGIN:VEVENT',
+        'DTSTAMP:' + dtstamp,
+        'UID:' + uid,
         'DTSTART:' + start,
         'DTEND:'   + end,
         'SUMMARY:' + esc(title),
