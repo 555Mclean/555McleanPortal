@@ -252,7 +252,7 @@
       max-width: 980px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
     }
 
     .qa-tile {
@@ -447,6 +447,53 @@
       color: var(--blue);
       font-weight: 500;
       margin-top: 0.25rem;
+    }
+
+    /* ── DOCUMENTS ── */
+    #documents {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #documents .inner { max-width: 980px; margin: 0 auto; }
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-top: 2.5rem;
+    }
+    .doc-card {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .doc-card:hover { background: var(--bg-card-hover); }
+    .doc-card-icon { font-size: 1.4rem; }
+    .doc-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+    .doc-card p { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; flex: 1; }
+    .doc-coming {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      padding: 0.3rem 0.6rem;
+      background: var(--bg-2);
+      border-radius: 4px;
+      align-self: flex-start;
     }
 
     /* ── MEETINGS ── */
@@ -1024,7 +1071,7 @@
       .quick-actions { grid-template-columns: repeat(2, 1fr); }
       .qa-tile { border-right: none; border-bottom: 1px solid var(--border-light); }
       .qa-tile:nth-child(odd) { border-right: 1px solid var(--border-light); }
-      .qa-tile:nth-last-child(-n+2) { border-bottom: none; }
+      .qa-tile:last-child { border-bottom: none; border-right: none; grid-column: 1 / -1; }
       .update-card .arrow { display: none; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
@@ -1336,11 +1383,12 @@
     <nav id="main-nav">
       <a href="#about">About</a>
       <a href="#resources">Resources</a>
+      <a href="#documents">Documents</a>
       <a href="#meetings">Meetings</a>
       <a href="#updates">Updates</a>
-      <a href="#newsletter">Sign Up</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
+      <a href="#newsletter">Sign Up</a>
       <a href="#faq">FAQ</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
@@ -1391,6 +1439,13 @@
           <strong>(914) 555-0000</strong>
         </div>
       </a>
+      <a href="https://www.clickpay.com/Home.html" class="qa-tile" target="_blank" rel="noopener noreferrer">
+        <div class="qa-icon green">💳</div>
+        <div class="qa-text">
+          <small>Pay Maintenance</small>
+          <strong>ClickPay Portal</strong>
+        </div>
+      </a>
     </div>
   </div>
 
@@ -1433,6 +1488,12 @@
       <p class="section-sub">Quick access to the documents, contacts, and services that keep our building running smoothly.</p>
 
       <div class="resource-grid">
+        <a href="https://www.clickpay.com/Home.html" class="resource-item fade-in" target="_blank" rel="noopener noreferrer">
+          <div class="res-icon">💳</div>
+          <h4>Pay Maintenance Online</h4>
+          <p>Make automatic maintenance payments through the ClickPay portal. Sign in with your resident account to set up autopay or make a one-time payment.</p>
+          <span class="res-link">Open ClickPay →</span>
+        </a>
         <a href="mailto:info@example.com" class="resource-item fade-in">
           <div class="res-icon">🔧</div>
           <h4>Maintenance Request</h4>
@@ -1469,6 +1530,62 @@
           <p>Join the waitlist for an available storage unit in the building.</p>
           <span class="res-link">Sign up below →</span>
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div id="documents">
+    <div class="inner">
+      <div class="section-eyebrow">Resident Library</div>
+      <h2 class="section-title">Building<br>Documents</h2>
+      <p class="section-sub">Official co-op documents for shareholders — house rules, applications, and policies. PDFs will be posted here as they become available.</p>
+
+      <p class="site-notice">Documents are being compiled and will be uploaded after the June 8 election. Check back soon.</p>
+
+      <div class="doc-grid">
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">📋</span>
+          <h4>House Rules</h4>
+          <p>The building's governing house rules covering noise, moves, guests, common areas, and day-to-day living expectations.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">📜</span>
+          <h4>Proprietary Lease</h4>
+          <p>The standard proprietary lease agreement between the cooperative corporation and each shareholder-tenant.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🏛️</span>
+          <h4>Bylaws</h4>
+          <p>The corporation's bylaws governing board elections, shareholder meetings, voting rights, and corporate procedures.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🔄</span>
+          <h4>Sublet Application</h4>
+          <p>Required application form for shareholders seeking board approval to sublet their apartment. Submit to the board for review.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🔨</span>
+          <h4>Alteration Agreement</h4>
+          <p>Required before any renovation or structural work. Outlines insurance requirements, approved contractors, and scope rules.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🚛</span>
+          <h4>Move Policy</h4>
+          <p>Scheduling requirements, permitted hours, deposit amounts, and elevator reservation procedures for move-in and move-out.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
+        <div class="doc-card fade-in">
+          <span class="doc-card-icon">🛡️</span>
+          <h4>Insurance Requirements</h4>
+          <p>Minimum HO-6 coverage requirements for all shareholders and subtenants, including required additional insured endorsements.</p>
+          <span class="doc-coming">⏳ Coming Soon</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1574,51 +1691,6 @@
       <!-- UPDATES-LIST-END -->
     </div>
   </section>
-
-  <!-- NEWSLETTER SIGNUP -->
-  <div id="newsletter">
-    <div class="inner">
-      <div class="section-eyebrow">Stay in the Loop</div>
-      <h2 class="section-title">Never Miss<br>an Update</h2>
-      <p class="section-sub">Sign up to receive building news, board meeting reminders, and community announcements directly to your inbox.</p>
-
-      <div class="nl-card fade-in">
-        <div id="nl-form">
-          <p class="wl-panel-desc">Enter your details below. The board will add you to the building communications list — no spam, just building news.</p>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-name">Full Name</label>
-              <input type="text" id="nl-name" placeholder="Jane Smith" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-unit">Apartment #</label>
-              <input type="text" id="nl-unit" placeholder="4B" />
-            </div>
-          </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-email">Email Address</label>
-              <input type="email" id="nl-email" placeholder="jane@email.com" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-phone">Phone (optional)</label>
-              <input type="tel" id="nl-phone" placeholder="(914) 555-0000" />
-            </div>
-          </div>
-          <div class="wl-submit-row">
-            <span style="font-size:0.78rem;color:var(--text-tertiary);">Used for building communications only.</span>
-            <button class="btn-primary" onclick="submitNewsletter()">Sign Me Up</button>
-          </div>
-          <div class="wl-error" id="nl-error">Please fill in your name, apartment number, and a valid email address.</div>
-        </div>
-        <div class="wl-success" id="nl-success">
-          <div class="wl-success-icon">✓</div>
-          <h4>You're signed up!</h4>
-          <p>Thanks for signing up. You'll hear from us with<br>building news, meeting dates, and announcements.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- WAITING LISTS -->
   <div id="waitlist">
@@ -1769,6 +1841,51 @@
     </div>
   </div>
 
+  <!-- NEWSLETTER SIGNUP -->
+  <div id="newsletter">
+    <div class="inner">
+      <div class="section-eyebrow">Stay in the Loop</div>
+      <h2 class="section-title">Never Miss<br>an Update</h2>
+      <p class="section-sub">Sign up to receive building news, board meeting reminders, and community announcements directly to your inbox.</p>
+
+      <div class="nl-card fade-in">
+        <div id="nl-form">
+          <p class="wl-panel-desc">Enter your details below. The board will add you to the building communications list — no spam, just building news.</p>
+          <div class="wl-field-row">
+            <div class="wl-field">
+              <label for="nl-name">Full Name</label>
+              <input type="text" id="nl-name" placeholder="Jane Smith" />
+            </div>
+            <div class="wl-field">
+              <label for="nl-unit">Apartment #</label>
+              <input type="text" id="nl-unit" placeholder="4B" />
+            </div>
+          </div>
+          <div class="wl-field-row">
+            <div class="wl-field">
+              <label for="nl-email">Email Address</label>
+              <input type="email" id="nl-email" placeholder="jane@email.com" />
+            </div>
+            <div class="wl-field">
+              <label for="nl-phone">Phone (optional)</label>
+              <input type="tel" id="nl-phone" placeholder="(914) 555-0000" />
+            </div>
+          </div>
+          <div class="wl-submit-row">
+            <span style="font-size:0.78rem;color:var(--text-tertiary);">Used for building communications only.</span>
+            <button class="btn-primary" onclick="submitNewsletter()">Sign Me Up</button>
+          </div>
+          <div class="wl-error" id="nl-error">Please fill in your name, apartment number, and a valid email address.</div>
+        </div>
+        <div class="wl-success" id="nl-success">
+          <div class="wl-success-icon">✓</div>
+          <h4>You're signed up!</h4>
+          <p>Thanks for signing up. You'll hear from us with<br>building news, meeting dates, and announcements.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FAQ -->
   <section id="faq">
     <div class="inner">
@@ -1879,11 +1996,12 @@
       <div class="footer-links">
         <a href="#about">About</a>
         <a href="#resources">Resources</a>
+        <a href="#documents">Documents</a>
         <a href="#meetings">Meetings</a>
         <a href="#updates">Updates</a>
-        <a href="#newsletter">Sign Up</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
+        <a href="#newsletter">Sign Up</a>
         <a href="#faq">FAQ</a>
       </div>
     </div>
@@ -1904,7 +2022,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #resources, #meetings, #updates, #newsletter, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#about, #resources, #documents, #meetings, #updates, #waitlist, #contact, #newsletter, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
