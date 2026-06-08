@@ -36,7 +36,7 @@ function buildMeetingItem(m) {
 const CATEGORY_LABELS = {
   election: 'Election', general: 'General Notice',
   maintenance: 'Maintenance', reminder: 'Reminder',
-  safety: 'Safety', notice: 'Notice',
+  safety: 'Safety Notice', notice: 'Notice',
 };
 
 function buildUpdateCard(u) {
