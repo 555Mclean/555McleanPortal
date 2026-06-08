@@ -1,6 +1,6 @@
 {
-  "active": false,
-  "type": "info",
-  "message": "",
+  "active": true,
+  "type": "warning",
+  "message": "⚠️ Tree branch down near garage entrance — exercise caution entering/exiting. DPW contacted, awaiting direction.",
   "dismissible": true
 }
