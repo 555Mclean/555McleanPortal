@@ -115,6 +115,7 @@ writeFileSync('./dist/index.html', html);
 writeFileSync('./dist/main.js', js);
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
+if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
 
 const noticeStatus = notice.active ? `notice: "${notice.message}"` : 'notice: off';
 console.log(
