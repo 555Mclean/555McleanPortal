@@ -16,7 +16,7 @@ const updates  = loadJSON('./data/updates.json');
 // ── Build meeting list HTML ──
 function buildMeetingItem(m) {
   const dateClass = 'meeting-date' + (m.next ? ' next' : '');
-  const badge = m.badge ? ` <span class="badge">${m.badge}</span>` : '';
+  const badge = m.badge ? ` <span class="badge">${escapeHTML(m.badge)}</span>` : '';
   const calBtn = m.calendar
     ? `\n            <button class="cal-btn" onclick="addToCalendar('${m.isoDate}','${escapeAttr(m.title + ' — 555 McLean Ave')}','${escapeAttr(m.calendar.location)}','${m.calendar.startTime}','${m.calendar.endTime}')">+ Add to Calendar</button>`
     : '';
@@ -26,7 +26,7 @@ function buildMeetingItem(m) {
             <div class="month">${m.month}</div>
           </div>
           <div class="meeting-info">
-            <h4>${m.title}${badge}</h4>
+            <h4>${escapeHTML(m.title)}${badge}</h4>
             <p>${m.detail}</p>${calBtn}
           </div>
         </li>`;
@@ -41,7 +41,7 @@ const CATEGORY_LABELS = {
 
 function buildUpdateCard(u) {
   const label = CATEGORY_LABELS[u.category] || u.category;
-  const badge = u.badge ? ` <span class="badge">${u.badge}</span>` : '';
+  const badge = u.badge ? ` <span class="badge">${escapeHTML(u.badge)}</span>` : '';
   return `      <div class="update-card fade-in" data-category="${u.category}">
         <div class="update-meta">${u.date} · ${label}${badge}</div>
         <h4>${escapeHTML(u.title)}</h4>
