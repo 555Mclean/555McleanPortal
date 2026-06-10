@@ -1342,6 +1342,114 @@
     .faq-search::placeholder { color: var(--text-tertiary); }
     .faq-no-results { display: none; text-align: center; padding: 2rem; color: var(--text-tertiary); font-size: 0.88rem; }
 
+    /* ── UPDATES SEARCH ── */
+    .updates-search { margin-bottom: 1.1rem; }
+
+    /* ── COUNTDOWN CHIP ── */
+    .countdown-chip {
+      display: inline-block;
+      background: var(--amber-glow);
+      color: var(--amber);
+      border-radius: 980px;
+      padding: 0 0.5rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .countdown-chip:empty { display: none; }
+
+    /* ── MAINTENANCE REQUEST WIZARD ── */
+    .mr-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30,18,8,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 1.2rem;
+    }
+    .mr-overlay.open { display: flex; }
+    .mr-modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      max-width: 460px;
+      width: 100%;
+      padding: 1.5rem 1.7rem 1.7rem;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .mr-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem; }
+    .mr-head h3 { font-size: 1.05rem; font-weight: 700; }
+    .mr-close { background: none; border: none; color: var(--text-tertiary); font-size: 1.05rem; cursor: pointer; padding: 0.2rem; line-height: 1; }
+    .mr-close:hover { color: var(--text); }
+    .mr-dots { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .mr-dot { width: 26px; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.2s; }
+    .mr-dot.done { background: var(--amber); }
+    .mr-step { display: none; }
+    .mr-step.active { display: block; }
+    .mr-step-label { font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.7rem; }
+    .mr-cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.55rem; margin-bottom: 1rem; }
+    .mr-cat-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg);
+      border: 1.5px solid var(--border-ui);
+      border-radius: 10px;
+      padding: 0.6rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: left;
+    }
+    .mr-cat-btn:hover { border-color: var(--amber); }
+    .mr-cat-btn.selected { border-color: var(--amber); background: var(--amber-glow); }
+    .mr-urgency { display: flex; gap: 1.2rem; margin-bottom: 1rem; font-size: 0.85rem; }
+    .mr-urgency label { display: flex; align-items: center; gap: 0.4rem; cursor: pointer; }
+    .mr-field { margin-bottom: 0.8rem; }
+    .mr-field label { display: block; font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.3rem; }
+    .mr-field input, .mr-field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border-ui);
+      border-radius: 8px;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .mr-field input:focus, .mr-field textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+    .mr-field textarea { min-height: 110px; resize: vertical; }
+    .mr-error { display: none; color: var(--red); font-size: 0.78rem; margin-bottom: 0.8rem; }
+    .mr-nav { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.1rem; }
+    .mr-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .mr-btn-primary { background: var(--amber); color: #fff; }
+    .mr-btn-primary:hover { opacity: 0.85; }
+    .mr-btn-ghost { background: none; border: 1px solid var(--border-ui); color: var(--text-secondary); }
+    .mr-btn-ghost:hover { color: var(--text); }
+    .mr-note { font-size: 0.74rem; color: var(--text-tertiary); margin-top: 0.5rem; }
+    .mr-success { text-align: center; padding: 1rem 0 0.4rem; }
+    .mr-success .big { font-size: 2.2rem; margin-bottom: 0.5rem; }
+
     /* ── COPY BUTTON ── */
     .copy-btn {
       background: none;
@@ -1419,14 +1527,14 @@
         <div class="qa-icon amber">📅</div>
         <div class="qa-text">
           <small>Next Meeting</small>
-          <strong>Jul · Board Meeting TBD</strong>
+          <strong><!-- NEXT-MEETING-START -->Jul · Date TBD<!-- NEXT-MEETING-END --></strong>
         </div>
       </a>
-      <a href="mailto:info@example.com" class="qa-tile">
+      <a href="#" class="qa-tile" onclick="openMaintWizard(event)">
         <div class="qa-icon blue">🔧</div>
         <div class="qa-text">
           <small>Maintenance Request</small>
-          <strong>Contact Managing Agent</strong>
+          <strong>Open Request Form</strong>
         </div>
       </a>
       <a href="#waitlist" class="qa-tile">
@@ -1490,6 +1598,8 @@
     <h2 class="section-title">Building Updates</h2>
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
 
+    <input type="search" class="faq-search updates-search" id="updates-search" placeholder="Search updates…" oninput="searchUpdates(this.value)" aria-label="Search building updates" />
+
     <div class="update-filters">
       <!-- FILTERS-START -->
       <button class="filter-btn active" data-filter="all" onclick="filterUpdates(this)">All</button>
@@ -1535,6 +1645,7 @@
       </div>
       <!-- UPDATES-LIST-END -->
     </div>
+    <p class="faq-no-results" id="updates-no-results" role="status" aria-live="polite">No matching updates — try a different word or filter.</p>
   </section>
 
   <!-- MEETINGS -->
@@ -1596,11 +1707,11 @@
           <p>Make automatic maintenance payments through the ClickPay portal. Sign in with your resident account to set up autopay or make a one-time payment.</p>
           <span class="res-link">Open ClickPay →</span>
         </a>
-        <a href="mailto:info@example.com" class="resource-item fade-in">
+        <a href="#" class="resource-item fade-in" onclick="openMaintWizard(event)">
           <div class="res-icon">🔧</div>
           <h4>Maintenance Request</h4>
-          <p>Report a repair or service issue to the managing agent.</p>
-          <span class="res-link">Email the agent →</span>
+          <p>Report a repair or service issue to the managing agent with our step-by-step request form.</p>
+          <span class="res-link">Open request form →</span>
         </a>
         <a href="mailto:board@example.com" class="resource-item fade-in">
           <div class="res-icon">📋</div>
@@ -1913,7 +2024,7 @@
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer" id="faq-a-2">
-            <p>Use the Maintenance Request link in the Resources section to email the managing agent. Please include your apartment number and a clear description of the issue. For building emergencies, use the emergency contact in the Contact section.</p>
+            <p>Use the Maintenance Request form — available from the Quick Actions bar at the top of the page or the Resources section. It walks you through a few quick steps and prepares a complete email to the managing agent. For building emergencies, use the emergency contact in the Contact section.</p>
           </div>
         </div>
 
@@ -2007,10 +2118,18 @@
   </footer>
 
   <script type="module">
-    import { init, switchWLTab, submitWaitlist, submitNewsletter } from './main.js';
+    import { init, switchWLTab, submitWaitlist, submitNewsletter,
+             openMaintWizard, closeMaintWizard, selectMaintCategory,
+             maintNext, maintBack, submitMaintenance } from './main.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.submitNewsletter = submitNewsletter;
+    window.openMaintWizard = openMaintWizard;
+    window.closeMaintWizard = closeMaintWizard;
+    window.selectMaintCategory = selectMaintCategory;
+    window.maintNext = maintNext;
+    window.maintBack = maintBack;
+    window.submitMaintenance = submitMaintenance;
     init();
 
     // Scroll progress bar
@@ -2044,9 +2163,11 @@
       btn.setAttribute('aria-expanded', String(open));
     };
 
-    // Close nav on Escape and return focus to the toggle (keyboard users)
+    // Escape closes the maintenance wizard or the mobile nav (keyboard users)
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
+      const mrOverlay = document.getElementById('mr-overlay');
+      if (mrOverlay && mrOverlay.classList.contains('open')) { window.closeMaintWizard(); return; }
       const nav = document.getElementById('main-nav');
       if (!nav.classList.contains('open')) return;
       const btn = document.getElementById('nav-toggle');
@@ -2085,15 +2206,53 @@
       applyTheme(dark);
     };
 
-    // Update category filter
+    // Update category filter + text search (combined)
+    let updCategory = 'all';
+    let updQuery = '';
+    function applyUpdateFilters() {
+      let any = false;
+      document.querySelectorAll('.update-card').forEach(card => {
+        const matchesCat   = updCategory === 'all' || card.dataset.category === updCategory;
+        const matchesQuery = !updQuery || card.textContent.toLowerCase().includes(updQuery);
+        const show = matchesCat && matchesQuery;
+        card.style.display = show ? '' : 'none';
+        if (show) any = true;
+      });
+      const noRes = document.getElementById('updates-no-results');
+      if (noRes) noRes.style.display = any ? 'none' : 'block';
+    }
     window.filterUpdates = function(btn) {
-      const filter = btn.dataset.filter;
+      updCategory = btn.dataset.filter;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.update-card').forEach(card => {
-        card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-      });
+      applyUpdateFilters();
     };
+    window.searchUpdates = function(val) {
+      updQuery = val.toLowerCase().trim();
+      applyUpdateFilters();
+    };
+
+    // Next-meeting countdown chip (populated by build.js when a dated meeting exists)
+    (function() {
+      const chip = document.getElementById('meeting-countdown');
+      if (!chip) return;
+      const start = new Date(chip.dataset.start);
+      const end   = new Date(chip.dataset.end);
+      if (isNaN(start) || isNaN(end)) { chip.remove(); return; }
+      let timer;
+      function tick() {
+        const now = new Date();
+        if (now > end) { chip.remove(); clearInterval(timer); return; }
+        if (now >= start) { chip.textContent = 'Happening Now'; return; }
+        const diff = start - now;
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        chip.textContent = 'in ' + (d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h ${m}m` : `${m}m`);
+      }
+      tick();
+      timer = setInterval(tick, 30000);
+    })();
 
     // Add to Calendar (.ics download)
     window.addToCalendar = function(dateStr, title, location, startTime, endTime) {
@@ -2231,6 +2390,78 @@
       wlObserver.observe(wlDisplay);
     }
   </script>
+
+  <!-- MAINTENANCE REQUEST WIZARD -->
+  <div class="mr-overlay" id="mr-overlay" onclick="if (event.target === this) closeMaintWizard()">
+    <div class="mr-modal" role="dialog" aria-modal="true" aria-labelledby="mr-title">
+      <div class="mr-head">
+        <h3 id="mr-title">🔧 Maintenance Request</h3>
+        <button class="mr-close" onclick="closeMaintWizard()" aria-label="Close">✕</button>
+      </div>
+      <div class="mr-dots" aria-hidden="true">
+        <span class="mr-dot"></span><span class="mr-dot"></span><span class="mr-dot"></span>
+      </div>
+
+      <div class="mr-step active">
+        <p class="mr-step-label">Step 1 of 3 — What's the issue?</p>
+        <div class="mr-cat-grid">
+          <button type="button" class="mr-cat-btn" data-category="Plumbing" aria-pressed="false" onclick="selectMaintCategory(this)">🚿 Plumbing</button>
+          <button type="button" class="mr-cat-btn" data-category="Electrical" aria-pressed="false" onclick="selectMaintCategory(this)">💡 Electrical</button>
+          <button type="button" class="mr-cat-btn" data-category="Heat / Hot Water" aria-pressed="false" onclick="selectMaintCategory(this)">🔥 Heat / Hot Water</button>
+          <button type="button" class="mr-cat-btn" data-category="Appliance" aria-pressed="false" onclick="selectMaintCategory(this)">🧊 Appliance</button>
+          <button type="button" class="mr-cat-btn" data-category="Common Area" aria-pressed="false" onclick="selectMaintCategory(this)">🏢 Common Area</button>
+          <button type="button" class="mr-cat-btn" data-category="Other" aria-pressed="false" onclick="selectMaintCategory(this)">🔧 Other</button>
+        </div>
+        <div class="mr-urgency" role="radiogroup" aria-label="Urgency">
+          <label><input type="radio" name="mr-urgency" value="Routine" checked> Routine</label>
+          <label><input type="radio" name="mr-urgency" value="Urgent"> Urgent</label>
+        </div>
+        <p class="mr-error" id="mr-error-1">Please choose a category.</p>
+        <div class="mr-nav">
+          <button type="button" class="mr-btn mr-btn-ghost" onclick="closeMaintWizard()">Cancel</button>
+          <button type="button" class="mr-btn mr-btn-primary" onclick="maintNext()">Next →</button>
+        </div>
+      </div>
+
+      <div class="mr-step">
+        <p class="mr-step-label">Step 2 of 3 — Your contact info</p>
+        <div class="mr-field"><label for="mr-name">Full name *</label><input id="mr-name" type="text" autocomplete="name"></div>
+        <div class="mr-field"><label for="mr-unit">Apartment *</label><input id="mr-unit" type="text" placeholder="e.g. 4B"></div>
+        <div class="mr-field"><label for="mr-phone">Phone</label><input id="mr-phone" type="tel" autocomplete="tel"></div>
+        <div class="mr-field"><label for="mr-email">Email</label><input id="mr-email" type="email" autocomplete="email"></div>
+        <p class="mr-error" id="mr-error-2">Please enter your name and apartment (and a valid email if provided).</p>
+        <div class="mr-nav">
+          <button type="button" class="mr-btn mr-btn-ghost" onclick="maintBack()">← Back</button>
+          <button type="button" class="mr-btn mr-btn-primary" onclick="maintNext()">Next →</button>
+        </div>
+      </div>
+
+      <div class="mr-step">
+        <p class="mr-step-label">Step 3 of 3 — Describe the issue</p>
+        <div class="mr-field">
+          <label for="mr-desc">What's wrong, and where? *</label>
+          <textarea id="mr-desc" placeholder="e.g. Kitchen sink drains slowly since Monday…"></textarea>
+        </div>
+        <p class="mr-note">📷 Tip: you can attach photos in the email before sending.</p>
+        <p class="mr-error" id="mr-error-3">Please describe the issue.</p>
+        <div class="mr-nav">
+          <button type="button" class="mr-btn mr-btn-ghost" onclick="maintBack()">← Back</button>
+          <button type="button" class="mr-btn mr-btn-primary" onclick="submitMaintenance()">Open Email →</button>
+        </div>
+      </div>
+
+      <div class="mr-step">
+        <div class="mr-success">
+          <div class="big">📨</div>
+          <p>Your email draft is ready — review it and press <strong>Send</strong> in your email app.</p>
+          <p class="mr-note">Nothing happened? Email the managing agent directly instead.</p>
+        </div>
+        <div class="mr-nav" style="justify-content: center">
+          <button type="button" class="mr-btn mr-btn-primary" onclick="closeMaintWizard()">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

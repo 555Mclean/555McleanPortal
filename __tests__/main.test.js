@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { WL_DATA, renderSlots, switchWLTab, submitWaitlist, submitNewsletter, init } from '../main.js';
+import {
+  WL_DATA, renderSlots, switchWLTab, submitWaitlist, submitNewsletter, init,
+  buildMaintenanceEmail, openMaintWizard, closeMaintWizard, selectMaintCategory,
+  maintNext, maintBack, submitMaintenance, MAINT_EMAIL,
+} from '../main.js';
 
 // ─── DOM fixture ────────────────────────────────────────────────────────────
 
@@ -453,6 +457,176 @@ describe('submitNewsletter', () => {
     fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
     submitNewsletter();
     expect(document.getElementById('nl-success').style.display).toBe('block');
+  });
+});
+
+// ─── Maintenance wizard ──────────────────────────────────────────────────────
+
+describe('buildMaintenanceEmail', () => {
+  const base = {
+    category: 'Plumbing', urgency: 'Routine',
+    name: 'Jane Smith', unit: '4B',
+    phone: '(914) 555-1234', email: 'jane@test.com',
+    desc: 'Kitchen sink drains slowly.',
+  };
+
+  it('includes apartment and category in the subject', () => {
+    const { subject } = buildMaintenanceEmail(base);
+    expect(subject).toContain('Apt 4B');
+    expect(subject).toContain('Plumbing');
+  });
+
+  it('appends (URGENT) to the subject when urgency is Urgent', () => {
+    const { subject } = buildMaintenanceEmail({ ...base, urgency: 'Urgent' });
+    expect(subject).toContain('(URGENT)');
+  });
+
+  it('does not mark routine requests as urgent', () => {
+    const { subject } = buildMaintenanceEmail(base);
+    expect(subject).not.toContain('URGENT');
+  });
+
+  it('includes all provided fields in the body', () => {
+    const { body } = buildMaintenanceEmail(base);
+    expect(body).toContain('Category: Plumbing');
+    expect(body).toContain('Urgency: Routine');
+    expect(body).toContain('Name: Jane Smith');
+    expect(body).toContain('Apartment: 4B');
+    expect(body).toContain('Phone: (914) 555-1234');
+    expect(body).toContain('Email: jane@test.com');
+    expect(body).toContain('Kitchen sink drains slowly.');
+  });
+
+  it('omits phone and email lines when empty', () => {
+    const { body } = buildMaintenanceEmail({ ...base, phone: '', email: '' });
+    expect(body).not.toContain('Phone:');
+    expect(body).not.toContain('Email:');
+  });
+});
+
+describe('maintenance wizard flow', () => {
+  let locationMock;
+
+  function setupMrDOM() {
+    document.body.innerHTML = `
+      <div class="mr-overlay" id="mr-overlay">
+        <span class="mr-dot"></span><span class="mr-dot"></span><span class="mr-dot"></span>
+        <div class="mr-step active">
+          <button class="mr-cat-btn" data-category="Plumbing" aria-pressed="false"></button>
+          <button class="mr-cat-btn" data-category="Other" aria-pressed="false"></button>
+          <label><input type="radio" name="mr-urgency" value="Routine" checked></label>
+          <label><input type="radio" name="mr-urgency" value="Urgent"></label>
+          <p id="mr-error-1" style="display:none"></p>
+        </div>
+        <div class="mr-step">
+          <input id="mr-name" /><input id="mr-unit" /><input id="mr-phone" /><input id="mr-email" />
+          <p id="mr-error-2" style="display:none"></p>
+        </div>
+        <div class="mr-step">
+          <textarea id="mr-desc"></textarea>
+          <p id="mr-error-3" style="display:none"></p>
+        </div>
+        <div class="mr-step"></div>
+      </div>
+    `;
+  }
+
+  function steps() { return document.querySelectorAll('.mr-step'); }
+
+  beforeEach(() => {
+    setupMrDOM();
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    openMaintWizard();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('opens the overlay and shows step 1', () => {
+    expect(document.getElementById('mr-overlay').classList.contains('open')).toBe(true);
+    expect(steps()[0].classList.contains('active')).toBe(true);
+  });
+
+  it('closes the overlay', () => {
+    closeMaintWizard();
+    expect(document.getElementById('mr-overlay').classList.contains('open')).toBe(false);
+  });
+
+  it('blocks step 1 until a category is chosen', () => {
+    maintNext();
+    expect(document.getElementById('mr-error-1').style.display).toBe('block');
+    expect(steps()[0].classList.contains('active')).toBe(true);
+  });
+
+  it('marks the chosen category as selected and pressed', () => {
+    const btn = document.querySelector('.mr-cat-btn');
+    selectMaintCategory(btn);
+    expect(btn.classList.contains('selected')).toBe(true);
+    expect(btn.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('deselects the previous category when another is chosen', () => {
+    const [first, second] = document.querySelectorAll('.mr-cat-btn');
+    selectMaintCategory(first);
+    selectMaintCategory(second);
+    expect(first.classList.contains('selected')).toBe(false);
+    expect(second.classList.contains('selected')).toBe(true);
+  });
+
+  it('advances to step 2 after choosing a category', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    expect(steps()[1].classList.contains('active')).toBe(true);
+  });
+
+  it('blocks step 2 when name or apartment is missing', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    maintNext();
+    expect(document.getElementById('mr-error-2').style.display).toBe('block');
+    expect(steps()[1].classList.contains('active')).toBe(true);
+  });
+
+  it('blocks step 2 when the optional email is malformed', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    document.getElementById('mr-name').value = 'Jane';
+    document.getElementById('mr-unit').value = '4B';
+    document.getElementById('mr-email').value = 'notanemail';
+    maintNext();
+    expect(document.getElementById('mr-error-2').style.display).toBe('block');
+  });
+
+  it('goes back a step with maintBack', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    maintBack();
+    expect(steps()[0].classList.contains('active')).toBe(true);
+  });
+
+  it('requires a description before submitting', () => {
+    submitMaintenance();
+    expect(document.getElementById('mr-error-3').style.display).toBe('block');
+    expect(locationMock.href).toBe('');
+  });
+
+  it('composes the mailto and shows the success step on submit', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    document.getElementById('mr-name').value = 'Jane Smith';
+    document.getElementById('mr-unit').value = '4B';
+    maintNext();
+    document.getElementById('mr-desc').value = 'Sink leaking under cabinet.';
+    submitMaintenance();
+
+    expect(locationMock.href).toMatch(new RegExp('^mailto:' + MAINT_EMAIL));
+    const decoded = decodeURIComponent(locationMock.href);
+    expect(decoded).toContain('Category: Plumbing');
+    expect(decoded).toContain('Apartment: 4B');
+    expect(decoded).toContain('Sink leaking under cabinet.');
+    expect(steps()[3].classList.contains('active')).toBe(true);
   });
 });
 

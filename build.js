@@ -104,6 +104,28 @@ const NOTICE_RE = /<!-- NOTICE-BAR -->/;
 if (!NOTICE_RE.test(html)) { console.error('ERROR: NOTICE-BAR marker missing'); process.exit(1); }
 html = html.replace(NOTICE_RE, noticeHTML ? noticeHTML + '\n\n  ' : '<!-- NOTICE-BAR -->');
 
+// ── Next-meeting Quick Actions tile ──
+// First meeting with an isoDate that hasn't ended yet wins; the countdown chip
+// only renders when calendar times exist. Falls back to "<month> · Date TBD".
+function nextMeetingTile() {
+  const now = new Date();
+  for (const m of meetings) {
+    if (!m.isoDate) continue;
+    const endTime = m.calendar?.endTime || '23:59';
+    if (new Date(`${m.isoDate}T${endTime}:00`) < now) continue;
+    const chip = m.calendar
+      ? ` <span id="meeting-countdown" class="countdown-chip" data-start="${m.isoDate}T${m.calendar.startTime}:00" data-end="${m.isoDate}T${m.calendar.endTime}:00"></span>`
+      : '';
+    return `${m.month} ${m.day} · ${escapeHTML(m.title)}${chip}`;
+  }
+  return meetings.length ? `${meetings[0].month} · Date TBD` : 'Date TBD';
+}
+
+const NEXT_MEETING_RE = /<!-- NEXT-MEETING-START -->[\s\S]*?<!-- NEXT-MEETING-END -->/;
+if (!NEXT_MEETING_RE.test(html)) { console.error('ERROR: NEXT-MEETING markers missing'); process.exit(1); }
+html = html.replace(NEXT_MEETING_RE,
+  `<!-- NEXT-MEETING-START -->${nextMeetingTile()}<!-- NEXT-MEETING-END -->`);
+
 const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
 if (LAST_UPDATED_RE.test(html)) {
   const built = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
