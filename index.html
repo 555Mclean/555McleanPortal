@@ -2125,6 +2125,18 @@
       if (bar) bar.remove();
     };
 
+    // Auto-hide expired notice bar ("expires" field in data/notices.json)
+    (function() {
+      const bar = document.getElementById('notice-bar');
+      if (!bar || !bar.dataset.expires) return;
+      const expiry = new Date(bar.dataset.expires);
+      if (isNaN(expiry)) return;
+      const remove = () => bar.remove();
+      const remaining = expiry - new Date();
+      if (remaining <= 0) remove();
+      else if (remaining < 86400000) setTimeout(remove, remaining);
+    })();
+
     // FAQ accordion
     window.toggleFAQ = function(btn) {
       const item = btn.closest('.faq-item');

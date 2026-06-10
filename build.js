@@ -66,10 +66,14 @@ const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 const updatesHTML  = updates.map(buildUpdateCard).join('\n');
 const filtersHTML  = buildFilterButtons(updates);
 
-// ── Build notice bar HTML (empty string when inactive) ──
+// ── Build notice bar HTML (empty string when inactive or expired) ──
+// Optional "expires" (e.g. "2026-06-10T14:00") hides the bar after that time:
+// skipped here if already past at build time, otherwise removed client-side.
 const ICONS = { info: 'ℹ️', warning: '⚠️', urgent: '🚨' };
-const noticeHTML = notice.active && notice.message
-  ? `<div class="notice-bar notice-${notice.type}" id="notice-bar">
+const noticeExpired = notice.expires && new Date(notice.expires) <= new Date();
+const noticeActive  = notice.active && notice.message && !noticeExpired;
+const noticeHTML = noticeActive
+  ? `<div class="notice-bar notice-${notice.type}" id="notice-bar"${notice.expires ? ` data-expires="${escapeHTML(notice.expires)}"` : ''}>
     <div class="notice-bar-inner">
       <span>${ICONS[notice.type] || 'ℹ️'}</span>
       <span>${escapeHTML(notice.message)}</span>
@@ -117,7 +121,7 @@ if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.x
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
 if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
 
-const noticeStatus = notice.active ? `notice: "${notice.message}"` : 'notice: off';
+const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
 console.log(
   `Built: ${meetings.length} meetings · ${updates.length} updates · ` +
   `${waitlist.parking.length} parking · ${waitlist.storage.length} storage · ${noticeStatus}`
