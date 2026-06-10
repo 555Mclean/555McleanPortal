@@ -1492,21 +1492,27 @@
 
     <div class="update-filters">
       <!-- FILTERS-START -->
-      <button class="filter-btn active" data-filter="all"         onclick="filterUpdates(this)">All</button>
-      <button class="filter-btn"        data-filter="election"    onclick="filterUpdates(this)">Election</button>
-      <button class="filter-btn"        data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
-      <button class="filter-btn"        data-filter="general"     onclick="filterUpdates(this)">General Notice</button>
-      <button class="filter-btn"        data-filter="reminder"    onclick="filterUpdates(this)">Reminder</button>
+      <button class="filter-btn active" data-filter="all" onclick="filterUpdates(this)">All</button>
+      <button class="filter-btn" data-filter="maintenance" onclick="filterUpdates(this)">Maintenance</button>
+      <button class="filter-btn" data-filter="safety" onclick="filterUpdates(this)">Safety Notice</button>
+      <button class="filter-btn" data-filter="general" onclick="filterUpdates(this)">General Notice</button>
+      <button class="filter-btn" data-filter="reminder" onclick="filterUpdates(this)">Reminder</button>
       <!-- FILTERS-END -->
     </div>
 
     <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
     <div class="update-grid">
       <!-- UPDATES-LIST-START -->
-      <div class="update-card fade-in" data-category="election">
-        <div class="update-meta">June 8, 2026 · Election <span class="badge">Coming Up</span></div>
-        <h4>Annual Shareholder Election — June 8, 2026</h4>
-        <p>The annual election for Board of Directors positions will be held on June 8, 2026. All shareholders in good standing are eligible to vote. Ballots and candidate information will be distributed in advance. Contact the board for details.</p>
+      <div class="update-card fade-in" data-category="maintenance">
+        <div class="update-meta">June 9, 2026 · Maintenance <span class="badge">Tomorrow</span></div>
+        <h4>Elevator Out of Service — Scheduled Inspection, June 10, 2026</h4>
+        <p>Please be advised that a scheduled elevator inspection will take place on Wednesday, June 10, 2026, commencing at 9:00 AM. The elevator will be out of service for approximately three to four hours during this time. Residents who require elevator access during the morning hours are encouraged to plan accordingly. We anticipate service will be restored by early afternoon and thank you in advance for your cooperation and patience.</p>
+        <span class="arrow">›</span>
+      </div>
+      <div class="update-card fade-in" data-category="safety">
+        <div class="update-meta">June 8, 2026 · Safety Notice <span class="badge">Action Required</span></div>
+        <h4>Damaged Tree Near Garage Entrance — Safety Alert</h4>
+        <p>Residents, please be aware that a tree section near the dumpster area at the end of the driveway has sustained damage and is currently resting against neighboring branches and overhead Verizon lines. The Fire Department visited the site this evening and assessed the situation. Because the tree sits beyond our fence line as part of the aqueduct property, responsibility for removal falls outside our jurisdiction. We have already reached out to the county Department of Public Works and are awaiting their direction on next steps. In the meantime, we ask everyone to take extra care when pulling in or out of the garage and when passing through that area on foot. Your safety is our priority. We will keep you updated as the situation develops.</p>
         <span class="arrow">›</span>
       </div>
       <div class="update-card fade-in" data-category="general">
@@ -1543,16 +1549,6 @@
       <!-- MEETINGS-LIST-START -->
         <li class="meeting-item fade-in">
           <div class="meeting-date next">
-            <div class="day">8</div>
-            <div class="month">Jun</div>
-          </div>
-          <div class="meeting-info">
-            <h4>Annual Shareholder Election <span class="badge">Coming Up</span></h4>
-            <p>P.S. 21 · 100 Lee Ave, Yonkers, NY 10705 · <strong>7:00 PM</strong></p>
-          </div>
-        </li>
-        <li class="meeting-item fade-in">
-          <div class="meeting-date">
             <div class="day">TBD</div>
             <div class="month">Jul</div>
           </div>
