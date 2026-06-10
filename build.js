@@ -39,9 +39,28 @@ const CATEGORY_LABELS = {
   safety: 'Safety Notice', notice: 'Notice',
 };
 
+// Optional "eventDate" (YYYY-MM-DD) renders a relative badge — Today / Tomorrow /
+// "Jun 12" — recomputed client-side so it stays accurate without a rebuild.
+function eventBadgeLabel(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const ev = new Date(y, m - 1, d);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.round((ev - today) / 86400000);
+  if (diff < 0) return null;
+  return diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow'
+    : ev.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
 function buildUpdateCard(u) {
   const label = CATEGORY_LABELS[u.category] || u.category;
-  const badge = u.badge ? ` <span class="badge">${escapeHTML(u.badge)}</span>` : '';
+  let badge = '';
+  if (u.eventDate) {
+    const rel = eventBadgeLabel(u.eventDate);
+    if (rel) badge = ` <span class="badge" data-event-date="${u.eventDate}">${rel}</span>`;
+  } else if (u.badge) {
+    badge = ` <span class="badge">${escapeHTML(u.badge)}</span>`;
+  }
   return `      <div class="update-card fade-in" data-category="${u.category}">
         <div class="update-meta">${u.date} · ${label}${badge}</div>
         <h4>${escapeHTML(u.title)}</h4>

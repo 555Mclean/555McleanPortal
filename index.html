@@ -2232,6 +2232,19 @@
       applyUpdateFilters();
     };
 
+    // Relative event badges (Today / Tomorrow / date) — recomputed on load so
+    // they stay accurate even when the site hasn't been rebuilt
+    document.querySelectorAll('.badge[data-event-date]').forEach(b => {
+      const [y, m, d] = b.dataset.eventDate.split('-').map(Number);
+      const ev = new Date(y, m - 1, d);
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diff = Math.round((ev - today) / 86400000);
+      if (diff < 0) b.remove();
+      else b.textContent = diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow'
+        : ev.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+
     // Next-meeting countdown chip (populated by build.js when a dated meeting exists)
     (function() {
       const chip = document.getElementById('meeting-countdown');
