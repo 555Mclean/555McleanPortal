@@ -104,6 +104,12 @@ const NOTICE_RE = /<!-- NOTICE-BAR -->/;
 if (!NOTICE_RE.test(html)) { console.error('ERROR: NOTICE-BAR marker missing'); process.exit(1); }
 html = html.replace(NOTICE_RE, noticeHTML ? noticeHTML + '\n\n  ' : '<!-- NOTICE-BAR -->');
 
+const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
+if (LAST_UPDATED_RE.test(html)) {
+  const built = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
+  html = html.replace(LAST_UPDATED_RE, `· Last updated ${built}`);
+}
+
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
 const WL_RE = /export const WL_DATA = \{[\s\S]*?\};/;

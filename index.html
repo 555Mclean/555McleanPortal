@@ -1396,7 +1396,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" onclick="toggleNav()">☰</button>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="toggleNav()">☰</button>
   </header>
 
   <!-- HERO -->
@@ -1893,7 +1893,7 @@
       <p class="section-sub">Quick answers to the questions we hear most from shareholders and residents.</p>
 
       <input type="search" class="faq-search" id="faq-search" placeholder="Search questions…" oninput="filterFAQ(this.value)" aria-label="Search frequently asked questions" />
-      <p class="faq-no-results" id="faq-no-results">No matching questions — try a different word.</p>
+      <p class="faq-no-results" id="faq-no-results" role="status" aria-live="polite">No matching questions — try a different word.</p>
 
       <div class="faq-list">
 
@@ -1990,7 +1990,7 @@
           <span class="footer-brand-name">555 McLean Ave Cooperative</span>
         </div>
         <p class="footer-copy">Yonkers, New York · Resident-Owned Cooperative · Copyright © 2026</p>
-        <p class="footer-beta">Early version · Contact info will be updated soon.</p>
+        <p class="footer-beta">Early version · Contact info will be updated soon. <!-- LAST-UPDATED --></p>
       </div>
       <div class="footer-links">
         <a href="#about">About</a>
@@ -2041,7 +2041,21 @@
       const open = nav.classList.toggle('open');
       btn.textContent = open ? '✕' : '☰';
       btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      btn.setAttribute('aria-expanded', String(open));
     };
+
+    // Close nav on Escape and return focus to the toggle (keyboard users)
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      const nav = document.getElementById('main-nav');
+      if (!nav.classList.contains('open')) return;
+      const btn = document.getElementById('nav-toggle');
+      nav.classList.remove('open');
+      btn.textContent = '☰';
+      btn.setAttribute('aria-label', 'Open menu');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    });
 
     // Close nav on link click (mobile)
     document.querySelectorAll('#main-nav a').forEach(a => {
@@ -2051,6 +2065,7 @@
         nav.classList.remove('open');
         btn.textContent = '☰';
         btn.setAttribute('aria-label', 'Open menu');
+        btn.setAttribute('aria-expanded', 'false');
       });
     });
 
