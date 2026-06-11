@@ -3,6 +3,19 @@ export const WL_DATA = {
   storage: ['S55501', 'S55502', 'S55503', 'S55504', 'S55505'],
 };
 
+// Relative label for an event date — 'Today', 'Tomorrow', a short date like
+// 'Jun 12', or null when the date is past. Shared by build.js (build-time
+// badges) and page.js (client-side refresh so badges stay accurate).
+export function relativeDayLabel(iso, now = new Date()) {
+  const [y, m, d] = iso.split('-').map(Number);
+  const ev = new Date(y, m - 1, d);
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diff = Math.round((ev - today) / 86400000);
+  if (diff < 0) return null;
+  return diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow'
+    : ev.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
 export function renderSlots(type) {
   const apts = WL_DATA[type];
   const slotsEl = document.getElementById(type + '-slots');

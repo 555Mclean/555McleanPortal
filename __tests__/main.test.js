@@ -340,6 +340,20 @@ describe('submitWaitlist', () => {
     submitWaitlist('parking');
     expect(document.getElementById('parking-error').style.display).toBe('block');
   });
+
+  it('fires the toast notification on success when available', () => {
+    vi.stubGlobal('showToast', vi.fn());
+    fillForm('p', { name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitWaitlist('parking');
+    expect(window.showToast).toHaveBeenCalledWith("You're on the list! ✓");
+  });
+
+  it('does not fire the toast when validation fails', () => {
+    vi.stubGlobal('showToast', vi.fn());
+    fillForm('p', { name: '', unit: '4B', email: 'jane@test.com' });
+    submitWaitlist('parking');
+    expect(window.showToast).not.toHaveBeenCalled();
+  });
 });
 
 // ─── submitNewsletter ────────────────────────────────────────────────────────
@@ -457,6 +471,13 @@ describe('submitNewsletter', () => {
     fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
     submitNewsletter();
     expect(document.getElementById('nl-success').style.display).toBe('block');
+  });
+
+  it('fires the toast notification on success when available', () => {
+    vi.stubGlobal('showToast', vi.fn());
+    fillNl({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitNewsletter();
+    expect(window.showToast).toHaveBeenCalledWith("You're signed up! ✓");
   });
 });
 
@@ -628,6 +649,111 @@ describe('maintenance wizard flow', () => {
     expect(decoded).toContain('Sink leaking under cabinet.');
     expect(steps()[3].classList.contains('active')).toBe(true);
   });
+
+  it('marks the request urgent in the subject when Urgent is selected', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    document.getElementById('mr-name').value = 'Jane';
+    document.getElementById('mr-unit').value = '4B';
+    maintNext();
+    document.querySelector('input[name="mr-urgency"][value="Urgent"]').checked = true;
+    document.getElementById('mr-desc').value = 'No heat in the apartment.';
+    submitMaintenance();
+    expect(decodeURIComponent(locationMock.href)).toContain('(URGENT)');
+  });
+
+  it('falls back to "Other" and "Routine" when nothing is selected', () => {
+    // submitMaintenance called directly with no category and no urgency checked
+    document.querySelector('input[name="mr-urgency"]:checked').checked = false;
+    document.getElementById('mr-desc').value = 'Mystery issue.';
+    submitMaintenance();
+    const decoded = decodeURIComponent(locationMock.href);
+    expect(decoded).toContain('Category: Other');
+    expect(decoded).toContain('Urgency: Routine');
+  });
+
+  it('fires the toast notification on submit when available', () => {
+    vi.stubGlobal('showToast', vi.fn());
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    document.getElementById('mr-desc').value = 'Leak.';
+    submitMaintenance();
+    expect(window.showToast).toHaveBeenCalledWith('Request drafted — press Send in your email app ✓');
+  });
+
+  it('does not go below step 1 when going back', () => {
+    maintBack();
+    expect(steps()[0].classList.contains('active')).toBe(true);
+  });
+
+  it('does not advance past step 3 without submitting', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    document.getElementById('mr-name').value = 'Jane';
+    document.getElementById('mr-unit').value = '4B';
+    maintNext();
+    maintNext(); // already on step 3 — must stay there
+    expect(steps()[2].classList.contains('active')).toBe(true);
+    expect(steps()[3].classList.contains('active')).toBe(false);
+  });
+
+  it('tolerates a missing error element', () => {
+    document.getElementById('mr-error-1').remove();
+    expect(() => maintNext()).not.toThrow();
+    expect(steps()[0].classList.contains('active')).toBe(true); // still blocked
+  });
+});
+
+describe('maintenance wizard focus management', () => {
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <button id="opener">Request Maintenance</button>
+      <div class="mr-overlay" id="mr-overlay">
+        <span class="mr-dot"></span><span class="mr-dot"></span><span class="mr-dot"></span>
+        <div class="mr-step active">
+          <button class="mr-cat-btn" data-category="Plumbing"></button>
+          <p id="mr-error-1" style="display:none"></p>
+        </div>
+        <div class="mr-step"></div>
+        <div class="mr-step"></div>
+        <div class="mr-step"></div>
+      </div>
+    `;
+  });
+
+  it('prevents the default link action when opened from an anchor', () => {
+    const e = { preventDefault: vi.fn() };
+    openMaintWizard(e);
+    expect(e.preventDefault).toHaveBeenCalled();
+  });
+
+  it('locks body scroll while open and restores it on close', () => {
+    openMaintWizard();
+    expect(document.body.style.overflow).toBe('hidden');
+    closeMaintWizard();
+    expect(document.body.style.overflow).toBe('');
+  });
+
+  it('moves focus to the first category button on open', () => {
+    openMaintWizard();
+    expect(document.activeElement).toBe(document.querySelector('.mr-cat-btn'));
+  });
+
+  it('returns focus to the opener on close', () => {
+    const opener = document.getElementById('opener');
+    opener.focus();
+    openMaintWizard();
+    closeMaintWizard();
+    expect(document.activeElement).toBe(opener);
+  });
+
+  it('resets to step 1 every time it opens', () => {
+    openMaintWizard();
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    closeMaintWizard();
+    openMaintWizard();
+    expect(document.querySelectorAll('.mr-step')[0].classList.contains('active')).toBe(true);
+  });
 });
 
 // ─── init ────────────────────────────────────────────────────────────────────
@@ -695,5 +821,20 @@ describe('init', () => {
     const target = document.querySelector('.fade-in');
     capturedCallback([{ isIntersecting: false, target }], {});
     expect(target.classList.contains('visible')).toBe(false);
+  });
+
+  it('stops observing an element once it has become visible', () => {
+    let capturedCallback;
+    const unobserve = vi.fn();
+    global.IntersectionObserver = vi.fn(function(cb) {
+      capturedCallback = cb;
+      return { observe: vi.fn(), unobserve };
+    });
+
+    init();
+
+    const target = document.querySelector('.fade-in');
+    capturedCallback([{ isIntersecting: true, target }], {});
+    expect(unobserve).toHaveBeenCalledWith(target);
   });
 });
