@@ -8,8 +8,8 @@ the board just needs to supply the information.
 ## 🔴 Urgent — Replace Before Going Live
 
 - [ ] **Board email** — replace every `board@example.com` with the real board address
-- [ ] **Managing agent email** — replace `info@example.com` with the agent's real address
-- [ ] **Managing agent name** — replace "Name & contact to be confirmed" in the Contact section
+- [x] **Managing agent email** — replace `info@example.com` with the agent's real address
+- [x] **Managing agent name** — replace "Name & contact to be confirmed" in the Contact section
 - [ ] **Emergency phone number** — replace `(914) 555-0000` with the real building emergency number
 - [ ] Remove the "early version" notice from the footer and Contact section once the above are done
 

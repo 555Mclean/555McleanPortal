@@ -94,8 +94,8 @@ export function submitNewsletter() {
 }
 
 // ── Maintenance Request Wizard ──
-// TODO: replace with the managing agent's real email address
-export const MAINT_EMAIL = 'info@example.com';
+// Gramatan Management — Glenn Capobianco, managing agent for 555 McLean Ave
+export const MAINT_EMAIL = 'gcapobianco@gramatanmanagement.com';
 
 export function buildMaintenanceEmail(d) {
   const subject = 'Maintenance Request — Apt ' + d.unit + ' — ' + d.category +
