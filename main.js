@@ -94,8 +94,7 @@ export function submitNewsletter() {
 }
 
 // ── Maintenance Request Wizard ──
-// TODO: replace with the managing agent's real email address
-export const MAINT_EMAIL = 'info@example.com';
+export const MAINT_EMAIL = 'info@gramatanmanagement.com';
 
 export function buildMaintenanceEmail(d) {
   const subject = 'Maintenance Request — Apt ' + d.unit + ' — ' + d.category +
