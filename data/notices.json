@@ -1,6 +1,7 @@
 {
-  "active": false,
-  "type": "info",
-  "message": "",
-  "dismissible": true
+  "active": true,
+  "type": "warning",
+  "message": "Hot water service will be temporarily interrupted on Tuesday, June 16 and Wednesday, June 17, approximately 9:00 AM–3:00 PM each day, for scheduled boiler maintenance. Service will be restored as soon as the day's work is complete.",
+  "dismissible": true,
+  "expires": "2026-06-17T15:30"
 }
