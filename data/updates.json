@@ -1,6 +1,13 @@
 [
   {
     "date": "June 20, 2026",
+    "category": "safety",
+    "badge": "Safety",
+    "title": "Parking Lot Speed Limit — 5 MPH, Watch for Children",
+    "body": "For the safety of all residents, please be advised that a strict speed limit of 5 miles per hour is in effect throughout the building's parking lots and driveways at all times. Children are frequently present in these areas, and drivers must remain alert, proceed slowly, and yield to pedestrians at all times. Operators of all vehicles are required to exercise the utmost caution when entering, exiting, and maneuvering within the lots. Failure to observe the posted speed limit endangers the community and may result in the issuance of a formal violation notice. The Board thanks all residents for their cooperation in keeping our community safe."
+  },
+  {
+    "date": "June 20, 2026",
     "category": "reminder",
     "badge": "Policy",
     "title": "Pet Waste Policy — Please Clean Up After Your Pet",
