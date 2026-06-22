@@ -1,9 +1,7 @@
 import { readFileSync } from 'fs';
+import { pathToFileURL } from 'url';
 
-const html = readFileSync('./index.html', 'utf8');
-const findings = [];
-
-const checks = [
+export const PLACEHOLDER_CHECKS = [
   {
     needle: 'board@example.com',
     desc:   'Board email is still a placeholder (board@example.com)',
@@ -22,15 +20,23 @@ const checks = [
   },
 ];
 
-for (const { needle, desc } of checks) {
-  if (html.includes(needle)) findings.push(desc);
+// Returns the descriptions of every placeholder still present in `html`.
+export function findPlaceholders(html, checks = PLACEHOLDER_CHECKS) {
+  return checks.filter(({ needle }) => html.includes(needle)).map(({ desc }) => desc);
 }
 
-if (findings.length === 0) {
-  console.log('OK: No placeholder contact info found in index.html');
-  process.exit(0);
+function main() {
+  const html = readFileSync('./index.html', 'utf8');
+  const findings = findPlaceholders(html);
+
+  if (findings.length === 0) {
+    console.log('OK: No placeholder contact info found in index.html');
+    process.exit(0);
+  }
+
+  console.log(`PLACEHOLDERS: ${findings.length} item(s) still need updating:\n`);
+  findings.forEach(f => console.log(`  - ${f}`));
+  process.exit(1);
 }
 
-console.log(`PLACEHOLDERS: ${findings.length} item(s) still need updating:\n`);
-findings.forEach(f => console.log(`  - ${f}`));
-process.exit(1);
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

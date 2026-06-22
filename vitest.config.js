@@ -6,7 +6,7 @@ export default defineConfig({
     globals: true,
     coverage: {
       provider: 'v8',
-      include: ['main.js'],
+      include: ['main.js', 'build.js', 'lib/*.js', 'scripts/*.mjs'],
     },
   },
 });

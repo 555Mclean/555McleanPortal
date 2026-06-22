@@ -630,6 +630,70 @@ describe('maintenance wizard flow', () => {
   });
 });
 
+// ─── showToast integration + maintenance fallbacks (branch coverage) ─────────
+
+describe('showToast is fired on successful submissions', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    delete window.showToast;
+  });
+
+  function stubLocation() {
+    vi.stubGlobal('location', { href: '' });
+  }
+
+  it('calls window.showToast after a valid waitlist submission', () => {
+    document.body.innerHTML = `
+      <div id="parking-form"><input id="p-name"/><input id="p-unit"/><input id="p-email"/><input id="p-phone"/></div>
+      <div id="parking-error" style="display:none"></div>
+      <div id="parking-success" style="display:none"></div>`;
+    stubLocation();
+    window.showToast = vi.fn();
+    document.getElementById('p-name').value = 'Jane';
+    document.getElementById('p-unit').value = '4B';
+    document.getElementById('p-email').value = 'jane@test.com';
+    submitWaitlist('parking');
+    expect(window.showToast).toHaveBeenCalledOnce();
+  });
+
+  it('calls window.showToast after a valid newsletter submission', () => {
+    document.body.innerHTML = `
+      <div id="nl-form"><input id="nl-name"/><input id="nl-unit"/><input id="nl-email"/><input id="nl-phone"/></div>
+      <div id="nl-error" style="display:none"></div>
+      <div id="nl-success" style="display:none"></div>`;
+    stubLocation();
+    window.showToast = vi.fn();
+    document.getElementById('nl-name').value = 'Jane';
+    document.getElementById('nl-unit').value = '4B';
+    document.getElementById('nl-email').value = 'jane@test.com';
+    submitNewsletter();
+    expect(window.showToast).toHaveBeenCalledOnce();
+  });
+});
+
+describe('submitMaintenance fallbacks when no category or urgency is set', () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('defaults to Other / Routine when nothing is selected', () => {
+    document.body.innerHTML = `
+      <div id="mr-overlay">
+        <input id="mr-name" value="Jane" />
+        <input id="mr-unit" value="4B" />
+        <input id="mr-phone" />
+        <input id="mr-email" />
+        <textarea id="mr-desc">Leak under sink.</textarea>
+        <p id="mr-error-3" style="display:none"></p>
+        <div class="mr-step"></div><div class="mr-step"></div>
+        <div class="mr-step"></div><div class="mr-step"></div>
+      </div>`;
+    vi.stubGlobal('location', { href: '' });
+    submitMaintenance();
+    const decoded = decodeURIComponent(location.href);
+    expect(decoded).toContain('Category: Other');
+    expect(decoded).toContain('Urgency: Routine');
+  });
+});
+
 // ─── init ────────────────────────────────────────────────────────────────────
 
 describe('init', () => {
