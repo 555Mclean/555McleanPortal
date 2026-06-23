@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, readdirSync } from 'fs';
 
 const escapeHTML = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const escapeAttr = s => s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;');
@@ -167,6 +167,15 @@ writeFileSync('./dist/main.js', js);
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
 if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
+
+// ── Copy published document pages (docs/*.html) into dist/docs/ ──
+if (existsSync('./docs')) {
+  const docPages = readdirSync('./docs').filter(f => f.endsWith('.html'));
+  if (docPages.length) {
+    mkdirSync('./dist/docs', { recursive: true });
+    for (const f of docPages) copyFileSync(`./docs/${f}`, `./dist/docs/${f}`);
+  }
+}
 
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
 console.log(
