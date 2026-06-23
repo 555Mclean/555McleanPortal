@@ -1,14 +1,22 @@
 # Public Documents Folder
 
-PDFs placed here are served directly from GitHub Pages and are **publicly accessible** to anyone with the URL. Only commit documents that are appropriate for public viewing.
+Files placed here are served directly from GitHub Pages and are **publicly accessible** to anyone with the URL. Only commit documents that are appropriate for public viewing.
 
-## Documents that belong here
+## Published documents (live)
 
-| File name | Card in portal | Notes |
+These three documents are published as **HTML pages** in this folder and are the single source of truth — to change their wording, edit the matching `.html` file directly (the text lives in plain `<li>`/`<p>` tags). The "Read →" cards in the portal's Documents and Resources sections link to them.
+
+| File | Card in portal | Notes |
 |---|---|---|
-| `house-rules.pdf` | House Rules | OK to be public |
-| `move-policy.pdf` | Move Policy | OK to be public |
-| `insurance-requirements.pdf` | Insurance Requirements | OK to be public |
+| `house-rules.html` | House Rules | Live · OK to be public |
+| `move-policy.html` | Move Policy | Live · OK to be public |
+| `insurance-requirements.html` | Insurance Requirements | Live · OK to be public |
+
+All figures in these pages (deposits, fines, the $300,000 HO-6 minimum, etc.) are the Board's recommended values — adjust against the Proprietary Lease, which controls on any conflict.
+
+## Adding a downloadable PDF instead
+
+If you ever prefer a PDF for one of these (or a new document), drop the PDF in this folder and point the card's `href` at it (see "How to publish a PDF" below).
 
 ## Documents that do NOT belong here
 
