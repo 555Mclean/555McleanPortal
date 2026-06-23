@@ -72,6 +72,22 @@
       color: var(--text-tertiary); font-size: .9rem;
     }
     a { color: var(--blue); }
+    .pdf-btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--blue); color: #fff; border: none; border-radius: 8px;
+      padding: .6rem 1.1rem; font-weight: 600; font-size: .95rem;
+      font-family: inherit; cursor: pointer; margin: 0 0 2rem;
+    }
+    .pdf-btn:hover { filter: brightness(1.08); }
+    @media print {
+      .back, .pdf-btn { display: none !important; }
+      body { background: #fff; color: #000; }
+      .wrap { max-width: 100%; padding: 0; }
+      a { color: #000; text-decoration: none; }
+      h1, h2 { break-after: avoid; }
+      section, li { break-inside: avoid; }
+      .callout, .note { border: 1px solid #999; background: #fff; }
+    }
   </style>
 </head>
 <body>
@@ -80,6 +96,7 @@
     <div class="eyebrow">Resident Library</div>
     <h1>Move-In / Move-Out Policy</h1>
     <p class="lede">555 McLean Ave — a resident-owned cooperative in Yonkers, NY.</p>
+    <button type="button" class="pdf-btn" onclick="window.print()">⬇ Save as PDF</button>
 
     <p class="callout">Every move must be <strong>scheduled in advance</strong> with the managing agent, take place <strong>Monday–Saturday, 9:00 AM – 5:00 PM</strong>, and is covered by a <strong>refundable $500 deposit</strong>. No moves on Sundays or legal holidays.</p>
 
