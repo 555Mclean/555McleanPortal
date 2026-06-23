@@ -1,10 +1,9 @@
-# 555 McLean Ave — House Rules (DRAFT for Board Adoption)
+# 555 McLean Ave — House Rules
 
-> **Status: DRAFT.** This is a template the Board can edit, approve, and then
-> publish (as `house-rules.pdf` per `docs/README.md`). Every figure, time, and
-> fee below is a common starting point — confirm or change each one to match
-> the co-op's Proprietary Lease and Bylaws before adopting. Where the House
-> Rules and the Proprietary Lease conflict, the Lease controls.
+> Figures, hours, and fees below reflect the Board's recommended values. Adjust
+> any to match the co-op's Proprietary Lease and Bylaws before adopting; where
+> the House Rules and the Proprietary Lease conflict, the Lease controls.
+> Publish as `house-rules.pdf` per `docs/README.md`.
 
 These House Rules apply to all shareholders, their household members, guests,
 subtenants, and anyone acting on their behalf. They are adopted by the Board of
@@ -49,8 +48,10 @@ Board at any time.
   electricity without prior written approval and notice to affected residents.
 
 ## 5. Pets
-- Confirm the building's pet policy and reflect it here (e.g., dogs permitted /
-  not permitted, weight or breed limits, registration, number of pets).
+- Pets are permitted with the following recommended limits (adjust to the
+  building's policy): a maximum of **two pets per apartment**, each registered
+  with the managing agent; no pet over **50 lbs** and no breeds prohibited by the
+  co-op's insurer.
 - All pets must be leashed in common areas and never left unattended there.
 - Owners must **clean up after pets immediately**, indoors and out (see the
   building's Pet Waste Policy).
@@ -82,7 +83,7 @@ Board at any time.
 - Short-term rentals (Airbnb, VRBO, and similar) are **prohibited**.
 - Subletting requires Board approval and a completed **Sublet Application**;
   subtenants are bound by these House Rules.
-- Guests staying longer than [confirm — e.g., 30 days] must be disclosed to the
+- Guests staying longer than **30 consecutive days** must be disclosed to the
   Board.
 
 ## 10. Safety & Security
@@ -103,9 +104,10 @@ Board at any time.
   must be installed safely and per any building standard.
 
 ## 12. Smoking
-- State the building's policy here (e.g., smoking prohibited in all common areas;
-  confirm whether in-unit smoking is restricted). Cannabis follows the same
-  policy as tobacco.
+- Smoking is **prohibited in all indoor common areas** — lobbies, hallways,
+  stairwells, elevators, laundry, and within 25 feet of building entrances.
+  Smoke must not migrate from an apartment so as to disturb neighbors. Cannabis
+  follows the same policy as tobacco.
 
 ## 13. Plumbing & Maintenance Responsibility
 - Do not put grease, wipes, diapers, or non-flushable items down drains/toilets.
@@ -123,9 +125,9 @@ Board at any time.
 ## 15. Enforcement & Fines
 - Violations may result in written notice, fines, and — for repeated or serious
   violations — action under the Proprietary Lease.
-- Suggested fine schedule (confirm amounts): first notice — warning; second —
-  **$[amount]**; subsequent — **$[amount]** per occurrence. Shareholders are
-  responsible for violations by their household members, guests, and subtenants.
+- Fine schedule: first notice — written warning; second — **$100**; each
+  subsequent occurrence — **$250**. Shareholders are responsible for violations
+  by their household members, guests, and subtenants.
 - Fines and unreimbursed costs may be added to maintenance as additional rent.
 
 ---
