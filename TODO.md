@@ -31,13 +31,17 @@ and replace the `<div class="doc-card">` with:
 ```
 
 Documents needed:
-- [ ] House Rules (PDF)
-- [ ] Proprietary Lease (PDF)
-- [ ] Bylaws / Certificate of Incorporation (PDF)
-- [ ] Sublet Application (PDF form)
-- [ ] Alteration Agreement (PDF)
-- [ ] Move-In / Move-Out Policy (PDF)
-- [ ] Insurance Requirements (PDF or info page)
+- [x] House Rules — published as `docs/house-rules.html`
+- [x] Move-In / Move-Out Policy — published as `docs/move-policy.html`
+- [x] Insurance Requirements — published as `docs/insurance-requirements.html`
+- [ ] Proprietary Lease (PDF) — private Google Drive folder
+- [ ] Bylaws / Certificate of Incorporation (PDF) — private Google Drive folder
+- [ ] Sublet Application (PDF form) — private Google Drive folder
+- [ ] Alteration Agreement (PDF) — private Google Drive folder
+
+> Note: the three published documents above use the Board's recommended
+> figures (deposits, fines, $300,000 HO-6 minimum). Confirm them against the
+> Proprietary Lease and add the co-op's exact legal name to the insurance page.
 
 ---
 
