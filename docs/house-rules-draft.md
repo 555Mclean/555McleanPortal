@@ -13,8 +13,9 @@ Board at any time.
 ---
 
 ## 1. Noise & Quiet Enjoyment
-- Quiet hours are **10:00 PM to 8:00 AM** daily, and all day on Sundays and
-  legal holidays for construction/renovation noise.
+- Acceptable hours for noise are **8:00 AM to 10:00 PM**; **quiet hours run from
+  10:00 PM to 8:00 AM** daily. No construction/renovation noise on Sundays or
+  legal holidays.
 - No resident shall make or permit noise that unreasonably disturbs neighbors at
   any hour (loud music, TVs, instruments, parties, barking, etc.).
 - At least **80% of the floor area of each apartment** (excluding kitchens and
@@ -73,7 +74,8 @@ Board at any time.
   the property. No blocking driveways, fire lanes, dumpsters, or other spaces.
 
 ## 8. Laundry Room
-- Confirm hours and reflect them here (suggested **7:00 AM – 10:00 PM**).
+- The laundry room is open **24 hours a day**. Be considerate of neighbors and
+  observe quiet hours (no slamming machines/doors between 10:00 PM and 8:00 AM).
 - Remove laundry promptly; do not leave clothing unattended for long periods.
 - Clean lint traps after each use; report broken machines to the managing agent.
 
