@@ -1,0 +1,26 @@
+name: CI
+
+# Runs tests (and a build smoke-check) on every pull request, so changes get a
+# green/red check before they reach main. Fires on the PR's opened/synchronize/
+# reopened events, so each push to a PR branch re-runs it. Pushes to main are
+# covered by the test job in deploy.yml.
+on:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
