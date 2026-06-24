@@ -51,7 +51,7 @@ Documents needed:
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
 - [ ] **Building amenities & policies** — laundry hours/location, package handling, recycling/trash schedule, super's hours, guest policy, quiet hours
 - [ ] **Extended emergency contacts** — super's name and direct number, Con Ed gas/electric emergency lines, local non-emergency police (46th Precinct)
-- [ ] **ClickPay onboarding info** — step-by-step instructions for shareholders registering with ClickPay for the first time
+- [x] **ClickPay onboarding info** — step-by-step first-time registration guide added to the Resources section (expandable "New to ClickPay?" panel)
 
 ---
 

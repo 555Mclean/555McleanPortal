@@ -449,6 +449,59 @@
       margin-top: 0.25rem;
     }
 
+    /* ── CLICKPAY REGISTRATION GUIDE ── */
+    .clickpay-guide {
+      margin-top: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .clickpay-guide > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1.2rem 1.6rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: background 0.2s;
+    }
+    .clickpay-guide > summary::-webkit-details-marker { display: none; }
+    .clickpay-guide > summary:hover { background: var(--bg-card-hover); }
+    .clickpay-guide > summary .cp-chevron {
+      margin-left: auto;
+      transition: transform 0.25s ease;
+      color: var(--text-tertiary);
+    }
+    .clickpay-guide[open] > summary .cp-chevron { transform: rotate(180deg); }
+    .clickpay-guide .cp-body {
+      padding: 0 1.6rem 1.4rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+    .clickpay-guide ol {
+      margin: 0.5rem 0 1rem;
+      padding-left: 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+    .clickpay-guide ol li { padding-left: 0.3rem; }
+    .clickpay-guide ol li strong { color: var(--text); font-weight: 600; }
+    .clickpay-guide .cp-note {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-light);
+      padding-top: 0.9rem;
+    }
+    .clickpay-guide .cp-note a { color: var(--blue); }
+
     /* ── DOCUMENTS ── */
     #documents {
       background: var(--bg);
@@ -1756,6 +1809,25 @@
           <span class="res-link">Sign up below →</span>
         </a>
       </div>
+
+      <!-- CLICKPAY FIRST-TIME REGISTRATION — generic ClickPay resident self-onboarding steps -->
+      <details class="clickpay-guide fade-in">
+        <summary>
+          💳 New to ClickPay? How to register for the first time
+          <span class="cp-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cp-body">
+          <p>Maintenance is paid through ClickPay. If you've never used it before, setting up your account takes just a few minutes:</p>
+          <ol>
+            <li>Go to <a href="https://www.clickpay.com/Home.html" target="_blank" rel="noopener noreferrer">clickpay.com</a> and click <strong>Register</strong> to create an account (or use the registration link printed on your maintenance coupon or welcome letter).</li>
+            <li>Enter your <strong>name, email address, and a password</strong> to set up your profile.</li>
+            <li><strong>Connect your unit:</strong> search for the property or managing agent, then enter the <strong>account number</strong> shown on your maintenance statement to link your apartment.</li>
+            <li>Add a <strong>payment method</strong> — a bank account (e-check) is typically fee-free, while debit/credit cards may carry a processing fee.</li>
+            <li>Make a <strong>one-time payment</strong> or enroll in <strong>AutoPay</strong> so your maintenance is paid automatically each month.</li>
+          </ol>
+          <p class="cp-note">Need help finding your account number or connecting your unit? Contact the managing agent or the board and we'll point you in the right direction.</p>
+        </div>
+      </details>
     </div>
   </div>
 
