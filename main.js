@@ -37,6 +37,36 @@ export function switchWLTab(type, btn) {
   document.getElementById('wl-panel-' + type).classList.add('active');
 }
 
+// Remembered resident details, so the waitlist form is pre-filled on return.
+// Wrapped in try/catch since localStorage can be unavailable (private mode, etc.).
+export const WL_STORE_KEY = 'wl-resident';
+
+function readResident() {
+  try { return JSON.parse(localStorage.getItem(WL_STORE_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveResident(r) {
+  try { localStorage.setItem(WL_STORE_KEY, JSON.stringify(r)); } catch { /* ignore */ }
+}
+
+// Pre-fill any empty waitlist contact fields with the resident's saved details.
+// Every lookup is guarded so this is safe to call on pages missing the fields.
+export function prefillWaitlist() {
+  const r = readResident();
+  if (!r.name && !r.unit && !r.email && !r.phone) return;
+  ['p', 's'].forEach(prefix => {
+    const set = (field, val) => {
+      const el = document.getElementById(prefix + '-' + field);
+      if (el && !el.value && val) el.value = val;
+    };
+    set('name', r.name);
+    set('unit', r.unit);
+    set('email', r.email);
+    set('phone', r.phone);
+  });
+}
+
 export function submitWaitlist(type) {
   const prefix = type === 'parking' ? 'p' : 's';
   const name  = document.getElementById(prefix + '-name').value.trim();
@@ -49,6 +79,19 @@ export function submitWaitlist(type) {
   errorEl.style.display = valid ? 'none' : 'block';
   if (!valid) return;
 
+  // Parking asks two extra preference questions; the storage form has neither,
+  // so each lookup is guarded and the lines are only added when present.
+  let extra = '';
+  if (type === 'parking') {
+    const prefEl = document.getElementById('p-preference');
+    const spotEl = document.getElementById('p-spot-number');
+    if (prefEl && prefEl.value) extra += '\nSpot Preference: ' + prefEl.value;
+    if (spotEl && spotEl.value) extra += '\nRequesting: ' + spotEl.value;
+  }
+
+  // Remember the resident's details so the form is pre-filled next time.
+  saveResident({ name, unit, email, phone });
+
   const label   = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
   const subject = encodeURIComponent('Waiting List Request – ' + label);
   const body    = encodeURIComponent(
@@ -56,7 +99,8 @@ export function submitWaitlist(type) {
     '\n\nName: ' + name +
     '\nApartment: ' + unit +
     '\nEmail: ' + email +
-    (phone ? '\nPhone: ' + phone : '')
+    (phone ? '\nPhone: ' + phone : '') +
+    extra
   );
 
   window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
@@ -212,4 +256,5 @@ export function init() {
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   renderSlots('parking');
   renderSlots('storage');
+  prefillWaitlist();
 }

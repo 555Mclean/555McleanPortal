@@ -859,7 +859,8 @@
       margin-bottom: 0.35rem;
     }
 
-    .wl-field input {
+    .wl-field input,
+    .wl-field select {
       width: 100%;
       background: var(--bg-2);
       border: 1px solid var(--border-ui);
@@ -871,8 +872,27 @@
       outline: none;
       transition: border-color 0.2s;
     }
+    .wl-field select { cursor: pointer; appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 2rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23a88860' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; }
     .wl-field input::placeholder { color: var(--text-tertiary); }
-    .wl-field input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+    .wl-field input:focus,
+    .wl-field select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+
+    .wl-policy-note {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      background: var(--blue-glow);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.1rem;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+    .wl-policy-note strong { color: var(--text); font-weight: 600; }
+    .wl-policy-note .wl-policy-icon { flex-shrink: 0; font-size: 1rem; line-height: 1.5; }
 
     .wl-submit-row {
       display: flex;
@@ -2002,6 +2022,10 @@
       <div class="wl-panel active" id="wl-panel-parking">
         <div id="parking-form">
           <p class="wl-panel-desc">Join the waiting list for an available parking space. Spots are assigned in the order requests are received.</p>
+          <div class="wl-policy-note">
+            <span class="wl-policy-icon">ℹ️</span>
+            <span><strong>How spots are assigned:</strong> Shareholders who don't yet have a parking spot are given first priority. A maximum of <strong>2 spots per shareholder</strong> is permitted — a second spot is only offered once everyone waiting for their first has been accommodated.</span>
+          </div>
           <div class="wl-field-row">
             <div class="wl-field">
               <label for="p-name">Full Name</label>
@@ -2020,6 +2044,23 @@
             <div class="wl-field">
               <label for="p-phone">Phone (optional)</label>
               <input type="tel" id="p-phone" placeholder="(914) 555-0000" />
+            </div>
+          </div>
+          <div class="wl-field-row">
+            <div class="wl-field">
+              <label for="p-preference">Spot Preference</label>
+              <select id="p-preference">
+                <option value="Whichever becomes available first">Whichever becomes available first</option>
+                <option value="Indoor">Indoor</option>
+                <option value="Outdoor">Outdoor</option>
+              </select>
+            </div>
+            <div class="wl-field">
+              <label for="p-spot-number">Is this your first or second spot?</label>
+              <select id="p-spot-number">
+                <option value="My first spot (I don't have one yet)">My first spot (I don't have one yet)</option>
+                <option value="My second spot (I already have one)">My second spot (I already have one)</option>
+              </select>
             </div>
           </div>
           <div class="wl-submit-row">

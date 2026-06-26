@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   WL_DATA, renderSlots, switchWLTab, submitWaitlist, submitNewsletter, init,
+  prefillWaitlist, WL_STORE_KEY,
   buildMaintenanceEmail, openMaintWizard, closeMaintWizard, selectMaintCategory,
   maintNext, maintBack, submitMaintenance, MAINT_EMAIL,
 } from '../main.js';
@@ -339,6 +340,106 @@ describe('submitWaitlist', () => {
     fillForm('p', { name: '   ', unit: '4B', email: 'jane@test.com' });
     submitWaitlist('parking');
     expect(document.getElementById('parking-error').style.display).toBe('block');
+  });
+});
+
+// ─── parking preference questions ─────────────────────────────────────────────
+
+describe('parking preference questions', () => {
+  let locationMock;
+
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <div id="wl-panel-parking">
+        <div id="parking-form">
+          <input id="p-name" /><input id="p-unit" /><input id="p-email" /><input id="p-phone" />
+          <select id="p-preference">
+            <option value="Whichever becomes available first">first available</option>
+            <option value="Indoor">Indoor</option>
+            <option value="Outdoor">Outdoor</option>
+          </select>
+          <select id="p-spot-number">
+            <option value="My first spot (I don't have one yet)">first</option>
+            <option value="My second spot (I already have one)">second</option>
+          </select>
+        </div>
+        <div id="parking-error" style="display:none"></div>
+        <div id="parking-success" style="display:none"></div>
+      </div>`;
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    try { localStorage.clear(); } catch { /* ignore */ }
+
+    document.getElementById('p-name').value = 'Jane';
+    document.getElementById('p-unit').value = '4B';
+    document.getElementById('p-email').value = 'jane@test.com';
+  });
+
+  afterEach(() => { vi.unstubAllGlobals(); });
+
+  it('includes the chosen spot preference in the email body', () => {
+    document.getElementById('p-preference').value = 'Outdoor';
+    submitWaitlist('parking');
+    expect(decodeURIComponent(locationMock.href)).toContain('Spot Preference: Outdoor');
+  });
+
+  it('includes the requested spot number in the email body', () => {
+    document.getElementById('p-spot-number').value = 'My second spot (I already have one)';
+    submitWaitlist('parking');
+    expect(decodeURIComponent(locationMock.href)).toContain('Requesting: My second spot');
+  });
+
+  it('defaults to the first-available preference and first spot', () => {
+    submitWaitlist('parking');
+    const decoded = decodeURIComponent(locationMock.href);
+    expect(decoded).toContain('Spot Preference: Whichever becomes available first');
+    expect(decoded).toContain("Requesting: My first spot");
+  });
+
+  it('remembers the resident details in localStorage after submitting', () => {
+    submitWaitlist('parking');
+    const saved = JSON.parse(localStorage.getItem(WL_STORE_KEY));
+    expect(saved).toMatchObject({ name: 'Jane', unit: '4B', email: 'jane@test.com' });
+  });
+});
+
+// ─── prefillWaitlist ──────────────────────────────────────────────────────────
+
+describe('prefillWaitlist', () => {
+  beforeEach(() => {
+    try { localStorage.clear(); } catch { /* ignore */ }
+    document.body.innerHTML =
+      '<input id="p-name" /><input id="p-unit" /><input id="p-email" /><input id="p-phone" />';
+  });
+
+  afterEach(() => {
+    try { localStorage.clear(); } catch { /* ignore */ }
+  });
+
+  it('fills empty fields from the saved resident details', () => {
+    localStorage.setItem(WL_STORE_KEY, JSON.stringify({ name: 'Jane Smith', unit: '4B', email: 'jane@test.com' }));
+    prefillWaitlist();
+    expect(document.getElementById('p-name').value).toBe('Jane Smith');
+    expect(document.getElementById('p-unit').value).toBe('4B');
+    expect(document.getElementById('p-email').value).toBe('jane@test.com');
+  });
+
+  it('does not overwrite a field the user has already filled', () => {
+    localStorage.setItem(WL_STORE_KEY, JSON.stringify({ name: 'Jane Smith' }));
+    document.getElementById('p-name').value = 'Bob';
+    prefillWaitlist();
+    expect(document.getElementById('p-name').value).toBe('Bob');
+  });
+
+  it('does nothing when there is no saved resident', () => {
+    prefillWaitlist();
+    expect(document.getElementById('p-name').value).toBe('');
+  });
+
+  it('does not throw when the contact fields are absent', () => {
+    document.body.innerHTML = '';
+    localStorage.setItem(WL_STORE_KEY, JSON.stringify({ name: 'Jane Smith' }));
+    expect(() => prefillWaitlist()).not.toThrow();
   });
 });
 
