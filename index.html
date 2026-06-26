@@ -449,6 +449,96 @@
       margin-top: 0.25rem;
     }
 
+    /* ── VENDORS ── */
+    #vendors {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 5.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #vendors .inner { max-width: 980px; margin: 0 auto; }
+
+    .vendor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--border-light);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .vendor-card {
+      background: var(--bg-card);
+      padding: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .vendor-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 32px rgba(120,70,20,0.13);
+      z-index: 1;
+      position: relative;
+    }
+
+    .vendor-card-icon {
+      font-size: 1.5rem;
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+    .vendor-card:hover .vendor-card-icon { transform: scale(1.15); }
+
+    .vendor-card-cat {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.1rem;
+    }
+
+    .vendor-card h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .vendor-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .vendor-card-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      margin-top: 0.4rem;
+    }
+
+    .vendor-card-contact a {
+      font-size: 0.78rem;
+      color: var(--blue);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .vendor-card-contact a:hover { text-decoration: underline; }
+
+    .vendor-placeholder {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      font-style: italic;
+      margin-top: 0.3rem;
+    }
+
     /* ── DOCUMENTS ── */
     #documents {
       background: var(--bg);
@@ -1497,6 +1587,7 @@
       <a href="#updates">Updates</a>
       <a href="#meetings">Meetings</a>
       <a href="#resources">Resources</a>
+      <a href="#vendors">Vendors</a>
       <a href="#documents">Documents</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
@@ -1732,12 +1823,6 @@
           <span class="res-link">Read house rules →</span>
         </a>
         <a href="mailto:board@example.com" class="resource-item fade-in">
-          <div class="res-icon">📄</div>
-          <h4>Meeting Minutes</h4>
-          <p>Request minutes from recent board meetings as a shareholder.</p>
-          <span class="res-link">Request via email →</span>
-        </a>
-        <a href="mailto:board@example.com" class="resource-item fade-in">
           <div class="res-icon">💬</div>
           <h4>Contact the Board</h4>
           <p>Reach out to the Board of Directors with questions or concerns.</p>
@@ -1756,6 +1841,76 @@
           <span class="res-link">Sign up below →</span>
         </a>
       </div>
+    </div>
+  </div>
+
+  <!-- VENDORS -->
+  <div id="vendors">
+    <div class="inner">
+      <div class="section-eyebrow">Building Services</div>
+      <h2 class="section-title">Approved<br>Vendors</h2>
+      <p class="section-sub">Board-approved contractors and service providers for common building needs. Contact the managing agent to arrange any service.</p>
+
+      <p class="site-notice">Vendor contact details will be updated by the board. In the meantime, reach the managing agent to request any service.</p>
+
+      <!-- VENDORS-LIST-START -->
+      <div class="vendor-grid">
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">🔧</span>
+          <div class="vendor-card-cat">Plumbing</div>
+          <h4>Building Plumber</h4>
+          <p>Contact managing agent for the board-approved plumber.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">⚡</span>
+          <div class="vendor-card-cat">Electrical</div>
+          <h4>Building Electrician</h4>
+          <p>Contact managing agent for the board-approved electrician.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">🔑</span>
+          <div class="vendor-card-cat">Locksmith</div>
+          <h4>Building Locksmith</h4>
+          <p>Contact managing agent for the board-approved locksmith.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">🐜</span>
+          <div class="vendor-card-cat">Pest Control</div>
+          <h4>Building Exterminator</h4>
+          <p>Pest control is handled building-wide. Contact managing agent to schedule.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">❄️</span>
+          <div class="vendor-card-cat">HVAC</div>
+          <h4>HVAC / Air Conditioning</h4>
+          <p>Contact managing agent for the board-approved HVAC service.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">🚪</span>
+          <div class="vendor-card-cat">Intercom &amp; Doors</div>
+          <h4>Intercom &amp; Door Repair</h4>
+          <p>Contact managing agent for intercom or door issues.</p>
+          <div class="vendor-card-contact">
+            <span class="vendor-placeholder">Contact info coming soon</span>
+          </div>
+        </div>
+      </div>
+      <!-- VENDORS-LIST-END -->
     </div>
   </div>
 
@@ -2120,6 +2275,7 @@
         <a href="#updates">Updates</a>
         <a href="#meetings">Meetings</a>
         <a href="#resources">Resources</a>
+        <a href="#vendors">Vendors</a>
         <a href="#documents">Documents</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
