@@ -630,6 +630,127 @@ describe('maintenance wizard flow', () => {
   });
 });
 
+// ─── showToast integration ────────────────────────────────────────────────────
+
+describe('showToast hooks', () => {
+  let locationMock, toastSpy;
+
+  beforeEach(() => {
+    setupDOM();
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    toastSpy = vi.fn();
+    window.showToast = toastSpy;
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    delete window.showToast;
+  });
+
+  it('calls window.showToast after a successful waitlist submission', () => {
+    fillForm('p', { name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    submitWaitlist('parking');
+    expect(toastSpy).toHaveBeenCalledOnce();
+  });
+
+  it('does not throw when window.showToast is absent on a valid submission', () => {
+    delete window.showToast;
+    fillForm('p', { name: 'Jane', unit: '4B', email: 'jane@test.com' });
+    expect(() => submitWaitlist('parking')).not.toThrow();
+  });
+
+  it('calls window.showToast after a successful newsletter submission', () => {
+    document.body.innerHTML = `
+      <div id="nl-form"><input id="nl-name"/><input id="nl-unit"/><input id="nl-email"/><input id="nl-phone"/></div>
+      <div id="nl-error" style="display:none"></div>
+      <div id="nl-success" style="display:none"></div>`;
+    document.getElementById('nl-name').value = 'Jane';
+    document.getElementById('nl-unit').value = '4B';
+    document.getElementById('nl-email').value = 'jane@test.com';
+    submitNewsletter();
+    expect(toastSpy).toHaveBeenCalledOnce();
+  });
+});
+
+// ─── maintenance wizard edge cases ─────────────────────────────────────────────
+
+describe('maintenance wizard edge cases', () => {
+  let locationMock;
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    delete window.showToast;
+  });
+
+  it('calls preventDefault and restores focus through the open/close cycle', () => {
+    document.body.innerHTML = `
+      <button id="opener">Open</button>
+      <div class="mr-overlay" id="mr-overlay">
+        <div class="mr-step active"><button class="mr-cat-btn"></button></div>
+      </div>`;
+    const opener = document.getElementById('opener');
+    opener.focus();
+    const preventDefault = vi.fn();
+
+    openMaintWizard({ preventDefault });
+    expect(preventDefault).toHaveBeenCalledOnce();
+    expect(document.activeElement).toBe(document.querySelector('.mr-cat-btn'));
+
+    closeMaintWizard();
+    expect(document.activeElement).toBe(opener); // focus returned to the trigger
+  });
+
+  it('tolerates a missing error element when validation fails', () => {
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    // No #mr-error-3 element present — submitMaintenance must not throw.
+    document.body.innerHTML = `<div class="mr-overlay" id="mr-overlay"><textarea id="mr-desc"></textarea></div>`;
+    expect(() => submitMaintenance()).not.toThrow();
+    expect(locationMock.href).toBe(''); // still blocked on the empty description
+  });
+
+  it('opens without error when there is no category button to focus', () => {
+    document.body.innerHTML = `<div class="mr-overlay" id="mr-overlay"></div>`;
+    expect(() => openMaintWizard()).not.toThrow();
+    expect(document.getElementById('mr-overlay').classList.contains('open')).toBe(true);
+  });
+
+  it('falls back to Other / Routine when no category or urgency is selected', () => {
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    document.body.innerHTML = `
+      <div class="mr-overlay" id="mr-overlay">
+        <input id="mr-name" value="Jane" />
+        <input id="mr-unit" value="4B" />
+        <input id="mr-phone" value="" />
+        <input id="mr-email" value="" />
+        <textarea id="mr-desc">Leak</textarea>
+        <p id="mr-error-3" style="display:none"></p>
+      </div>`;
+    submitMaintenance();
+    const decoded = decodeURIComponent(locationMock.href);
+    expect(decoded).toContain('Category: Other');
+    expect(decoded).toContain('Urgency: Routine');
+  });
+
+  it('fires showToast on a successful submission', () => {
+    locationMock = { href: '' };
+    vi.stubGlobal('location', locationMock);
+    const toastSpy = vi.fn();
+    window.showToast = toastSpy;
+    document.body.innerHTML = `
+      <div class="mr-overlay" id="mr-overlay">
+        <input id="mr-name" value="Jane" /><input id="mr-unit" value="4B" />
+        <input id="mr-phone" value="" /><input id="mr-email" value="" />
+        <textarea id="mr-desc">Leak</textarea>
+        <p id="mr-error-3" style="display:none"></p>
+      </div>`;
+    submitMaintenance();
+    expect(toastSpy).toHaveBeenCalledOnce();
+  });
+});
+
 // ─── init ────────────────────────────────────────────────────────────────────
 
 describe('init', () => {

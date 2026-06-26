@@ -2133,6 +2133,8 @@
     import { init, switchWLTab, submitWaitlist, submitNewsletter,
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
+    import { relativeDateLabel, countdownLabel, prefersDarkDefault,
+             updateCardMatches, buildICS } from './ui.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.submitNewsletter = submitNewsletter;
@@ -2211,7 +2213,7 @@
     }
     let savedTheme = null;
     try { savedTheme = localStorage.getItem('theme'); } catch {}
-    applyTheme(savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches);
+    applyTheme(prefersDarkDefault(savedTheme, window.matchMedia('(prefers-color-scheme: dark)').matches));
     window.toggleTheme = function() {
       const dark = document.documentElement.getAttribute('data-theme') !== 'dark';
       try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch {}
@@ -2224,9 +2226,7 @@
     function applyUpdateFilters() {
       let any = false;
       document.querySelectorAll('.update-card').forEach(card => {
-        const matchesCat   = updCategory === 'all' || card.dataset.category === updCategory;
-        const matchesQuery = !updQuery || card.textContent.toLowerCase().includes(updQuery);
-        const show = matchesCat && matchesQuery;
+        const show = updateCardMatches(card.textContent, card.dataset.category, updCategory, updQuery);
         card.style.display = show ? '' : 'none';
         if (show) any = true;
       });
@@ -2247,14 +2247,9 @@
     // Relative event badges (Today / Tomorrow / date) — recomputed on load so
     // they stay accurate even when the site hasn't been rebuilt
     document.querySelectorAll('.badge[data-event-date]').forEach(b => {
-      const [y, m, d] = b.dataset.eventDate.split('-').map(Number);
-      const ev = new Date(y, m - 1, d);
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const diff = Math.round((ev - today) / 86400000);
-      if (diff < 0) b.remove();
-      else b.textContent = diff === 0 ? 'Today' : diff === 1 ? 'Tomorrow'
-        : ev.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const label = relativeDateLabel(b.dataset.eventDate);
+      if (label === null) b.remove();
+      else b.textContent = label;
     });
 
     // Next-meeting countdown chip (populated by build.js when a dated meeting exists)
@@ -2266,14 +2261,9 @@
       if (isNaN(start) || isNaN(end)) { chip.remove(); return; }
       let timer;
       function tick() {
-        const now = new Date();
-        if (now > end) { chip.remove(); clearInterval(timer); return; }
-        if (now >= start) { chip.textContent = 'Happening Now'; return; }
-        const diff = start - now;
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        chip.textContent = 'in ' + (d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h ${m}m` : `${m}m`);
+        const label = countdownLabel(start, end);
+        if (label === null) { chip.remove(); clearInterval(timer); return; }
+        chip.textContent = label;
       }
       tick();
       timer = setInterval(tick, 30000);
@@ -2282,28 +2272,7 @@
     // Add to Calendar (.ics download)
     window.addToCalendar = function(dateStr, title, location, startTime, endTime) {
       if (!dateStr) return;
-      const esc = s => s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,');
-      const [y, m, d] = dateStr.split('-');
-      const start = `${y}${m}${d}T${startTime.replace(':', '')}00`;
-      const end   = `${y}${m}${d}T${endTime.replace(':', '')}00`;
-      const pad2  = n => String(n).padStart(2, '0');
-      const now_d = new Date();
-      const dtstamp = `${now_d.getUTCFullYear()}${pad2(now_d.getUTCMonth()+1)}${pad2(now_d.getUTCDate())}T${pad2(now_d.getUTCHours())}${pad2(now_d.getUTCMinutes())}${pad2(now_d.getUTCSeconds())}Z`;
-      const uid = `${dateStr}T${startTime.replace(':','')}@555mclean.github.io`;
-      const ics = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//555 McLean Ave//Resident Portal//EN',
-        'BEGIN:VEVENT',
-        'DTSTAMP:' + dtstamp,
-        'UID:' + uid,
-        'DTSTART:' + start,
-        'DTEND:'   + end,
-        'SUMMARY:' + esc(title),
-        'LOCATION:' + esc(location),
-        'END:VEVENT',
-        'END:VCALENDAR'
-      ].join('\r\n');
+      const ics = buildICS(dateStr, title, location, startTime, endTime);
       const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
       const url  = URL.createObjectURL(blob);
       const a    = document.createElement('a');
