@@ -12,6 +12,7 @@ const meetings = loadJSON('./data/meetings.json');
 const waitlist = loadJSON('./data/waitlist.json');
 const notice   = loadJSON('./data/notices.json');
 const updates  = loadJSON('./data/updates.json');
+const vendors  = loadJSON('./data/vendors.json');
 
 // ── Build meeting list HTML ──
 function buildMeetingItem(m) {
@@ -81,9 +82,31 @@ function buildFilterButtons(updates) {
   return [allBtn, ...catBtns].join('\n');
 }
 
+// ── Build vendor cards HTML ──
+function buildVendorCard(v) {
+  let contact = '';
+  if (v.phone && v.url) {
+    contact = `<div class="vendor-card-contact"><a href="tel:${escapeAttr(v.phone)}">${escapeHTML(v.phone)}</a><a href="${escapeAttr(v.url)}" target="_blank" rel="noopener noreferrer">Website →</a></div>`;
+  } else if (v.phone) {
+    contact = `<div class="vendor-card-contact"><a href="tel:${escapeAttr(v.phone)}">${escapeHTML(v.phone)}</a></div>`;
+  } else if (v.url) {
+    contact = `<div class="vendor-card-contact"><a href="${escapeAttr(v.url)}" target="_blank" rel="noopener noreferrer">Website →</a></div>`;
+  } else {
+    contact = `<div class="vendor-card-contact"><span class="vendor-placeholder">Contact info coming soon</span></div>`;
+  }
+  return `        <div class="vendor-card fade-in">
+          <span class="vendor-card-icon">${escapeHTML(v.icon)}</span>
+          <div class="vendor-card-cat">${escapeHTML(v.category)}</div>
+          <h4>${escapeHTML(v.name)}</h4>
+          <p>${escapeHTML(v.note)}</p>
+          ${contact}
+        </div>`;
+}
+
 const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 const updatesHTML  = updates.map(buildUpdateCard).join('\n');
 const filtersHTML  = buildFilterButtons(updates);
+const vendorsHTML  = vendors.map(buildVendorCard).join('\n');
 
 // ── Build notice bar HTML (empty string when inactive or expired) ──
 // Optional "expires" (e.g. "2026-06-10T14:00") hides the bar after that time:
@@ -118,6 +141,11 @@ const FILTERS_RE = /<!-- FILTERS-START -->[\s\S]*?<!-- FILTERS-END -->/;
 if (!FILTERS_RE.test(html)) { console.error('ERROR: FILTERS markers missing'); process.exit(1); }
 html = html.replace(FILTERS_RE,
   `<!-- FILTERS-START -->\n${filtersHTML}\n      <!-- FILTERS-END -->`);
+
+const VENDORS_RE = /<!-- VENDORS-LIST-START -->[\s\S]*?<!-- VENDORS-LIST-END -->/;
+if (!VENDORS_RE.test(html)) { console.error('ERROR: VENDORS-LIST markers missing'); process.exit(1); }
+html = html.replace(VENDORS_RE,
+  `<!-- VENDORS-LIST-START -->\n      <div class="vendor-grid">\n${vendorsHTML}\n      </div>\n      <!-- VENDORS-LIST-END -->`);
 
 const NOTICE_RE = /<!-- NOTICE-BAR -->/;
 if (!NOTICE_RE.test(html)) { console.error('ERROR: NOTICE-BAR marker missing'); process.exit(1); }
@@ -180,5 +208,6 @@ if (existsSync('./docs')) {
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
 console.log(
   `Built: ${meetings.length} meetings · ${updates.length} updates · ` +
-  `${waitlist.parking.length} parking · ${waitlist.storage.length} storage · ${noticeStatus}`
+  `${waitlist.parking.length} parking · ${waitlist.storage.length} storage · ` +
+  `${vendors.length} vendors · ${noticeStatus}`
 );
