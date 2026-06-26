@@ -69,6 +69,7 @@ js = js.replace(WL_RE, `export const WL_DATA = {
 mkdirSync('./dist', { recursive: true });
 writeFileSync('./dist/index.html', html);
 writeFileSync('./dist/main.js', js);
+if (existsSync('./styles.css'))  copyFileSync('./styles.css',  './dist/styles.css');
 if (existsSync('./ui.js'))       copyFileSync('./ui.js',       './dist/ui.js');
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
