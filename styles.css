@@ -368,69 +368,6 @@
       font-weight: 300;
     }
 
-    /* ── RESOURCES ── */
-    #resources {
-      background: var(--bg-2);
-      max-width: 100%;
-      padding: 4rem 2rem;
-      border-top: 1px solid var(--border-light);
-      border-bottom: 1px solid var(--border-light);
-    }
-    #resources .inner { max-width: 980px; margin: 0 auto; }
-
-    .resource-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-      gap: 1px;
-      background: var(--border-light);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .resource-item {
-      background: var(--bg-card);
-      padding: 1.8rem;
-      text-decoration: none;
-      color: inherit;
-      transition: background 0.2s, transform 0.25s ease, box-shadow 0.25s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .resource-item:hover {
-      background: var(--bg-card-hover);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 32px rgba(120,70,20,0.13);
-      z-index: 1;
-      position: relative;
-    }
-    .resource-item:hover .res-icon { transform: scale(1.15); }
-    .resource-item .res-icon { transition: transform 0.25s ease; display: inline-block; font-size: 1.5rem; }
-
-    .resource-item h4 {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
-
-    .resource-item p {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      line-height: 1.65;
-      flex: 1;
-    }
-
-    .resource-item .res-link {
-      font-size: 0.75rem;
-      color: var(--blue);
-      font-weight: 500;
-      margin-top: 0.25rem;
-    }
-
     /* ── DOCUMENTS ── */
     #documents {
       background: var(--bg);
