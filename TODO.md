@@ -65,11 +65,14 @@ Quick version:
 
 ## 📋 Future Sections to Add (when info is available)
 
-- [ ] **Payment info** — ClickPay is linked; if there's an account setup guide or support contact, add it to the Resources section
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
-- [ ] **Building amenities & policies** — laundry hours/location, package handling, recycling/trash schedule, super's hours, guest policy, quiet hours
-- [ ] **Extended emergency contacts** — super's name and direct number, Con Ed gas/electric emergency lines, local non-emergency police (46th Precinct)
-- [ ] **ClickPay onboarding info** — step-by-step instructions for shareholders registering with ClickPay for the first time
+- [x] **Building amenities & policies** — published as `docs/amenities.html` (confirm hours/locations marked "to be confirmed")
+- [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
+- [x] **ClickPay onboarding info** — published as `docs/clickpay-guide.html`
+
+> The three pages above ship with sensible defaults; the board should confirm
+> the items marked "to be confirmed" (hours, super's number, building emergency
+> line) before treating them as official.
 
 ---
 

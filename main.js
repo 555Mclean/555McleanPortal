@@ -235,21 +235,18 @@ export const WL_SUBMIT = {
   fields: { list: '', name: '', unit: '', email: '', phone: '', preference: '', spot: '' },
 };
 
-// Fire-and-forget POST to the configured form service. Uses no-cors because
+// Fire-and-forget POST to a configured form service. Uses no-cors because
 // services like Google Forms don't return CORS headers; we can't read the
-// response, so we optimistically treat a sent request as success.
-function postToFormService(data) {
+// response, so callers optimistically treat a sent request as success.
+// `fields` maps our logical keys to the service's field names (e.g. entry IDs);
+// `values` holds the data. Only mapped, non-empty values are sent.
+function postToService(url, fields, values) {
   const fd = new FormData();
-  const f = WL_SUBMIT.fields || {};
-  const add = (key, val) => { if (f[key] && val) fd.append(f[key], val); };
-  add('list', data.label);
-  add('name', data.name);
-  add('unit', data.unit);
-  add('email', data.email);
-  add('phone', data.phone);
-  add('preference', data.preference);
-  add('spot', data.spot);
-  return fetch(WL_SUBMIT.url, { method: 'POST', mode: 'no-cors', body: fd });
+  const f = fields || {};
+  Object.keys(f).forEach(key => {
+    if (f[key] && values[key]) fd.append(f[key], values[key]);
+  });
+  return fetch(url, { method: 'POST', mode: 'no-cors', body: fd });
 }
 
 export function submitWaitlist(type) {
@@ -283,7 +280,7 @@ export function submitWaitlist(type) {
 
   if (WL_SUBMIT.url) {
     // Captured submission — feeds the responses Sheet that auto-updates the queue.
-    try { postToFormService({ label, name, unit, email, phone, preference, spot }); }
+    try { postToService(WL_SUBMIT.url, WL_SUBMIT.fields, { list: label, name, unit, email, phone, preference, spot }); }
     catch { /* network hiccup — the email fallback link in the success panel covers it */ }
   } else {
     // Email fallback — opens the resident's mail app with a pre-filled message.
@@ -309,6 +306,14 @@ export function submitWaitlist(type) {
   if (window.showToast) window.showToast("You're on the list! ✓");
 }
 
+// Optional capture for the newsletter sign-up. Same pattern as WL_SUBMIT: when a
+// form-service URL is set the sign-up is POSTed there; otherwise it falls back to
+// the email flow. Leave url empty to keep the email behavior.
+export const NL_SUBMIT = {
+  url: '',
+  fields: { name: '', unit: '', email: '', phone: '' },
+};
+
 export function submitNewsletter() {
   const name    = document.getElementById('nl-name').value.trim();
   const unit    = document.getElementById('nl-unit').value.trim();
@@ -320,16 +325,20 @@ export function submitNewsletter() {
   errorEl.style.display = valid ? 'none' : 'block';
   if (!valid) return;
 
-  const subject = encodeURIComponent('Building Updates Sign-Up — 555 McLean Ave');
-  const body    = encodeURIComponent(
-    'Building Updates Sign-Up' +
-    '\n\nName: '    + name +
-    '\nApartment: ' + unit +
-    '\nEmail: '     + email +
-    (phone ? '\nPhone: ' + phone : '')
-  );
-
-  window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
+  if (NL_SUBMIT.url) {
+    try { postToService(NL_SUBMIT.url, NL_SUBMIT.fields, { name, unit, email, phone }); }
+    catch { /* network hiccup — board can still be reached by email */ }
+  } else {
+    const subject = encodeURIComponent('Building Updates Sign-Up — 555 McLean Ave');
+    const body    = encodeURIComponent(
+      'Building Updates Sign-Up' +
+      '\n\nName: '    + name +
+      '\nApartment: ' + unit +
+      '\nEmail: '     + email +
+      (phone ? '\nPhone: ' + phone : '')
+    );
+    window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
+  }
 
   document.getElementById('nl-form').style.display = 'none';
   document.getElementById('nl-success').style.display = 'block';
@@ -338,6 +347,14 @@ export function submitNewsletter() {
 
 // ── Maintenance Request Wizard ──
 export const MAINT_EMAIL = 'info@gramatanmanagement.com';
+
+// Optional capture for maintenance requests. When a form-service URL is set the
+// request is POSTed there (so the agent gets a logged entry); otherwise it falls
+// back to the email draft. Leave url empty to keep the email behavior.
+export const MAINT_SUBMIT = {
+  url: '',
+  fields: { category: '', urgency: '', name: '', unit: '', phone: '', email: '', desc: '' },
+};
 
 export function buildMaintenanceEmail(d) {
   const subject = 'Maintenance Request — Apt ' + d.unit + ' — ' + d.category +
@@ -424,7 +441,7 @@ export function submitMaintenance() {
 
   const catBtn  = document.querySelector('.mr-cat-btn.selected');
   const urgency = document.querySelector('input[name="mr-urgency"]:checked');
-  const { subject, body } = buildMaintenanceEmail({
+  const d = {
     category: catBtn ? catBtn.dataset.category : 'Other',
     urgency:  urgency ? urgency.value : 'Routine',
     name:  document.getElementById('mr-name').value.trim(),
@@ -432,14 +449,21 @@ export function submitMaintenance() {
     phone: document.getElementById('mr-phone').value.trim(),
     email: document.getElementById('mr-email').value.trim(),
     desc,
-  });
+  };
 
-  window.location.href = 'mailto:' + MAINT_EMAIL +
-    '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  if (MAINT_SUBMIT.url) {
+    try { postToService(MAINT_SUBMIT.url, MAINT_SUBMIT.fields, d); }
+    catch { /* network hiccup — agent can still be reached by email */ }
+    if (window.showToast) window.showToast('Request sent to the managing agent ✓');
+  } else {
+    const { subject, body } = buildMaintenanceEmail(d);
+    window.location.href = 'mailto:' + MAINT_EMAIL +
+      '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    if (window.showToast) window.showToast('Request drafted — press Send in your email app ✓');
+  }
 
   mrStep = 4;
   mrShowStep();
-  if (window.showToast) window.showToast('Request drafted — press Send in your email app ✓');
 }
 
 export function init() {

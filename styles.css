@@ -1361,6 +1361,23 @@
     }
     .theme-toggle:hover { background: var(--bg-2); }
 
+    .lang-toggle {
+      background: none;
+      border: 1px solid var(--border-ui);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      line-height: 1;
+      padding: 0.35rem 0.5rem;
+      border-radius: 980px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      margin-left: 0.5rem;
+    }
+    .lang-toggle:hover { background: var(--bg-2); color: var(--text); border-color: var(--text-tertiary); }
+
     /* ── NOTICE BAR ── */
     .notice-bar {
       padding: 0.6rem 1.5rem;
@@ -1635,7 +1652,7 @@
       .cal-btn, .wl-tabs, .wl-submit-row, .nl-card,
       .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
-      .theme-toggle, .nav-toggle, .faq-search { display: none !important; }
+      .theme-toggle, .lang-toggle, .nav-toggle, .faq-search { display: none !important; }
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }
       .contact-item a[href^="mailto"]::after,
       .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }

@@ -64,7 +64,8 @@ const VERSION = Date.now().toString(36);
 html = html
   .replace(/(href="\.\/styles\.css)"/g, `$1?v=${VERSION}"`)
   .replace(/(from '\.\/main\.js)'/g, `$1?v=${VERSION}'`)
-  .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`);
+  .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`)
+  .replace(/(from '\.\/i18n\.js)'/g, `$1?v=${VERSION}'`);
 
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
@@ -81,9 +82,22 @@ writeFileSync('./dist/index.html', html);
 writeFileSync('./dist/main.js', js);
 if (existsSync('./styles.css'))  copyFileSync('./styles.css',  './dist/styles.css');
 if (existsSync('./ui.js'))       copyFileSync('./ui.js',       './dist/ui.js');
+if (existsSync('./i18n.js'))     copyFileSync('./i18n.js',     './dist/i18n.js');
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
 if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
+
+// ── PWA: manifest, icons, and a version-stamped service worker ──
+if (existsSync('./manifest.webmanifest')) copyFileSync('./manifest.webmanifest', './dist/manifest.webmanifest');
+if (existsSync('./icons')) {
+  mkdirSync('./dist/icons', { recursive: true });
+  for (const f of readdirSync('./icons')) copyFileSync(`./icons/${f}`, `./dist/icons/${f}`);
+}
+if (existsSync('./sw.js')) {
+  // Stamp the build version so each deploy gets a fresh cache (old ones pruned).
+  const sw = readFileSync('./sw.js', 'utf8').replace(/__BUILD_VERSION__/g, VERSION);
+  writeFileSync('./dist/sw.js', sw);
+}
 
 // ── Copy published document pages (docs/*.html) into dist/docs/ ──
 if (existsSync('./docs')) {

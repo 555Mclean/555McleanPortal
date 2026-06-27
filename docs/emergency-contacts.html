@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency Contacts — 555 McLean Ave</title>
+  <meta name="description" content="Emergency and important contact numbers for 555 McLean Ave residents — building emergencies, utilities, and local services in Yonkers, NY." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf6ef; --bg-card: #ffffff; --border: rgba(140,85,40,0.15);
+      --text: #1e1208; --text-secondary: #6b5038; --text-tertiary: #a88860;
+      --blue: #2b6b9e; --amber: #c05a35; --red: #b03020;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1208; --bg-card: #2e1f10; --border: rgba(200,140,60,0.2);
+        --text: #f0e6d3; --text-secondary: #c4a06a; --text-tertiary: #8a6840;
+        --blue: #5a9fd4; --amber: #c05a35; --red: #e0654f;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+    .back { display: inline-flex; align-items: center; gap: .4rem; color: var(--blue); text-decoration: none; font-weight: 600; font-size: .95rem; margin-bottom: 2rem; }
+    .back:hover { text-decoration: underline; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; font-weight: 700; color: var(--amber); margin-bottom: .5rem; }
+    h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 800; margin: 0 0 .75rem; letter-spacing: -.02em; }
+    .lede { color: var(--text-secondary); font-size: 1.05rem; margin: 0 0 1.5rem; }
+    .note { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--amber); border-radius: 10px; padding: 1rem 1.25rem; color: var(--text-secondary); font-size: .95rem; margin: 0 0 2.5rem; }
+    section { margin-bottom: 1.6rem; }
+    h2 { font-size: 1.25rem; font-weight: 700; margin: 0 0 .8rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); }
+    .row { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; padding: .55rem 0; border-bottom: 1px solid var(--border); }
+    .row:last-child { border-bottom: none; }
+    .row .label { font-weight: 600; }
+    .row .label small { display: block; font-weight: 400; color: var(--text-tertiary); font-size: .82rem; }
+    .row .val { text-align: right; white-space: nowrap; }
+    .row .val a { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .row .val a:hover { text-decoration: underline; }
+    .tbc { color: var(--amber); font-weight: 600; font-style: italic; }
+    .emergency { color: var(--red); font-weight: 800; }
+    strong { color: var(--text); }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--text-tertiary); font-size: .9rem; }
+    a { color: var(--blue); }
+    .pdf-btn { display: inline-flex; align-items: center; gap: .4rem; background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: .6rem 1.1rem; font-weight: 600; font-size: .95rem; font-family: inherit; cursor: pointer; margin: 0 0 2rem; }
+    .pdf-btn:hover { filter: brightness(1.08); }
+    @media print { .back, .pdf-btn { display: none !important; } body { background: #fff; color: #000; } .wrap { max-width: 100%; padding: 0; } a { color: #000; text-decoration: none; } h1, h2 { break-after: avoid; } section, .row { break-inside: avoid; } .note { border: 1px solid #999; background: #fff; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html#contact">← Back to the Resident Portal</a>
+    <div class="eyebrow">Safety</div>
+    <h1>Emergency Contacts</h1>
+    <p class="lede">Keep these handy. For any life-threatening emergency, always call 911 first.</p>
+    <button type="button" class="pdf-btn" onclick="window.print()">⬇ Save as PDF</button>
+
+    <p class="note">Building-specific numbers marked <span class="tbc">to be confirmed</span> will be filled in by the board. Utility and city numbers below are public lines for Yonkers/Westchester — please verify they are current before relying on them.</p>
+
+    <section>
+      <h2>🚨 Life-Threatening Emergency</h2>
+      <div class="row"><span class="label">Police / Fire / Medical</span><span class="val"><a class="emergency" href="tel:911">911</a></span></div>
+    </section>
+
+    <section>
+      <h2>🏢 Building</h2>
+      <div class="row"><span class="label">Building emergency line<small>Water, fire, gas, lockout after hours</small></span><span class="val"><span class="tbc">to be confirmed</span></span></div>
+      <div class="row"><span class="label">Superintendent<small>Direct line &amp; hours</small></span><span class="val"><span class="tbc">to be confirmed</span></span></div>
+      <div class="row"><span class="label">Managing agent — Gramatan Management</span><span class="val"><a href="tel:+19146541414">(914) 654-1414</a></span></div>
+      <div class="row"><span class="label">Board of Directors</span><span class="val"><a href="../index.html#contact">Contact form</a></span></div>
+    </section>
+
+    <section>
+      <h2>⚡ Utilities</h2>
+      <div class="row"><span class="label">Con Edison — gas &amp; electric emergencies<small>Gas leak or power outage</small></span><span class="val"><a href="tel:+18007526633">1-800-752-6633</a></span></div>
+      <div class="row"><span class="label">Suez / Veolia Water — Westchester<small>Water main / service issues</small></span><span class="val"><span class="tbc">to be confirmed</span></span></div>
+    </section>
+
+    <section>
+      <h2>🚓 Local Services (Yonkers)</h2>
+      <div class="row"><span class="label">Yonkers Police — non-emergency</span><span class="val"><a href="tel:+19143777900">(914) 377-7900</a></span></div>
+      <div class="row"><span class="label">Yonkers Fire Department — non-emergency</span><span class="val"><span class="tbc">to be confirmed</span></span></div>
+      <div class="row"><span class="label">NYS Poison Control</span><span class="val"><a href="tel:+18002221222">1-800-222-1222</a></span></div>
+    </section>
+
+    <footer>
+      555 McLean Ave Cooperative · Yonkers, New York · Verify all numbers before publishing as official.
+    </footer>
+  </div>
+</body>
+</html>

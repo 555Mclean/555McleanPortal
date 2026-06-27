@@ -18,6 +18,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
 
 </head>
 <body>
@@ -43,6 +46,7 @@
       <a href="#newsletter">Sign Up</a>
       <a href="#faq">FAQ</a>
     </nav>
+    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar a español" onclick="toggleLang()">ES</button>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="toggleNav()">☰</button>
   </header>
@@ -270,6 +274,24 @@
           <h4>House Rules</h4>
           <p>Read the co-op's current house rules covering noise, moves, pets, parking, safety, and more.</p>
           <span class="res-link">Read house rules →</span>
+        </a>
+        <a href="./docs/amenities.html" class="resource-item fade-in">
+          <div class="res-icon">🧺</div>
+          <h4>Amenities &amp; Policies</h4>
+          <p>Laundry, packages, trash &amp; recycling, quiet hours, and other day-to-day building info.</p>
+          <span class="res-link">View details →</span>
+        </a>
+        <a href="./docs/emergency-contacts.html" class="resource-item fade-in">
+          <div class="res-icon">🚨</div>
+          <h4>Emergency Contacts</h4>
+          <p>Building emergencies, utilities, and local Yonkers services — all in one place.</p>
+          <span class="res-link">See contacts →</span>
+        </a>
+        <a href="./docs/clickpay-guide.html" class="resource-item fade-in">
+          <div class="res-icon">🧾</div>
+          <h4>ClickPay Setup Guide</h4>
+          <p>Step-by-step help registering with ClickPay and setting up online maintenance payments.</p>
+          <span class="res-link">Read the guide →</span>
         </a>
         <a href="mailto:board@example.com" class="resource-item fade-in">
           <div class="res-icon">💬</div>
@@ -765,6 +787,7 @@
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
              updateCardMatches, buildICS } from './ui.js';
+    import { applyLang, savedLang, saveLang } from './i18n.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.submitNewsletter = submitNewsletter;
@@ -778,6 +801,23 @@
     window.maintBack = maintBack;
     window.submitMaintenance = submitMaintenance;
     init();
+
+    // Language (EN/ES) toggle — translates interface text, persists choice.
+    const langBtn = document.getElementById('lang-toggle');
+    function setLangButton(lang) {
+      if (!langBtn) return;
+      langBtn.textContent = lang === 'es' ? 'EN' : 'ES';
+      langBtn.setAttribute('aria-label', lang === 'es' ? 'Switch to English' : 'Cambiar a español');
+    }
+    let curLang = savedLang();
+    applyLang(curLang);
+    setLangButton(curLang);
+    window.toggleLang = function() {
+      curLang = curLang === 'es' ? 'en' : 'es';
+      saveLang(curLang);
+      applyLang(curLang);
+      setLangButton(curLang);
+    };
 
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
@@ -1106,6 +1146,15 @@
 
   <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Service worker: makes the portal installable and available offline -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => { /* offline support unavailable */ });
+      });
+    }
+  </script>
 
 </body>
 </html>
