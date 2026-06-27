@@ -66,7 +66,7 @@ Quick version:
 ## 📋 Future Sections to Add (when info is available)
 
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
-- [x] **Building amenities & policies** — published as `docs/amenities.html` (confirm hours/locations marked "to be confirmed")
+- [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the Resources section uncluttered; standalone `docs/amenities.html` retired
 - [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
 - [x] **ClickPay onboarding info** — published as `docs/clickpay-guide.html`
 
