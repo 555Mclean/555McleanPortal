@@ -200,6 +200,9 @@
       <!-- UPDATES-LIST-END -->
     </div>
     <p class="faq-no-results" id="updates-no-results" role="status" aria-live="polite">No matching updates — try a different word or filter.</p>
+    <div class="updates-more-wrap">
+      <button class="updates-more-btn" id="updates-toggle" onclick="toggleUpdates()" aria-expanded="false"></button>
+    </div>
   </section>
 
   <!-- MEETINGS -->
@@ -255,18 +258,6 @@
       <p class="section-sub">Quick access to the documents, contacts, and services that keep our building running smoothly.</p>
 
       <div class="resource-grid">
-        <a href="https://www.clickpay.com/Home.html" class="resource-item fade-in" target="_blank" rel="noopener noreferrer">
-          <div class="res-icon">💳</div>
-          <h4>Pay Maintenance Online</h4>
-          <p>Make automatic maintenance payments through the ClickPay portal. Sign in with your resident account to set up autopay or make a one-time payment.</p>
-          <span class="res-link">Open ClickPay →</span>
-        </a>
-        <a href="#" class="resource-item fade-in" onclick="openMaintWizard(event)">
-          <div class="res-icon">🔧</div>
-          <h4>Maintenance Request</h4>
-          <p>Report a repair or service issue to the managing agent with our step-by-step request form.</p>
-          <span class="res-link">Open request form →</span>
-        </a>
         <a href="./docs/house-rules.html" class="resource-item fade-in">
           <div class="res-icon">📋</div>
           <h4>House Rules</h4>
@@ -284,24 +275,6 @@
           <h4>ClickPay Setup Guide</h4>
           <p>Step-by-step help registering with ClickPay and setting up online maintenance payments.</p>
           <span class="res-link">Read the guide →</span>
-        </a>
-        <a href="mailto:board@example.com" class="resource-item fade-in">
-          <div class="res-icon">💬</div>
-          <h4>Contact the Board</h4>
-          <p>Reach out to the Board of Directors with questions or concerns.</p>
-          <span class="res-link">board@example.com →</span>
-        </a>
-        <a href="#waitlist" class="resource-item fade-in">
-          <div class="res-icon">🚗</div>
-          <h4>Parking Waitlist</h4>
-          <p>Join the waitlist for an available parking spot in the building.</p>
-          <span class="res-link">Sign up below →</span>
-        </a>
-        <a href="#waitlist" class="resource-item fade-in">
-          <div class="res-icon">📦</div>
-          <h4>Storage Waitlist</h4>
-          <p>Join the waitlist for an available storage unit in the building.</p>
-          <span class="res-link">Sign up below →</span>
         </a>
       </div>
     </div>
@@ -820,19 +793,47 @@
       applyTheme(dark);
     };
 
-    // Update category filter + text search (combined)
+    // Update category filter + text search (combined), with a collapsed
+    // "latest 3" default view that expands on demand or while searching/filtering.
     let updCategory = 'all';
     let updQuery = '';
+    let updExpanded = false;
+    const UPD_LIMIT = 3;
     function applyUpdateFilters() {
-      let any = false;
+      // In the default view (no search, no category) we show only the latest few.
+      const collapsing = !updExpanded && updCategory === 'all' && !updQuery;
+      let matched = 0, shown = 0;
       document.querySelectorAll('.update-card').forEach(card => {
-        const show = updateCardMatches(card.textContent, card.dataset.category, updCategory, updQuery);
+        const matches = updateCardMatches(card.textContent, card.dataset.category, updCategory, updQuery);
+        if (matches) matched++;
+        let show = matches;
+        if (show && collapsing && shown >= UPD_LIMIT) show = false;
+        if (show) shown++;
         card.style.display = show ? '' : 'none';
-        if (show) any = true;
       });
       const noRes = document.getElementById('updates-no-results');
-      if (noRes) noRes.style.display = any ? 'none' : 'block';
+      if (noRes) noRes.style.display = matched === 0 ? 'block' : 'none';
+      // "View all / Show less" button
+      const btn = document.getElementById('updates-toggle');
+      if (btn) {
+        const hidden = matched - shown;
+        if (collapsing && hidden > 0) {
+          btn.style.display = '';
+          btn.textContent = 'View all ' + matched + ' updates →';
+          btn.setAttribute('aria-expanded', 'false');
+        } else if (updExpanded && updCategory === 'all' && !updQuery && matched > UPD_LIMIT) {
+          btn.style.display = '';
+          btn.textContent = 'Show less ↑';
+          btn.setAttribute('aria-expanded', 'true');
+        } else {
+          btn.style.display = 'none';
+        }
+      }
     }
+    window.toggleUpdates = function() {
+      updExpanded = !updExpanded;
+      applyUpdateFilters();
+    };
     window.filterUpdates = function(btn) {
       updCategory = btn.dataset.filter;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -843,6 +844,7 @@
       updQuery = val.toLowerCase().trim();
       applyUpdateFilters();
     };
+    applyUpdateFilters();
 
     // Relative event badges (Today / Tomorrow / date) — recomputed on load so
     // they stay accurate even when the site hasn't been rebuilt
