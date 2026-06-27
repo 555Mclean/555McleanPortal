@@ -105,6 +105,20 @@ function faqEntries() {
   return out;
 }
 
+// Build entries from the live Building Updates feed, so the assistant covers
+// recent notices automatically — it grows over time as the board posts updates,
+// with no code changes needed.
+function updateEntries() {
+  const out = [];
+  document.querySelectorAll('.update-card').forEach(card => {
+    const h = card.querySelector('h4');
+    const p = card.querySelector('p');
+    if (!h) return;
+    out.push({ id: 'update', title: h.textContent.trim(), body: p ? p.textContent.trim() : '', isUpdate: true });
+  });
+  return out;
+}
+
 export function initAssistant() {
   const btn = document.getElementById('assistant-toggle');
   const panel = document.getElementById('assistant-panel');
@@ -113,7 +127,7 @@ export function initAssistant() {
   const closeBtn = document.getElementById('assistant-close');
   if (!btn || !panel || !input || !results) return;
 
-  const kb = () => [...faqEntries(), ...ASSISTANT_TOPICS];
+  const kb = () => [...faqEntries(), ...updateEntries(), ...ASSISTANT_TOPICS];
   const open = () => { panel.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); input.focus(); render(input.value); };
   const close = () => { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
 
@@ -130,7 +144,11 @@ export function initAssistant() {
     }
     results.innerHTML = hits.map(h => {
       if (h.isFaq) {
-        return `<div class="assistant-result"><h5>${esc(h.title)}</h5><div class="assistant-answer">${h.answer}</div></div>`;
+        return `<div class="assistant-result"><span class="assistant-tag">FAQ</span><h5>${esc(h.title)}</h5><div class="assistant-answer">${h.answer}</div></div>`;
+      }
+      if (h.isUpdate) {
+        const snippet = h.body.length > 180 ? h.body.slice(0, 180).trim() + '…' : h.body;
+        return `<div class="assistant-result"><span class="assistant-tag">Update</span><h5>${esc(h.title)}</h5><p>${esc(snippet)}</p><a class="assistant-link" href="#updates">See in Updates →</a></div>`;
       }
       const link = h.action === 'maintenance'
         ? `<a class="assistant-link" href="#" onclick="if(window.openMaintWizard){openMaintWizard(event);}return false;">${esc(h.linkText)} →</a>`
