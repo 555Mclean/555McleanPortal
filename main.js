@@ -115,58 +115,65 @@ export function switchWLTab(type, btn) {
 // review). All inputs stay in the DOM the whole time, so submitWaitlist() still
 // reads them exactly as before — the steps are purely a presentation layer.
 
-let wlStep = 1;
-const WL_MAX_STEP = 3;
+// Each queue's form is a small wizard: parking has 3 steps (contact →
+// preferences → review), storage has 2 (contact → review). State and step
+// count are tracked per type so the two wizards don't interfere.
+const wlStep = { parking: 1, storage: 1 };
+const WL_MAX_STEP = { parking: 3, storage: 2 };
 
-function wlShowStep() {
-  document.querySelectorAll('#parking-form .wl-step').forEach((s, i) =>
-    s.classList.toggle('active', i === wlStep - 1));
-  document.querySelectorAll('#parking-form .wl-dot').forEach((d, i) =>
-    d.classList.toggle('done', i < wlStep));
+function wlShowStep(type) {
+  const form = document.getElementById(type + '-form');
+  if (!form) return;
+  const step = wlStep[type];
+  form.querySelectorAll('.wl-step').forEach((s, i) => s.classList.toggle('active', i === step - 1));
+  form.querySelectorAll('.wl-dot').forEach((d, i) => d.classList.toggle('done', i < step));
 }
 
-function wlContactValid() {
-  const name  = (document.getElementById('p-name')  || {}).value || '';
-  const unit  = (document.getElementById('p-unit')  || {}).value || '';
-  const email = (document.getElementById('p-email') || {}).value || '';
+function wlContactValid(type) {
+  const prefix = type === 'parking' ? 'p' : 's';
+  const name  = (document.getElementById(prefix + '-name')  || {}).value || '';
+  const unit  = (document.getElementById(prefix + '-unit')  || {}).value || '';
+  const email = (document.getElementById(prefix + '-email') || {}).value || '';
   return name.trim() && unit.trim() &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
-export function wlNext() {
-  if (wlStep === 1 && !wlContactValid()) {
-    const err = document.getElementById('parking-error');
+export function wlNext(type = 'parking') {
+  const err = document.getElementById(type + '-error');
+  if (wlStep[type] === 1 && !wlContactValid(type)) {
     if (err) err.style.display = 'block';
     return;
   }
-  const err = document.getElementById('parking-error');
   if (err) err.style.display = 'none';
-  wlStep = Math.min(wlStep + 1, WL_MAX_STEP);
-  if (wlStep === WL_MAX_STEP) wlBuildReview();
-  wlShowStep();
+  wlStep[type] = Math.min(wlStep[type] + 1, WL_MAX_STEP[type]);
+  if (wlStep[type] === WL_MAX_STEP[type]) wlBuildReview(type);
+  wlShowStep(type);
 }
 
-export function wlBack() {
-  wlStep = Math.max(wlStep - 1, 1);
-  wlShowStep();
+export function wlBack(type = 'parking') {
+  wlStep[type] = Math.max(wlStep[type] - 1, 1);
+  wlShowStep(type);
 }
 
 function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
-function wlBuildReview() {
-  const review = document.getElementById('parking-review');
+function wlBuildReview(type) {
+  const review = document.getElementById(type + '-review');
   if (!review) return;
-  const phone = val('p-phone');
-  const rows = [
-    ['Name', val('p-name')],
-    ['Apartment', val('p-unit')],
-    ['Email', val('p-email')],
+  const prefix = type === 'parking' ? 'p' : 's';
+  const phone = val(prefix + '-phone');
+  let rows = [
+    ['Name', val(prefix + '-name')],
+    ['Apartment', val(prefix + '-unit')],
+    ['Email', val(prefix + '-email')],
     phone ? ['Phone', phone] : null,
-    ['Preference', val('p-preference')],
-    ['Requesting', val('p-spot-number')],
-    ['Queue position', '#' + nextPosition('parking')],
-  ].filter(Boolean);
-  review.innerHTML = rows.map(([k, v]) =>
+  ];
+  if (type === 'parking') {
+    rows.push(['Preference', val('p-preference')]);
+    rows.push(['Requesting', val('p-spot-number')]);
+  }
+  rows.push(['Queue position', '#' + nextPosition(type)]);
+  review.innerHTML = rows.filter(Boolean).map(([k, v]) =>
     '<div class="wl-review-row"><span class="wl-review-k">' + k +
     '</span><span class="wl-review-v">' + escapeText(v) + '</span></div>'
   ).join('');

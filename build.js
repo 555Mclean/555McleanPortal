@@ -56,6 +56,16 @@ if (LAST_UPDATED_RE.test(html)) {
   html = html.replace(LAST_UPDATED_RE, `· Last updated ${built}`);
 }
 
+// ── Cache-busting ──
+// GitHub Pages serves assets with a cache lifetime, so returning visitors can
+// keep running an old styles.css / main.js / ui.js after a deploy. Stamp a
+// per-build version onto the asset URLs so each deploy is fetched fresh.
+const VERSION = Date.now().toString(36);
+html = html
+  .replace(/(href="\.\/styles\.css)"/g, `$1?v=${VERSION}"`)
+  .replace(/(from '\.\/main\.js)'/g, `$1?v=${VERSION}'`)
+  .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`);
+
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
 const WL_RE = /export const WL_DATA = \{[\s\S]*?\};/;

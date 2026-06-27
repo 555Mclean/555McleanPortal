@@ -417,7 +417,7 @@
             </div>
             <div class="wl-step-nav">
               <span class="wl-hint">Your request will be sent to the board.</span>
-              <button type="button" class="btn-primary" onclick="wlNext()">Next →</button>
+              <button type="button" class="btn-primary" onclick="wlNext('parking')">Next →</button>
             </div>
           </div>
 
@@ -450,8 +450,8 @@
               You'll join the parking queue at position <strong data-join-hint="parking">#4</strong>
             </div>
             <div class="wl-step-nav">
-              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack()">← Back</button>
-              <button type="button" class="btn-primary" onclick="wlNext()">Review →</button>
+              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack('parking')">← Back</button>
+              <button type="button" class="btn-primary" onclick="wlNext('parking')">Review →</button>
             </div>
           </div>
 
@@ -461,7 +461,7 @@
             <p class="wl-panel-desc">Here's what we'll send to the board. Go back to make changes, or send it now.</p>
             <div class="wl-review" id="parking-review"></div>
             <div class="wl-step-nav">
-              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack()">← Back</button>
+              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack('parking')">← Back</button>
               <button type="button" class="btn-primary" onclick="submitWaitlist('parking')">Join Parking List →</button>
             </div>
           </div>
@@ -478,35 +478,55 @@
       <!-- Storage Panel -->
       <div class="wl-panel" id="wl-panel-storage">
         <div id="storage-form">
-          <p class="wl-panel-desc">Join the waiting list for an available storage unit. Units are assigned based on availability and request order.</p>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="s-name">Full Name</label>
-              <input type="text" id="s-name" placeholder="Jane Smith" />
+          <div class="wl-dots" aria-hidden="true">
+            <span class="wl-dot done"></span><span class="wl-dot"></span>
+          </div>
+
+          <!-- Step 1 — Contact -->
+          <div class="wl-step active" data-step="1">
+            <p class="wl-step-label">Step 1 of 2 — Your details</p>
+            <p class="wl-panel-desc">Join the waiting list for an available storage unit. Units are assigned based on availability and request order.</p>
+            <div class="wl-field-row">
+              <div class="wl-field">
+                <label for="s-name">Full Name</label>
+                <input type="text" id="s-name" placeholder="Jane Smith" autocomplete="name" />
+              </div>
+              <div class="wl-field">
+                <label for="s-unit">Apartment #</label>
+                <input type="text" id="s-unit" placeholder="4B" />
+              </div>
             </div>
-            <div class="wl-field">
-              <label for="s-unit">Apartment #</label>
-              <input type="text" id="s-unit" placeholder="4B" />
+            <div class="wl-field-row">
+              <div class="wl-field">
+                <label for="s-email">Email Address</label>
+                <input type="email" id="s-email" placeholder="jane@email.com" autocomplete="email" />
+              </div>
+              <div class="wl-field">
+                <label for="s-phone">Phone (optional)</label>
+                <input type="tel" id="s-phone" placeholder="(914) 555-0000" autocomplete="tel" />
+              </div>
+            </div>
+            <div class="wl-step-nav">
+              <span class="wl-hint">Your request will be sent to the board.</span>
+              <button type="button" class="btn-primary" onclick="wlNext('storage')">Review →</button>
             </div>
           </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="s-email">Email Address</label>
-              <input type="email" id="s-email" placeholder="jane@email.com" />
+
+          <!-- Step 2 — Review -->
+          <div class="wl-step" data-step="2">
+            <p class="wl-step-label">Step 2 of 2 — Review &amp; send</p>
+            <p class="wl-panel-desc">Here's what we'll send to the board. Go back to make changes, or send it now.</p>
+            <div class="wl-review" id="storage-review"></div>
+            <div class="wl-position-chip">
+              <span class="wl-position-dot"></span>
+              You'll join the storage queue at position <strong data-join-hint="storage">#6</strong>
             </div>
-            <div class="wl-field">
-              <label for="s-phone">Phone (optional)</label>
-              <input type="tel" id="s-phone" placeholder="(914) 555-0000" />
+            <div class="wl-step-nav">
+              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack('storage')">← Back</button>
+              <button type="button" class="btn-primary" onclick="submitWaitlist('storage')">Join Storage List →</button>
             </div>
           </div>
-          <div class="wl-position-chip">
-            <span class="wl-position-dot"></span>
-            You'll join the storage queue at position <strong data-join-hint="storage">#6</strong>
-          </div>
-          <div class="wl-submit-row">
-            <span class="wl-hint">Your request will be sent to the board.</span>
-            <button class="btn-primary" onclick="submitWaitlist('storage')">Join Storage List</button>
-          </div>
+
           <div class="wl-error" id="storage-error">Please fill in your name, apartment number, and a valid email address.</div>
         </div>
         <div class="wl-success" id="storage-success">
