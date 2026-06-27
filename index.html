@@ -46,7 +46,6 @@
       <a href="#newsletter">Sign Up</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <button class="lang-toggle" id="lang-toggle" aria-label="Cambiar a español" onclick="toggleLang()">ES</button>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="toggleNav()">☰</button>
   </header>
@@ -787,7 +786,6 @@
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
              updateCardMatches, buildICS } from './ui.js';
-    import { applyLang, savedLang, saveLang } from './i18n.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.submitNewsletter = submitNewsletter;
@@ -801,23 +799,6 @@
     window.maintBack = maintBack;
     window.submitMaintenance = submitMaintenance;
     init();
-
-    // Language (EN/ES) toggle — translates interface text, persists choice.
-    const langBtn = document.getElementById('lang-toggle');
-    function setLangButton(lang) {
-      if (!langBtn) return;
-      langBtn.textContent = lang === 'es' ? 'EN' : 'ES';
-      langBtn.setAttribute('aria-label', lang === 'es' ? 'Switch to English' : 'Cambiar a español');
-    }
-    let curLang = savedLang();
-    applyLang(curLang);
-    setLangButton(curLang);
-    window.toggleLang = function() {
-      curLang = curLang === 'es' ? 'en' : 'es';
-      saveLang(curLang);
-      applyLang(curLang);
-      setLangButton(curLang);
-    };
 
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
