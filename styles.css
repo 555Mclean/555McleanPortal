@@ -664,24 +664,6 @@
     }
     .update-card:hover .arrow { color: var(--blue); transform: translateY(-50%) translateX(3px); }
 
-    /* ── NEWSLETTER ── */
-    #newsletter {
-      background: var(--bg);
-      max-width: 100%;
-      padding: 5.5rem 2rem;
-      border-top: 1px solid var(--border-light);
-    }
-    #newsletter .inner { max-width: 980px; margin: 0 auto; }
-
-    .nl-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      padding: 2.5rem;
-      max-width: 580px;
-      box-shadow: var(--shadow);
-    }
-
     /* ── WAITING LISTS ── */
     #waitlist {
       background: var(--bg-2);
@@ -1632,7 +1614,7 @@
     @media print {
       #progress-bar, header, .notice-bar,
       .back-to-top, .toast, .hero-cta, .update-filters,
-      .cal-btn, .wl-tabs, .wl-submit-row, .nl-card,
+      .cal-btn, .wl-tabs, .wl-submit-row,
       .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
       .theme-toggle, .nav-toggle, .faq-search { display: none !important; }

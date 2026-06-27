@@ -83,13 +83,12 @@ Quick version:
 - Board meetings schedule (edit `data/meetings.json`)
 - Building updates / news feed (edit `data/updates.json`)
 - Parking & storage waitlists — interactive forms + queues, with optional self-updating sync from a Google Form (see `docs/waitlist-automation.html`)
-- Newsletter sign-up
 - Notice bar system (activate via `data/notices.json`)
 - FAQ accordion (8 questions)
 - Dark mode, back-to-top, copy address, FAQ search
 - ClickPay maintenance payment link (Quick Actions + Resources)
 - Documents section (structure ready, PDFs pending)
-- Maintenance Request + Newsletter forms — optional auto-capture (`MAINT_SUBMIT` / `NL_SUBMIT`) with email fallback
+- Maintenance Request form — optional auto-capture (`MAINT_SUBMIT`) with email fallback
 - Resident info pages — Emergency Contacts, ClickPay Setup Guide (amenities folded into House Rules)
 - Installable PWA — works offline; assets are version-stamped so updates always reach visitors
 - Automated CI — tests run on every push, deploys to GitHub Pages automatically

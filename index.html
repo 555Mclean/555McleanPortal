@@ -43,7 +43,6 @@
       <a href="#documents">Documents</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
-      <a href="#newsletter">Sign Up</a>
       <a href="#faq">FAQ</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
@@ -597,51 +596,6 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER SIGNUP -->
-  <section id="newsletter">
-    <div class="inner">
-      <div class="section-eyebrow">Stay in the Loop</div>
-      <h2 class="section-title">Never Miss<br>an Update</h2>
-      <p class="section-sub">Sign up to receive building news, board meeting reminders, and community announcements directly to your inbox.</p>
-
-      <div class="nl-card fade-in">
-        <div id="nl-form">
-          <p class="wl-panel-desc">Enter your details below. The board will add you to the building communications list — no spam, just building news.</p>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-name">Full Name</label>
-              <input type="text" id="nl-name" placeholder="Jane Smith" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-unit">Apartment #</label>
-              <input type="text" id="nl-unit" placeholder="4B" />
-            </div>
-          </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="nl-email">Email Address</label>
-              <input type="email" id="nl-email" placeholder="jane@email.com" />
-            </div>
-            <div class="wl-field">
-              <label for="nl-phone">Phone (optional)</label>
-              <input type="tel" id="nl-phone" placeholder="(914) 555-0000" />
-            </div>
-          </div>
-          <div class="wl-submit-row">
-            <span class="wl-hint">Used for building communications only.</span>
-            <button class="btn-primary" onclick="submitNewsletter()">Sign Me Up</button>
-          </div>
-          <div class="wl-error" id="nl-error">Please fill in your name, apartment number, and a valid email address.</div>
-        </div>
-        <div class="wl-success" id="nl-success">
-          <div class="wl-success-icon">✓</div>
-          <h4>You're signed up!</h4>
-          <p>Thanks for signing up. You'll hear from us with<br>building news, meeting dates, and announcements.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- FAQ -->
   <section id="faq">
     <div class="inner">
@@ -767,14 +721,13 @@
           <a href="#documents">Documents</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
-        <a href="#newsletter">Sign Up</a>
         <a href="#faq">FAQ</a>
       </div>
     </div>
   </footer>
 
   <script type="module">
-    import { init, switchWLTab, submitWaitlist, submitNewsletter,
+    import { init, switchWLTab, submitWaitlist,
              wlNext, wlBack, filterQueue,
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
@@ -782,7 +735,6 @@
              updateCardMatches, buildICS } from './ui.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
-    window.submitNewsletter = submitNewsletter;
     window.wlNext = wlNext;
     window.wlBack = wlBack;
     window.filterQueue = filterQueue;
@@ -802,7 +754,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #updates, #meetings, #resources, #documents, #waitlist, #contact, #newsletter, #faq');
+    const sections = document.querySelectorAll('#about, #updates, #meetings, #resources, #documents, #waitlist, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

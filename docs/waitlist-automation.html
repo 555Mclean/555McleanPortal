@@ -154,7 +154,7 @@ Value: &lt;the published CSV link from step 3&gt;</pre>
 };</pre>
       <p>To find each <code>entry.…</code> id: open the live form, right-click a field → <em>Inspect</em>, and read the <code>name="entry.NNN"</code> attribute (or use the form's “Get pre-filled link” feature). Leave <code>url</code> empty to keep the email fallback.</p>
 
-      <p><strong>Same option for other forms.</strong> The Maintenance Request and Newsletter sign-up support the identical pattern via <code>MAINT_SUBMIT</code> and <code>NL_SUBMIT</code> in <code>main.js</code> — point each at its own Google Form to capture those submissions instead of opening an email. Each defaults to the email flow when left blank.</p>
+      <p><strong>Same option for the Maintenance form.</strong> The Maintenance Request form supports the identical pattern via <code>MAINT_SUBMIT</code> in <code>main.js</code> — point it at its own Google Form to capture those submissions instead of opening an email. It defaults to the email flow when left blank.</p>
     </section>
 
     <section>

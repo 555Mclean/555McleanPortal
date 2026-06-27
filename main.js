@@ -306,45 +306,6 @@ export function submitWaitlist(type) {
   if (window.showToast) window.showToast("You're on the list! ✓");
 }
 
-// Optional capture for the newsletter sign-up. Same pattern as WL_SUBMIT: when a
-// form-service URL is set the sign-up is POSTed there; otherwise it falls back to
-// the email flow. Leave url empty to keep the email behavior.
-export const NL_SUBMIT = {
-  url: '',
-  fields: { name: '', unit: '', email: '', phone: '' },
-};
-
-export function submitNewsletter() {
-  const name    = document.getElementById('nl-name').value.trim();
-  const unit    = document.getElementById('nl-unit').value.trim();
-  const email   = document.getElementById('nl-email').value.trim();
-  const phone   = document.getElementById('nl-phone').value.trim();
-  const errorEl = document.getElementById('nl-error');
-
-  const valid = name && unit && email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  errorEl.style.display = valid ? 'none' : 'block';
-  if (!valid) return;
-
-  if (NL_SUBMIT.url) {
-    try { postToService(NL_SUBMIT.url, NL_SUBMIT.fields, { name, unit, email, phone }); }
-    catch { /* network hiccup — board can still be reached by email */ }
-  } else {
-    const subject = encodeURIComponent('Building Updates Sign-Up — 555 McLean Ave');
-    const body    = encodeURIComponent(
-      'Building Updates Sign-Up' +
-      '\n\nName: '    + name +
-      '\nApartment: ' + unit +
-      '\nEmail: '     + email +
-      (phone ? '\nPhone: ' + phone : '')
-    );
-    window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
-  }
-
-  document.getElementById('nl-form').style.display = 'none';
-  document.getElementById('nl-success').style.display = 'block';
-  if (window.showToast) window.showToast("You're signed up! ✓");
-}
-
 // ── Maintenance Request Wizard ──
 export const MAINT_EMAIL = 'info@gramatanmanagement.com';
 
