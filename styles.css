@@ -1585,21 +1585,6 @@
     .mr-success { text-align: center; padding: 1rem 0 0.4rem; }
     .mr-success .big { font-size: 2.2rem; margin-bottom: 0.5rem; }
 
-    /* ── COPY BUTTON ── */
-    .copy-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 0.78rem;
-      color: var(--text-tertiary);
-      padding: 0.1rem 0.3rem;
-      border-radius: 4px;
-      margin-left: 0.25rem;
-      transition: color 0.2s, background 0.2s;
-      vertical-align: middle;
-    }
-    .copy-btn:hover { color: var(--blue); background: var(--blue-glow); }
-
     /* ── PRINT ── */
     @media print {
       #progress-bar, header, .notice-bar,
