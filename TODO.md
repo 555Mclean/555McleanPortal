@@ -45,6 +45,24 @@ Documents needed:
 
 ---
 
+## 🚗 Waitlist Automation — Optional Board Setup
+
+The parking & storage queues can now **update themselves** from a Google Form,
+so you no longer have to hand-edit `data/waitlist.json` for every sign-up.
+Full step-by-step guide: **`docs/waitlist-automation.html`**.
+
+Quick version:
+- [ ] Create a Google Form (Which list? · Apartment # · Name · Email · Phone · parking preferences · optional Status)
+- [ ] Link it to a responses Sheet, then **File → Share → Publish to web → CSV**
+- [ ] Add the CSV link as repo secret **`WAITLIST_CSV_URL`** (Settings → Secrets and variables → Actions)
+- [ ] (Recommended) Fill in `WL_SUBMIT` in `main.js` with the form's `entry.*` ids so the site's own form feeds the sheet
+- [ ] Mark a resident's **Status** cell `assigned` (or delete the row) to drop them from the public queue
+
+> Until configured, sign-ups fall back to a pre-filled email and the queue shows
+> whatever is in `data/waitlist.json` — nothing breaks.
+
+---
+
 ## 📋 Future Sections to Add (when info is available)
 
 - [ ] **Payment info** — ClickPay is linked; if there's an account setup guide or support contact, add it to the Resources section
@@ -61,7 +79,7 @@ Documents needed:
 - Election banner + real-time countdown (auto-clears after June 8)
 - Board meetings schedule (edit `data/meetings.json`)
 - Building updates / news feed (edit `data/updates.json`)
-- Parking & storage waitlists (edit `data/waitlist.json`)
+- Parking & storage waitlists — interactive forms + queues, with optional self-updating sync from a Google Form (see `docs/waitlist-automation.html`)
 - Newsletter sign-up
 - Notice bar system (activate via `data/notices.json`)
 - FAQ accordion (8 questions)

@@ -906,6 +906,164 @@
     }
     .wl-count-footer strong { color: var(--text); font-weight: 500; }
 
+    /* ── Waitlist interactivity ── */
+
+    /* Per-queue search box */
+    .wl-queue-search {
+      width: 100%;
+      background: var(--bg-2);
+      border: 1px solid var(--border-ui);
+      border-radius: 10px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.8rem;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 0.85rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .wl-queue-search::placeholder { color: var(--text-tertiary); }
+    .wl-queue-search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-glow); }
+
+    .wl-queue-nomatch {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      font-style: italic;
+      margin: 0 0 0.75rem;
+    }
+
+    /* Slot hover lift + "you are here" marker */
+    .wl-slot { transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s; }
+    .wl-slot.filled:hover { transform: translateX(2px); box-shadow: 0 2px 10px rgba(43,107,158,0.12); }
+
+    .wl-slot.you {
+      background: var(--green-glow);
+      border-color: rgba(45,122,82,0.35);
+      border-style: dashed;
+    }
+    .wl-slot.you .wl-slot-pos { color: var(--green); }
+    .wl-slot.you .wl-slot-apt { color: var(--green); font-weight: 600; }
+    .wl-you-badge {
+      margin-left: auto;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--green);
+      padding: 0.15rem 0.5rem;
+      border-radius: 980px;
+    }
+
+    /* Queue-depth meter */
+    .wl-meter {
+      height: 5px;
+      border-radius: 980px;
+      background: var(--border-light);
+      overflow: hidden;
+      margin: 0.25rem 0 0;
+    }
+    .wl-meter-fill {
+      height: 100%;
+      width: 0;
+      border-radius: 980px;
+      background: linear-gradient(90deg, var(--blue), var(--amber));
+      transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Parking sign-up wizard */
+    .wl-dots { display: flex; gap: 0.4rem; margin-bottom: 1.4rem; }
+    .wl-dot { width: 30px; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.25s; }
+    .wl-dot.done { background: var(--amber); }
+
+    .wl-step { display: none; animation: wl-step-in 0.3s ease; }
+    .wl-step.active { display: block; }
+    @keyframes wl-step-in {
+      from { opacity: 0; transform: translateX(8px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .wl-step-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.85rem;
+    }
+
+    .wl-step-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .wl-step-nav .btn-primary { font-size: 0.875rem; padding: 0.65rem 1.6rem; }
+    .wl-back-btn { font-size: 0.85rem; padding: 0.6rem 1.2rem; }
+
+    /* Live "you'll join at #N" chip */
+    .wl-position-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--blue-glow);
+      border: 1px solid rgba(43,107,158,0.25);
+      border-radius: 12px;
+      padding: 0.7rem 0.95rem;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      margin-top: 1.1rem;
+    }
+    .wl-position-chip strong { color: var(--blue); font-weight: 700; }
+    .wl-position-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+      box-shadow: 0 0 0 0 var(--blue-glow);
+      animation: wl-ping 1.8s ease-out infinite;
+    }
+    @keyframes wl-ping {
+      0%   { box-shadow: 0 0 0 0 rgba(43,107,158,0.35); }
+      70%  { box-shadow: 0 0 0 7px rgba(43,107,158,0); }
+      100% { box-shadow: 0 0 0 0 rgba(43,107,158,0); }
+    }
+
+    /* Review summary */
+    .wl-review {
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .wl-review-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.65rem 1rem;
+      font-size: 0.83rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .wl-review-row:last-child { border-bottom: none; }
+    .wl-review-k { color: var(--text-tertiary); font-weight: 500; }
+    .wl-review-v { color: var(--text); font-weight: 500; text-align: right; }
+
+    /* Inline validation — green confirmation once a field looks valid */
+    .wl-field input.is-valid {
+      border-color: rgba(45,122,82,0.55);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%232d7a52' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.2rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wl-position-dot { animation: none; }
+      .wl-step { animation: none; }
+      .wl-meter-fill { transition: none; }
+    }
+
     /* ── CONTACT ── */
     #contact {
       background: var(--bg);
@@ -1475,6 +1633,7 @@
       #progress-bar, header, .notice-bar,
       .back-to-top, .toast, .hero-cta, .update-filters,
       .cal-btn, .wl-tabs, .wl-submit-row, .nl-card,
+      .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
       .theme-toggle, .nav-toggle, .faq-search { display: none !important; }
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }

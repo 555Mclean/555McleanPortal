@@ -1,0 +1,66 @@
+name: Sync Waitlist
+
+# Pulls the board's published responses spreadsheet (CSV) into data/waitlist.json
+# so the public parking/storage queues update themselves. Runs on a schedule and
+# can be triggered by hand. Safe no-op until the WAITLIST_CSV_URL secret is set.
+#
+# Setup (board, one time):
+#   1. Create a Google Form whose answers feed the on-site sign-up form.
+#   2. Open its responses Sheet → File → Share → Publish to web → CSV.
+#   3. Add that link as a repo secret named WAITLIST_CSV_URL
+#      (Settings → Secrets and variables → Actions).
+# See docs/waitlist-automation.html for the full walkthrough.
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # every 15 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write   # commit the refreshed data/waitlist.json
+  actions: write    # trigger the deploy workflow when data changes
+
+concurrency:
+  group: sync-waitlist
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Refresh queues from responses sheet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Sync data/waitlist.json
+        env:
+          WAITLIST_CSV_URL: ${{ secrets.WAITLIST_CSV_URL }}
+          WAITLIST_COL_LIST: ${{ vars.WAITLIST_COL_LIST }}
+          WAITLIST_COL_APT: ${{ vars.WAITLIST_COL_APT }}
+          WAITLIST_COL_REMOVE: ${{ vars.WAITLIST_COL_REMOVE }}
+        run: node scripts/sync-waitlist.mjs
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          if [[ -n "$(git status --porcelain data/waitlist.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/waitlist.json
+            git commit -m "chore: sync waitlist queues from responses sheet"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No queue changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The default GITHUB_TOKEN push above does not itself trigger other
+      # workflows, so kick the deploy explicitly when the queue actually changed.
+      - name: Trigger deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run "Deploy to GitHub Pages"

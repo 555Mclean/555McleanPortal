@@ -363,70 +363,109 @@
       <div class="wl-counts" id="wl-counts-display">
         <div class="wl-count-card">
           <div class="wl-count-label">🚗 Parking Queue</div>
+          <input type="search" class="wl-queue-search" id="parking-search" placeholder="Find a position or unit…" oninput="filterQueue('parking', this.value)" aria-label="Search the parking queue" />
           <div class="wl-slots" id="parking-slots"></div>
+          <p class="wl-queue-nomatch" id="parking-no-match" role="status" aria-live="polite" hidden>No match in this queue.</p>
+          <div class="wl-meter" aria-hidden="true"><div class="wl-meter-fill" id="parking-meter"></div></div>
           <div class="wl-count-footer" id="parking-footer"></div>
         </div>
         <div class="wl-count-card">
           <div class="wl-count-label">📦 Storage Queue</div>
+          <input type="search" class="wl-queue-search" id="storage-search" placeholder="Find a position or unit…" oninput="filterQueue('storage', this.value)" aria-label="Search the storage queue" />
           <div class="wl-slots" id="storage-slots"></div>
+          <p class="wl-queue-nomatch" id="storage-no-match" role="status" aria-live="polite" hidden>No match in this queue.</p>
+          <div class="wl-meter" aria-hidden="true"><div class="wl-meter-fill" id="storage-meter"></div></div>
           <div class="wl-count-footer" id="storage-footer"></div>
         </div>
       </div>
 
-      <div class="wl-tabs">
-        <button class="wl-tab-btn active" onclick="switchWLTab('parking', this)">🚗 Parking Spot</button>
-        <button class="wl-tab-btn" onclick="switchWLTab('storage', this)">📦 Storage Unit</button>
+      <div class="wl-tabs" role="tablist" aria-label="Waiting list type">
+        <button class="wl-tab-btn active" role="tab" id="wl-tab-parking" aria-selected="true" aria-controls="wl-panel-parking" tabindex="0" onclick="switchWLTab('parking', this)">🚗 Parking Spot</button>
+        <button class="wl-tab-btn" role="tab" id="wl-tab-storage" aria-selected="false" aria-controls="wl-panel-storage" tabindex="-1" onclick="switchWLTab('storage', this)">📦 Storage Unit</button>
       </div>
 
       <!-- Parking Panel -->
       <div class="wl-panel active" id="wl-panel-parking">
         <div id="parking-form">
-          <p class="wl-panel-desc">Join the waiting list for an available parking space. Spots are assigned in the order requests are received.</p>
-          <div class="wl-policy-note">
-            <span class="wl-policy-icon">ℹ️</span>
-            <span><strong>How spots are assigned:</strong> Shareholders who don't yet have a parking spot are given first priority. A maximum of <strong>2 spots per shareholder</strong> is permitted — a second spot is only offered once everyone waiting for their first has been accommodated.</span>
+          <div class="wl-dots" aria-hidden="true">
+            <span class="wl-dot done"></span><span class="wl-dot"></span><span class="wl-dot"></span>
           </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="p-name">Full Name</label>
-              <input type="text" id="p-name" placeholder="Jane Smith" />
+
+          <!-- Step 1 — Contact -->
+          <div class="wl-step active" data-step="1">
+            <p class="wl-step-label">Step 1 of 3 — Your details</p>
+            <p class="wl-panel-desc">Join the waiting list for an available parking space. Spots are assigned in the order requests are received.</p>
+            <div class="wl-field-row">
+              <div class="wl-field">
+                <label for="p-name">Full Name</label>
+                <input type="text" id="p-name" placeholder="Jane Smith" autocomplete="name" />
+              </div>
+              <div class="wl-field">
+                <label for="p-unit">Apartment #</label>
+                <input type="text" id="p-unit" placeholder="4B" />
+              </div>
             </div>
-            <div class="wl-field">
-              <label for="p-unit">Apartment #</label>
-              <input type="text" id="p-unit" placeholder="4B" />
+            <div class="wl-field-row">
+              <div class="wl-field">
+                <label for="p-email">Email Address</label>
+                <input type="email" id="p-email" placeholder="jane@email.com" autocomplete="email" />
+              </div>
+              <div class="wl-field">
+                <label for="p-phone">Phone (optional)</label>
+                <input type="tel" id="p-phone" placeholder="(914) 555-0000" autocomplete="tel" />
+              </div>
             </div>
-          </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="p-email">Email Address</label>
-              <input type="email" id="p-email" placeholder="jane@email.com" />
-            </div>
-            <div class="wl-field">
-              <label for="p-phone">Phone (optional)</label>
-              <input type="tel" id="p-phone" placeholder="(914) 555-0000" />
-            </div>
-          </div>
-          <div class="wl-field-row">
-            <div class="wl-field">
-              <label for="p-preference">Spot Preference</label>
-              <select id="p-preference">
-                <option value="Whichever becomes available first">Whichever becomes available first</option>
-                <option value="Indoor">Indoor</option>
-                <option value="Outdoor">Outdoor</option>
-              </select>
-            </div>
-            <div class="wl-field">
-              <label for="p-spot-number">Is this your first or second spot?</label>
-              <select id="p-spot-number">
-                <option value="My first spot (I don't have one yet)">My first spot (I don't have one yet)</option>
-                <option value="My second spot (I already have one)">My second spot (I already have one)</option>
-              </select>
+            <div class="wl-step-nav">
+              <span class="wl-hint">Your request will be sent to the board.</span>
+              <button type="button" class="btn-primary" onclick="wlNext()">Next →</button>
             </div>
           </div>
-          <div class="wl-submit-row">
-            <span class="wl-hint">Your request will be sent to the board.</span>
-            <button class="btn-primary" onclick="submitWaitlist('parking')">Join Parking List</button>
+
+          <!-- Step 2 — Preferences -->
+          <div class="wl-step" data-step="2">
+            <p class="wl-step-label">Step 2 of 3 — Your preferences</p>
+            <div class="wl-policy-note">
+              <span class="wl-policy-icon">ℹ️</span>
+              <span><strong>How spots are assigned:</strong> Shareholders who don't yet have a parking spot are given first priority. A maximum of <strong>2 spots per shareholder</strong> is permitted — a second spot is only offered once everyone waiting for their first has been accommodated.</span>
+            </div>
+            <div class="wl-field-row">
+              <div class="wl-field">
+                <label for="p-preference">Spot Preference</label>
+                <select id="p-preference">
+                  <option value="Whichever becomes available first">Whichever becomes available first</option>
+                  <option value="Indoor">Indoor</option>
+                  <option value="Outdoor">Outdoor</option>
+                </select>
+              </div>
+              <div class="wl-field">
+                <label for="p-spot-number">Is this your first or second spot?</label>
+                <select id="p-spot-number">
+                  <option value="My first spot (I don't have one yet)">My first spot (I don't have one yet)</option>
+                  <option value="My second spot (I already have one)">My second spot (I already have one)</option>
+                </select>
+              </div>
+            </div>
+            <div class="wl-position-chip">
+              <span class="wl-position-dot"></span>
+              You'll join the parking queue at position <strong data-join-hint="parking">#4</strong>
+            </div>
+            <div class="wl-step-nav">
+              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack()">← Back</button>
+              <button type="button" class="btn-primary" onclick="wlNext()">Review →</button>
+            </div>
           </div>
+
+          <!-- Step 3 — Review -->
+          <div class="wl-step" data-step="3">
+            <p class="wl-step-label">Step 3 of 3 — Review &amp; send</p>
+            <p class="wl-panel-desc">Here's what we'll send to the board. Go back to make changes, or send it now.</p>
+            <div class="wl-review" id="parking-review"></div>
+            <div class="wl-step-nav">
+              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack()">← Back</button>
+              <button type="button" class="btn-primary" onclick="submitWaitlist('parking')">Join Parking List →</button>
+            </div>
+          </div>
+
           <div class="wl-error" id="parking-error">Please fill in your name, apartment number, and a valid email address.</div>
         </div>
         <div class="wl-success" id="parking-success">
@@ -459,6 +498,10 @@
               <label for="s-phone">Phone (optional)</label>
               <input type="tel" id="s-phone" placeholder="(914) 555-0000" />
             </div>
+          </div>
+          <div class="wl-position-chip">
+            <span class="wl-position-dot"></span>
+            You'll join the storage queue at position <strong data-join-hint="storage">#6</strong>
           </div>
           <div class="wl-submit-row">
             <span class="wl-hint">Your request will be sent to the board.</span>
@@ -697,6 +740,7 @@
 
   <script type="module">
     import { init, switchWLTab, submitWaitlist, submitNewsletter,
+             wlNext, wlBack, filterQueue,
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
@@ -704,6 +748,9 @@
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.submitNewsletter = submitNewsletter;
+    window.wlNext = wlNext;
+    window.wlBack = wlBack;
+    window.filterQueue = filterQueue;
     window.openMaintWizard = openMaintWizard;
     window.closeMaintWizard = closeMaintWizard;
     window.selectMaintCategory = selectMaintCategory;
@@ -921,6 +968,20 @@
         setTimeout(() => { btn.textContent = orig; }, 2000);
       }).catch(() => window.showToast('Could not copy — try selecting the text manually'));
     };
+
+    // Waitlist tabs — arrow-key navigation (ARIA tablist pattern)
+    const wlTabs = Array.from(document.querySelectorAll('.wl-tab-btn'));
+    wlTabs.forEach((tab, i) => {
+      tab.addEventListener('keydown', e => {
+        let next = null;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = wlTabs[(i + 1) % wlTabs.length];
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = wlTabs[(i - 1 + wlTabs.length) % wlTabs.length];
+        if (!next) return;
+        e.preventDefault();
+        next.click();
+        next.focus();
+      });
+    });
 
     // Waitlist slot stagger animation
     const wlDisplay = document.getElementById('wl-counts-display');
