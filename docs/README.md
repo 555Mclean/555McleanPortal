@@ -4,7 +4,7 @@ Files placed here are served directly from GitHub Pages and are **publicly acces
 
 ## Published documents (live)
 
-These three documents are published as **HTML pages** in this folder and are the single source of truth — to change their wording, edit the matching `.html` file directly (the text lives in plain `<li>`/`<p>` tags). The "Read →" cards in the portal's Documents and Resources sections link to them.
+These three documents are published as **HTML pages** in this folder and are the single source of truth — to change their wording, edit the matching `.html` file directly (the text lives in plain `<li>`/`<p>` tags). The "Read →" cards in the portal's Resources &amp; Documents section link to them.
 
 | File | Card in portal | Notes |
 |---|---|---|

@@ -66,7 +66,7 @@ Quick version:
 ## 📋 Future Sections to Add (when info is available)
 
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
-- [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the Resources section uncluttered; standalone `docs/amenities.html` retired
+- [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the page uncluttered; standalone `docs/amenities.html` retired
 - [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
 - [x] **ClickPay onboarding info** — published as `docs/clickpay-guide.html`
 
@@ -84,7 +84,7 @@ Quick version:
 - Building updates / news feed (edit `data/updates.json`)
 - Parking & storage waitlists — interactive forms + queues, with optional self-updating sync from a Google Form (see `docs/waitlist-automation.html`)
 - Notice bar system (activate via `data/notices.json`)
-- FAQ accordion (11 questions)
+- FAQ accordion (9 questions)
 - Dark mode, back-to-top, copy address, FAQ search
 - ClickPay maintenance payment link (Quick Actions + Resources)
 - Documents section (structure ready, PDFs pending)
