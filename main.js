@@ -3,18 +3,52 @@ export const WL_DATA = {
   storage: ['S55501', 'S55502', 'S55503', 'S55504', 'S55505'],
 };
 
+// The position a resident will take if they sign up right now (1-based).
+export function nextPosition(type) {
+  const apts = WL_DATA[type];
+  return (apts ? apts.length : 0) + 1;
+}
+
+// Remembered "you joined here" markers, so the queue can highlight the
+// resident's own position after they submit. Kept separate from the contact
+// details (WL_STORE_KEY) and guarded since localStorage can be unavailable.
+export const WL_JOINED_KEY = 'wl-joined';
+
+function readJoined() {
+  try { return JSON.parse(localStorage.getItem(WL_JOINED_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveJoined(type, pos) {
+  try {
+    const j = readJoined();
+    j[type] = pos;
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify(j));
+  } catch { /* ignore */ }
+}
+
+// Animate the queue-depth meter for a queue, if its fill element is present.
+function updateQueueMeter(type) {
+  const fill = document.getElementById(type + '-meter');
+  if (!fill) return;
+  const count = WL_DATA[type] ? WL_DATA[type].length : 0;
+  const cap = Math.max(count, 8); // soft cap so a short queue still reads as "short"
+  fill.style.width = Math.round((count / cap) * 100) + '%';
+}
+
 export function renderSlots(type) {
   const apts = WL_DATA[type];
   const slotsEl = document.getElementById(type + '-slots');
   const footerEl = document.getElementById(type + '-footer');
+  if (!slotsEl) return;
   slotsEl.innerHTML = '';
 
   if (apts.length === 0) {
     const empty = document.createElement('div');
     empty.className = 'wl-slot-empty';
-    empty.textContent = 'No one on the list yet — sign up below.';
+    empty.textContent = 'No one on the list yet — be the first to sign up below.';
     slotsEl.appendChild(empty);
-    footerEl.innerHTML = '';
+    if (footerEl) footerEl.innerHTML = '';
   } else {
     apts.forEach(function (apt, i) {
       const slot = document.createElement('div');
@@ -25,16 +59,129 @@ export function renderSlots(type) {
       slotsEl.appendChild(slot);
     });
     const next = apts.length + 1;
-    footerEl.innerHTML =
+    if (footerEl) footerEl.innerHTML =
       '<strong>' + apts.length + ' ' + (apts.length === 1 ? 'person' : 'people') + '</strong> currently waiting · Sign up to join at <strong>#' + next + '</strong>';
   }
+
+  // After the resident has joined, mark their projected position in the queue.
+  const joined = readJoined()[type];
+  if (joined) {
+    const you = document.createElement('div');
+    you.className = 'wl-slot you';
+    you.innerHTML =
+      '<span class="wl-slot-pos">#' + joined + '</span>' +
+      '<span class="wl-slot-apt">You — request sent</span>' +
+      '<span class="wl-you-badge">You</span>';
+    slotsEl.appendChild(you);
+  }
+
+  updateQueueMeter(type);
+}
+
+// Filter the visible slots of a queue by position number or identifier.
+export function filterQueue(type, query) {
+  const q = (query || '').toLowerCase().trim();
+  const slots = document.querySelectorAll('#' + type + '-slots .wl-slot');
+  let any = false;
+  slots.forEach(s => {
+    const show = !q || s.textContent.toLowerCase().includes(q);
+    s.style.display = show ? '' : 'none';
+    if (show) any = true;
+  });
+  const noMatch = document.getElementById(type + '-no-match');
+  if (noMatch) noMatch.hidden = any || !q;
 }
 
 export function switchWLTab(type, btn) {
-  document.querySelectorAll('.wl-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.wl-tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+    b.setAttribute('tabindex', '-1');
+  });
   document.querySelectorAll('.wl-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('wl-panel-' + type).classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    btn.setAttribute('tabindex', '0');
+  }
+  const panel = document.getElementById('wl-panel-' + type);
+  if (panel) panel.classList.add('active');
+  // Refresh the live "you'll join at #N" hints for the newly shown panel.
+  updateJoinHints();
+}
+
+// ── Parking sign-up wizard ──────────────────────────────────────────────────
+// The parking form is presented as a 3-step wizard (contact → preferences →
+// review). All inputs stay in the DOM the whole time, so submitWaitlist() still
+// reads them exactly as before — the steps are purely a presentation layer.
+
+let wlStep = 1;
+const WL_MAX_STEP = 3;
+
+function wlShowStep() {
+  document.querySelectorAll('#parking-form .wl-step').forEach((s, i) =>
+    s.classList.toggle('active', i === wlStep - 1));
+  document.querySelectorAll('#parking-form .wl-dot').forEach((d, i) =>
+    d.classList.toggle('done', i < wlStep));
+}
+
+function wlContactValid() {
+  const name  = (document.getElementById('p-name')  || {}).value || '';
+  const unit  = (document.getElementById('p-unit')  || {}).value || '';
+  const email = (document.getElementById('p-email') || {}).value || '';
+  return name.trim() && unit.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+export function wlNext() {
+  if (wlStep === 1 && !wlContactValid()) {
+    const err = document.getElementById('parking-error');
+    if (err) err.style.display = 'block';
+    return;
+  }
+  const err = document.getElementById('parking-error');
+  if (err) err.style.display = 'none';
+  wlStep = Math.min(wlStep + 1, WL_MAX_STEP);
+  if (wlStep === WL_MAX_STEP) wlBuildReview();
+  wlShowStep();
+}
+
+export function wlBack() {
+  wlStep = Math.max(wlStep - 1, 1);
+  wlShowStep();
+}
+
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function wlBuildReview() {
+  const review = document.getElementById('parking-review');
+  if (!review) return;
+  const phone = val('p-phone');
+  const rows = [
+    ['Name', val('p-name')],
+    ['Apartment', val('p-unit')],
+    ['Email', val('p-email')],
+    phone ? ['Phone', phone] : null,
+    ['Preference', val('p-preference')],
+    ['Requesting', val('p-spot-number')],
+    ['Queue position', '#' + nextPosition('parking')],
+  ].filter(Boolean);
+  review.innerHTML = rows.map(([k, v]) =>
+    '<div class="wl-review-row"><span class="wl-review-k">' + k +
+    '</span><span class="wl-review-v">' + escapeText(v) + '</span></div>'
+  ).join('');
+}
+
+function escapeText(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Update every "you'll join at #N" hint and the live wizard position chip.
+function updateJoinHints() {
+  document.querySelectorAll('[data-join-hint]').forEach(el => {
+    const type = el.getAttribute('data-join-hint');
+    el.textContent = '#' + nextPosition(type);
+  });
 }
 
 // Remembered resident details, so the waitlist form is pre-filled on return.
@@ -89,8 +236,10 @@ export function submitWaitlist(type) {
     if (spotEl && spotEl.value) extra += '\nRequesting: ' + spotEl.value;
   }
 
-  // Remember the resident's details so the form is pre-filled next time.
+  // Remember the resident's details so the form is pre-filled next time, and
+  // record the position they're joining at so the queue can highlight "you".
   saveResident({ name, unit, email, phone });
+  saveJoined(type, nextPosition(type));
 
   const label   = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
   const subject = encodeURIComponent('Waiting List Request – ' + label);
@@ -107,6 +256,8 @@ export function submitWaitlist(type) {
 
   document.getElementById(type + '-form').style.display = 'none';
   document.getElementById(type + '-success').style.display = 'block';
+  // Re-render the queue so the resident's new position is highlighted.
+  renderSlots(type);
   if (window.showToast) window.showToast("You're on the list! ✓");
 }
 
@@ -257,4 +408,20 @@ export function init() {
   renderSlots('parking');
   renderSlots('storage');
   prefillWaitlist();
+
+  // Live inline validation — turn a field green once its value looks valid.
+  document.querySelectorAll('.wl-field input').forEach(inp => {
+    const check = () => {
+      const v = inp.value.trim();
+      const ok = inp.type === 'email'
+        ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+        : !!v;
+      inp.classList.toggle('is-valid', ok);
+    };
+    inp.addEventListener('input', check);
+    check();
+  });
+
+  // Populate the "you'll join at #N" hints on first paint.
+  updateJoinHints();
 }
