@@ -64,7 +64,8 @@ const VERSION = Date.now().toString(36);
 html = html
   .replace(/(href="\.\/styles\.css)"/g, `$1?v=${VERSION}"`)
   .replace(/(from '\.\/main\.js)'/g, `$1?v=${VERSION}'`)
-  .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`);
+  .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`)
+  .replace(/(from '\.\/assistant\.js)'/g, `$1?v=${VERSION}'`);
 
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
@@ -81,6 +82,7 @@ writeFileSync('./dist/index.html', html);
 writeFileSync('./dist/main.js', js);
 if (existsSync('./styles.css'))  copyFileSync('./styles.css',  './dist/styles.css');
 if (existsSync('./ui.js'))       copyFileSync('./ui.js',       './dist/ui.js');
+if (existsSync('./assistant.js')) copyFileSync('./assistant.js', './dist/assistant.js');
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
 if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
