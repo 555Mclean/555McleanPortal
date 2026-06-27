@@ -41,7 +41,6 @@
       <a href="#about">About</a>
       <a href="#updates">Updates</a>
       <a href="#meetings">Meetings</a>
-      <a href="#resources">Resources</a>
       <a href="#documents">Documents</a>
       <a href="#waitlist">Waiting Lists</a>
       <a href="#contact">Contact</a>
@@ -252,48 +251,15 @@
     </div>
   </section>
 
-  <!-- RESOURCES -->
-  <section id="resources">
-    <div class="inner">
-      <div class="section-eyebrow">Resident Resources</div>
-      <h2 class="section-title">Everything<br>You Need</h2>
-      <p class="section-sub">Quick access to the documents, contacts, and services that keep our building running smoothly.</p>
-
-      <div class="resource-grid">
-        <a href="./docs/house-rules.html" class="resource-item fade-in">
-          <div class="res-icon">📋</div>
-          <h4>House Rules</h4>
-          <p>Read the co-op's current house rules covering noise, moves, pets, parking, laundry, amenities, safety, and more.</p>
-          <span class="res-link">Read house rules →</span>
-        </a>
-        <a href="./docs/emergency-contacts.html" class="resource-item fade-in">
-          <div class="res-icon">🚨</div>
-          <h4>Emergency Contacts</h4>
-          <p>Building emergencies, utilities, and local Yonkers services — all in one place.</p>
-          <span class="res-link">See contacts →</span>
-        </a>
-        <a href="./docs/clickpay-guide.html" class="resource-item fade-in">
-          <div class="res-icon">🧾</div>
-          <h4>ClickPay Setup Guide</h4>
-          <p>Step-by-step help registering with ClickPay and setting up online maintenance payments.</p>
-          <span class="res-link">Read the guide →</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- DOCUMENTS -->
+  <!-- RESOURCES & DOCUMENTS (merged) -->
   <section id="documents">
     <div class="inner">
       <div class="section-eyebrow">Resident Library</div>
-      <h2 class="section-title">Building<br>Documents</h2>
-      <p class="section-sub">Official co-op documents for shareholders — house rules, applications, and policies.</p>
+      <h2 class="section-title">Resources &amp;<br>Documents</h2>
+      <p class="section-sub">Building documents, guides, and contacts — everything in one place.</p>
 
-      <p class="site-notice">The House Rules, Move Policy, and Insurance Requirements are available below. Additional shareholder documents are kept in the secure folder.</p>
-
-      <!-- PUBLIC DOCUMENTS — downloadable PDFs committed to /docs/ folder -->
-      <p class="doc-tier-heading">📂 Public Documents</p>
+      <!-- PUBLIC DOCUMENTS & GUIDES -->
+      <p class="doc-tier-heading">📂 Documents &amp; Guides</p>
       <div class="doc-grid">
         <a class="doc-card fade-in" href="./docs/house-rules.html">
           <span class="doc-card-icon">📋</span>
@@ -311,6 +277,18 @@
           <span class="doc-card-icon">🛡️</span>
           <h4>Insurance Requirements</h4>
           <p>Every shareholder must carry an HO-6 policy with a minimum of $300,000 personal liability, naming the co-op and managing agent as additional insured. Subtenants must carry HO-4 renter's coverage.</p>
+          <span class="doc-coming">📖 Read →</span>
+        </a>
+        <a class="doc-card fade-in" href="./docs/emergency-contacts.html">
+          <span class="doc-card-icon">🚨</span>
+          <h4>Emergency Contacts</h4>
+          <p>Building emergencies, utilities, and local Yonkers services — all in one place.</p>
+          <span class="doc-coming">📖 Read →</span>
+        </a>
+        <a class="doc-card fade-in" href="./docs/clickpay-guide.html">
+          <span class="doc-card-icon">🧾</span>
+          <h4>ClickPay Setup Guide</h4>
+          <p>Step-by-step help registering with ClickPay and setting up online maintenance payments.</p>
           <span class="doc-coming">📖 Read →</span>
         </a>
       </div>
@@ -692,8 +670,7 @@
         <a href="#about">About</a>
         <a href="#updates">Updates</a>
         <a href="#meetings">Meetings</a>
-        <a href="#resources">Resources</a>
-          <a href="#documents">Documents</a>
+        <a href="#documents">Documents</a>
         <a href="#waitlist">Waiting Lists</a>
         <a href="#contact">Contact</a>
         <a href="#faq">FAQ</a>
@@ -729,7 +706,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #updates, #meetings, #resources, #documents, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#about, #updates, #meetings, #documents, #waitlist, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

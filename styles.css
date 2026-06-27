@@ -100,7 +100,7 @@
     /* ── HERO ── */
     .hero {
       background: var(--bg);
-      padding: 7rem 2rem 5rem;
+      padding: 5rem 2rem 4rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -284,7 +284,7 @@
 
     /* ── SECTIONS ── */
     section {
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       max-width: 980px;
       margin: 0 auto;
     }
@@ -372,7 +372,7 @@
     #resources {
       background: var(--bg-2);
       max-width: 100%;
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       border-top: 1px solid var(--border-light);
       border-bottom: 1px solid var(--border-light);
     }
@@ -435,7 +435,7 @@
     #documents {
       background: var(--bg);
       max-width: 100%;
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       border-top: 1px solid var(--border-light);
     }
     #documents .inner { max-width: 980px; margin: 0 auto; }
@@ -535,7 +535,7 @@
     #meetings {
       background: var(--bg);
       max-width: 100%;
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       border-top: 1px solid var(--border-light);
     }
     #meetings .inner { max-width: 980px; margin: 0 auto; }
@@ -668,7 +668,7 @@
     #waitlist {
       background: var(--bg-2);
       max-width: 100%;
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       border-top: 1px solid var(--border-light);
       border-bottom: 1px solid var(--border-light);
     }
@@ -1050,7 +1050,7 @@
     #contact {
       background: var(--bg);
       max-width: 100%;
-      padding: 5.5rem 2rem;
+      padding: 4rem 2rem;
       border-top: 1px solid var(--border-light);
     }
     #contact .inner { max-width: 980px; margin: 0 auto; }
@@ -1258,7 +1258,7 @@
     }
 
     /* ── FAQ ── */
-    #faq { background: var(--bg-2); max-width: 100%; margin: 0; padding: 5rem 2rem; border-top: 1px solid var(--border-light); }
+    #faq { background: var(--bg-2); max-width: 100%; margin: 0; padding: 4rem 2rem; border-top: 1px solid var(--border-light); }
     #faq .inner { max-width: 720px; margin: 0 auto; }
     .faq-list { margin-top: 2.5rem; }
     .faq-item { border-bottom: 1px solid var(--border); }
