@@ -38,7 +38,6 @@
       555 McLean Ave
     </a>
     <nav id="main-nav">
-      <a href="#about">About</a>
       <a href="#updates">Updates</a>
       <a href="#meetings">Meetings</a>
       <a href="#documents">Documents</a>
@@ -103,37 +102,6 @@
       </a>
     </div>
   </div>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-eyebrow">Who We Are</div>
-    <h2 class="section-title">A Community<br>We Call Home</h2>
-    <p class="section-sub">555 McLean Ave is a resident-owned cooperative where neighbors look out for one another. Everything we do is guided by our shared commitment to a safe, welcoming building.</p>
-
-    <div class="info-grid">
-      <div class="info-card fade-in">
-        <div class="icon">🏢</div>
-        <h3>Our Building</h3>
-        <p>A resident-owned cooperative in Yonkers, NY. As shareholders, each resident has a real stake in our community and a voice in how our home is run.</p>
-      </div>
-      <div class="info-card fade-in">
-        <div class="icon">👥</div>
-        <h3>Board of Directors</h3>
-        <p>Elected by shareholders, our volunteer Board oversees day-to-day operations, building finances, and community policy. Meetings are open to all residents.</p>
-      </div>
-      <div class="info-card fade-in">
-        <div class="icon">📜</div>
-        <h3>House Rules</h3>
-        <p>Our house rules keep the building comfortable for everyone. Read them anytime in the <a href="#documents">Building Documents</a> section below.</p>
-      </div>
-      <div class="info-card fade-in">
-        <div class="icon">🔧</div>
-        <h3>Maintenance</h3>
-        <p>For repairs and service requests, contact the managing agent. For building emergencies — water, fire, gas — call our emergency line immediately.</p>
-      </div>
-    </div>
-
-  </section>
 
   <!-- UPDATES -->
   <section id="updates">
@@ -506,12 +474,12 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ABOUT & CONTACT -->
   <section id="contact">
     <div class="inner">
-      <div class="section-eyebrow">Get In Touch</div>
-      <h2 class="section-title">We're Here<br>to Help</h2>
-      <p class="section-sub">Reach out to the board or managing agent for questions, maintenance requests, or anything else you need.</p>
+      <div class="section-eyebrow">About &amp; Contact</div>
+      <h2 class="section-title">Our Community,<br>Here to Help</h2>
+      <p class="section-sub">555 McLean Ave is a resident-owned cooperative in Yonkers, NY, where neighbors look out for one another. Our volunteer Board — elected by shareholders — oversees day-to-day operations and welcomes all residents at its meetings. Reach out anytime using the contacts below.</p>
 
       <p class="site-notice">This site is an early version — contact details below are temporary placeholders and will be updated soon.</p>
 
@@ -667,7 +635,6 @@
         <p class="footer-beta">Early version · Contact info will be updated soon. <!-- LAST-UPDATED --></p>
       </div>
       <div class="footer-links">
-        <a href="#about">About</a>
         <a href="#updates">Updates</a>
         <a href="#meetings">Meetings</a>
         <a href="#documents">Documents</a>
@@ -706,7 +673,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#about, #updates, #meetings, #documents, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#updates, #meetings, #documents, #waitlist, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
