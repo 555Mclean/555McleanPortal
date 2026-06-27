@@ -84,7 +84,7 @@ Quick version:
 - Building updates / news feed (edit `data/updates.json`)
 - Parking & storage waitlists — interactive forms + queues, with optional self-updating sync from a Google Form (see `docs/waitlist-automation.html`)
 - Notice bar system (activate via `data/notices.json`)
-- FAQ accordion (8 questions)
+- FAQ accordion (11 questions)
 - Dark mode, back-to-top, copy address, FAQ search
 - ClickPay maintenance payment link (Quick Actions + Resources)
 - Documents section (structure ready, PDFs pending)
