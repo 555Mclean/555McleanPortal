@@ -89,4 +89,7 @@ Quick version:
 - Dark mode, back-to-top, copy address, FAQ search
 - ClickPay maintenance payment link (Quick Actions + Resources)
 - Documents section (structure ready, PDFs pending)
+- Maintenance Request + Newsletter forms — optional auto-capture (`MAINT_SUBMIT` / `NL_SUBMIT`) with email fallback
+- Resident info pages — Emergency Contacts, ClickPay Setup Guide (amenities folded into House Rules)
+- Installable PWA — works offline; assets are version-stamped so updates always reach visitors
 - Automated CI — tests run on every push, deploys to GitHub Pages automatically
