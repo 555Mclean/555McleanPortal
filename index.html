@@ -652,6 +652,7 @@
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
              updateCardMatches, buildICS } from './ui.js';
+    import { initAssistant } from './assistant.js';
     window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
@@ -664,6 +665,7 @@
     window.maintBack = maintBack;
     window.submitMaintenance = submitMaintenance;
     init();
+    initAssistant();
 
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
@@ -1024,6 +1026,20 @@
 
   <button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ASK-THE-PORTAL ASSISTANT (client-side, answers from FAQ + docs) -->
+  <div class="assistant" id="assistant">
+    <div class="assistant-panel" id="assistant-panel" role="dialog" aria-label="Building assistant" aria-modal="false">
+      <div class="assistant-head">
+        <strong>Ask the portal</strong>
+        <button class="assistant-close" id="assistant-close" aria-label="Close assistant">✕</button>
+      </div>
+      <input type="search" id="assistant-input" class="assistant-input" placeholder="Ask a question…" aria-label="Ask a question" autocomplete="off" />
+      <div class="assistant-results" id="assistant-results"></div>
+      <p class="assistant-foot">Answers come from this site's FAQ &amp; documents.</p>
+    </div>
+    <button class="assistant-toggle" id="assistant-toggle" aria-expanded="false" aria-controls="assistant-panel" aria-label="Ask the building assistant">💬 Ask</button>
+  </div>
 
   <!-- Service worker: makes the portal installable and available offline -->
   <script>
