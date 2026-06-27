@@ -1,0 +1,63 @@
+name: Publish Declutter (scheduled, one-shot)
+
+# Merges the prepared `claude/portal-declutter` branch into main (which deploys
+# the decluttered layout) at the scheduled time — roughly 4 hours after it was
+# set up. Self-cleaning: once the branch is merged and deleted, every later run
+# is a no-op, and the final step removes this workflow file too.
+#
+# Trigger times are pinned to a single date so this effectively runs once.
+# It can also be run manually from the Actions tab (Run workflow) to publish now.
+
+on:
+  schedule:
+    - cron: '11 12 27 6 *'   # 2026-06-27 12:11 UTC (~4h after setup)
+    - cron: '41 12 27 6 *'   # fallback 30 min later in case the first run is dropped
+  workflow_dispatch:
+
+permissions:
+  contents: write   # merge + push to main, delete the branch
+  actions: write    # trigger the Deploy workflow
+
+concurrency:
+  group: publish-declutter
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Merge declutter branch into main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Publish if the branch still exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          BRANCH=claude/portal-declutter
+          if ! git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo "Branch $BRANCH not found — already published or cleaned up. Nothing to do."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          echo "Merging $BRANCH into main…"
+          git fetch origin "$BRANCH"
+          git merge --no-ff FETCH_HEAD -m "Publish declutter: merge $BRANCH into main"
+          git push origin main
+
+          echo "Deleting the source branch…"
+          git push origin --delete "$BRANCH" || true
+
+          echo "Removing this one-shot workflow…"
+          git rm .github/workflows/publish-declutter.yml
+          git commit -m "chore: remove one-shot publish-declutter workflow"
+          git push origin main
+
+          echo "Triggering deploy (token pushes don't auto-trigger it)…"
+          gh workflow run "Deploy to GitHub Pages" --ref main
