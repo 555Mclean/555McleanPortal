@@ -214,6 +214,37 @@ export function prefillWaitlist() {
   });
 }
 
+// Where sign-ups go. When a form-service URL is configured the request is
+// POSTed there (which feeds the responses Sheet the auto-sync reads, so the
+// public queue updates itself). Until the board configures it, this stays empty
+// and submissions fall back to the email (mailto:) flow — so the form always
+// works. See docs/waitlist-automation.html for setup.
+export const WL_SUBMIT = {
+  // A Google Form POST endpoint, e.g.
+  //   'https://docs.google.com/forms/d/e/FORM_ID/formResponse'
+  url: '',
+  // Map our fields to that form's entry IDs, e.g. { list: 'entry.123', ... }.
+  // Only the keys you map are sent; the "list" value is "Parking Spot"/"Storage Unit".
+  fields: { list: '', name: '', unit: '', email: '', phone: '', preference: '', spot: '' },
+};
+
+// Fire-and-forget POST to the configured form service. Uses no-cors because
+// services like Google Forms don't return CORS headers; we can't read the
+// response, so we optimistically treat a sent request as success.
+function postToFormService(data) {
+  const fd = new FormData();
+  const f = WL_SUBMIT.fields || {};
+  const add = (key, val) => { if (f[key] && val) fd.append(f[key], val); };
+  add('list', data.label);
+  add('name', data.name);
+  add('unit', data.unit);
+  add('email', data.email);
+  add('phone', data.phone);
+  add('preference', data.preference);
+  add('spot', data.spot);
+  return fetch(WL_SUBMIT.url, { method: 'POST', mode: 'no-cors', body: fd });
+}
+
 export function submitWaitlist(type) {
   const prefix = type === 'parking' ? 'p' : 's';
   const name  = document.getElementById(prefix + '-name').value.trim();
@@ -227,13 +258,13 @@ export function submitWaitlist(type) {
   if (!valid) return;
 
   // Parking asks two extra preference questions; the storage form has neither,
-  // so each lookup is guarded and the lines are only added when present.
-  let extra = '';
+  // so each lookup is guarded and the values are only used when present.
+  let preference = '', spot = '';
   if (type === 'parking') {
     const prefEl = document.getElementById('p-preference');
     const spotEl = document.getElementById('p-spot-number');
-    if (prefEl && prefEl.value) extra += '\nSpot Preference: ' + prefEl.value;
-    if (spotEl && spotEl.value) extra += '\nRequesting: ' + spotEl.value;
+    if (prefEl && prefEl.value) preference = prefEl.value;
+    if (spotEl && spotEl.value) spot = spotEl.value;
   }
 
   // Remember the resident's details so the form is pre-filled next time, and
@@ -241,18 +272,28 @@ export function submitWaitlist(type) {
   saveResident({ name, unit, email, phone });
   saveJoined(type, nextPosition(type));
 
-  const label   = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
-  const subject = encodeURIComponent('Waiting List Request – ' + label);
-  const body    = encodeURIComponent(
-    'Waiting List: ' + label +
-    '\n\nName: ' + name +
-    '\nApartment: ' + unit +
-    '\nEmail: ' + email +
-    (phone ? '\nPhone: ' + phone : '') +
-    extra
-  );
+  const label = type === 'parking' ? 'Parking Spot' : 'Storage Unit';
 
-  window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
+  if (WL_SUBMIT.url) {
+    // Captured submission — feeds the responses Sheet that auto-updates the queue.
+    try { postToFormService({ label, name, unit, email, phone, preference, spot }); }
+    catch { /* network hiccup — the email fallback link in the success panel covers it */ }
+  } else {
+    // Email fallback — opens the resident's mail app with a pre-filled message.
+    let extra = '';
+    if (preference) extra += '\nSpot Preference: ' + preference;
+    if (spot)       extra += '\nRequesting: ' + spot;
+    const subject = encodeURIComponent('Waiting List Request – ' + label);
+    const body    = encodeURIComponent(
+      'Waiting List: ' + label +
+      '\n\nName: ' + name +
+      '\nApartment: ' + unit +
+      '\nEmail: ' + email +
+      (phone ? '\nPhone: ' + phone : '') +
+      extra
+    );
+    window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
+  }
 
   document.getElementById(type + '-form').style.display = 'none';
   document.getElementById(type + '-success').style.display = 'block';

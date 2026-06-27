@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waitlist Automation Setup — 555 McLean Ave</title>
+  <meta name="description" content="How the board wires up the self-updating parking and storage waiting lists for the 555 McLean Ave resident portal." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf6ef;
+      --bg-card: #ffffff;
+      --border: rgba(140,85,40,0.15);
+      --text: #1e1208;
+      --text-secondary: #6b5038;
+      --text-tertiary: #a88860;
+      --blue: #2b6b9e;
+      --amber: #c05a35;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1208;
+        --bg-card: #2e1f10;
+        --border: rgba(200,140,60,0.2);
+        --text: #f0e6d3;
+        --text-secondary: #c4a06a;
+        --text-tertiary: #8a6840;
+        --blue: #5a9fd4;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+    .back {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--blue); text-decoration: none; font-weight: 600;
+      font-size: .95rem; margin-bottom: 2rem;
+    }
+    .back:hover { text-decoration: underline; }
+    .eyebrow {
+      text-transform: uppercase; letter-spacing: .14em; font-size: .75rem;
+      font-weight: 700; color: var(--amber); margin-bottom: .5rem;
+    }
+    h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 800; margin: 0 0 .75rem; letter-spacing: -.02em; }
+    .lede { color: var(--text-secondary); font-size: 1.05rem; margin: 0 0 1.5rem; }
+    .note {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-left: 3px solid var(--amber); border-radius: 10px;
+      padding: 1rem 1.25rem; color: var(--text-secondary); font-size: .95rem;
+      margin: 0 0 2.5rem;
+    }
+    section { margin-bottom: 2rem; }
+    h2 {
+      font-size: 1.25rem; font-weight: 700; margin: 0 0 .6rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    .num { color: var(--text-tertiary); font-weight: 800; margin-right: .5rem; }
+    ul, ol { margin: .5rem 0 0; padding-left: 1.25rem; }
+    li { margin-bottom: .55rem; }
+    strong { color: var(--text); font-weight: 700; }
+    code {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+      padding: .1rem .4rem; font-size: .85em; color: var(--amber);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-word;
+    }
+    pre {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.1rem; overflow-x: auto; font-size: .85rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--text);
+    }
+    .flow {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1rem 1.25rem; font-size: .92rem; color: var(--text-secondary); margin: 0 0 2rem;
+    }
+    footer {
+      margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      color: var(--text-tertiary); font-size: .9rem;
+    }
+    a { color: var(--blue); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="../index.html#documents">← Back to the Resident Portal</a>
+    <div class="eyebrow">For the Board · Technical Setup</div>
+    <h1>Self-Updating Waiting Lists</h1>
+    <p class="lede">How sign-ups flow from the website into the live parking and storage queues — automatically.</p>
+
+    <p class="note">Until this is configured the portal still works: the sign-up forms fall back to opening a pre-filled email to the board, and the on-page queues simply show whatever is in <code>data/waitlist.json</code>. Setting it up adds automatic capture and a queue that refreshes itself.</p>
+
+    <section>
+      <h2><span class="num">1.</span>How it works</h2>
+      <div class="flow">
+        Resident submits the on-site form → entry is recorded in a private Google&nbsp;Sheet (names &amp; emails stay there) → a scheduled job reads the sheet every ~15&nbsp;minutes → it rewrites <code>data/waitlist.json</code> with just the apartment numbers and order → the site redeploys with the updated queue.
+      </div>
+      <p>Only <strong>apartment numbers</strong> ever appear publicly. Residents' names, emails, and phone numbers remain in the board's private responses sheet.</p>
+    </section>
+
+    <section>
+      <h2><span class="num">2.</span>Create the Google Form</h2>
+      <ol>
+        <li>At <a href="https://forms.google.com" target="_blank" rel="noopener">forms.google.com</a>, create a form with these questions (short-answer / multiple-choice):
+          <ul>
+            <li><strong>Which list?</strong> — options <em>Parking Spot</em> and <em>Storage Unit</em></li>
+            <li><strong>Apartment #</strong></li>
+            <li><strong>Full Name</strong>, <strong>Email</strong>, <strong>Phone</strong> (optional)</li>
+            <li><strong>Spot Preference</strong> and <strong>First or second spot?</strong> (parking only, optional)</li>
+            <li>Optionally a <strong>Status</strong> column you fill in later — mark it <code>assigned</code> to drop someone from the public queue once they get a spot.</li>
+          </ul>
+        </li>
+        <li>In the form's <strong>Responses</strong> tab, click <strong>Link to Sheets</strong> to create the responses spreadsheet.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="num">3.</span>Publish the responses sheet as CSV</h2>
+      <ol>
+        <li>Open the responses spreadsheet.</li>
+        <li><strong>File → Share → Publish to web</strong>.</li>
+        <li>Choose the responses sheet and the <strong>Comma-separated values (.csv)</strong> format, then <strong>Publish</strong>.</li>
+        <li>Copy the generated link — this is your <code>WAITLIST_CSV_URL</code>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2><span class="num">4.</span>Tell the site about it</h2>
+      <p><strong>a) Enable auto-refresh of the queue.</strong> In the GitHub repository: <strong>Settings → Secrets and variables → Actions → New repository secret</strong>:</p>
+      <pre>Name:  WAITLIST_CSV_URL
+Value: &lt;the published CSV link from step 3&gt;</pre>
+      <p>The <em>Sync Waitlist</em> workflow runs every 15 minutes (and on demand from the Actions tab). If your column headers differ from the defaults, add optional repository <em>variables</em> <code>WAITLIST_COL_LIST</code>, <code>WAITLIST_COL_APT</code>, <code>WAITLIST_COL_REMOVE</code> to point at them.</p>
+
+      <p><strong>b) Send sign-ups straight into the form (optional but recommended).</strong> This lets residents use the site's own styled form instead of opening an email. In <code>main.js</code>, fill in <code>WL_SUBMIT</code>:</p>
+      <pre>export const WL_SUBMIT = {
+  url: 'https://docs.google.com/forms/d/e/FORM_ID/formResponse',
+  fields: {
+    list:       'entry.1111111111',
+    name:       'entry.2222222222',
+    unit:       'entry.3333333333',
+    email:      'entry.4444444444',
+    phone:      'entry.5555555555',
+    preference: 'entry.6666666666',
+    spot:       'entry.7777777777',
+  },
+};</pre>
+      <p>To find each <code>entry.…</code> id: open the live form, right-click a field → <em>Inspect</em>, and read the <code>name="entry.NNN"</code> attribute (or use the form's “Get pre-filled link” feature). Leave <code>url</code> empty to keep the email fallback.</p>
+    </section>
+
+    <section>
+      <h2><span class="num">5.</span>That's it</h2>
+      <ul>
+        <li>New sign-ups appear in the public queue within ~15 minutes.</li>
+        <li>To remove someone (they got a spot, withdrew, etc.), set their <strong>Status</strong> cell to <code>assigned</code> in the sheet — or just delete the row.</li>
+        <li>You can still edit <code>data/waitlist.json</code> by hand; the next sync will reconcile it against the sheet.</li>
+      </ul>
+    </section>
+
+    <footer>
+      555 McLean Ave Cooperative · Internal setup reference · Not linked from the public site.
+    </footer>
+  </div>
+</body>
+</html>
