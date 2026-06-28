@@ -390,44 +390,112 @@
       height: 1px;
       background: var(--border-light);
     }
-    /* Shareholder Drive — slim single-row banner */
-    .doc-drive-banner {
+    /* Shareholder Drive — interactive folder card */
+    .doc-drive-card {
+      position: relative;
       display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.4rem;
+      align-items: flex-start;
+      gap: 1.2rem;
       margin-top: 1rem;
+      padding: 1.8rem 2rem;
       background: var(--amber-glow);
       border: 1.5px solid rgba(192,90,53,0.30);
-      border-radius: 14px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
       text-decoration: none;
       color: inherit;
-      box-shadow: var(--shadow);
-      transition: background 0.18s;
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
-    .doc-drive-banner:hover { background: rgba(192,90,53,0.16); }
-    .doc-drive-banner-icon {
-      font-size: 1.4rem;
+    .doc-drive-card:hover {
+      transform: translateY(-4px);
+      background: rgba(192,90,53,0.14);
+      box-shadow: 0 16px 34px rgba(120,70,20,0.18);
+    }
+
+    /* Folder that pops open on hover */
+    .doc-drive-icon {
+      position: relative;
       flex-shrink: 0;
       width: 2.6rem;
       height: 2.6rem;
+      font-size: 2rem;
+      line-height: 1;
+      margin-top: 0.1rem;
+    }
+    .doc-drive-icon .folder-closed,
+    .doc-drive-icon .folder-open {
+      position: absolute;
+      inset: 0;
       display: grid;
       place-items: center;
-      background: rgba(192,90,53,0.12);
-      border-radius: 10px;
+      transition: opacity 0.25s ease, transform 0.3s cubic-bezier(.34,1.56,.64,1);
     }
-    .doc-drive-banner-main { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
-    .doc-drive-banner-title { font-size: 0.95rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
-    .doc-drive-banner-hint { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; line-height: 1.5; }
-    .doc-drive-banner-cta {
-      flex-shrink: 0;
+    .doc-drive-icon .folder-open { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+    .doc-drive-card:hover .folder-closed { opacity: 0; transform: scale(0.5); }
+    .doc-drive-card:hover .folder-open { opacity: 1; transform: scale(1.15) rotate(0); }
+
+    .doc-drive-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .doc-drive-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .doc-drive-desc { font-size: 0.82rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; margin-bottom: 1rem; }
+
+    /* Contents — files nudge in, one after another, on hover */
+    .doc-drive-contents { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .doc-drive-file {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+    .doc-drive-file-icon { font-size: 0.95rem; }
+    .doc-drive-card:hover .doc-drive-file { transform: translateX(6px); color: var(--text); }
+    .doc-drive-card:hover .doc-drive-file:nth-child(1) { transition-delay: 0.02s; }
+    .doc-drive-card:hover .doc-drive-file:nth-child(2) { transition-delay: 0.07s; }
+    .doc-drive-card:hover .doc-drive-file:nth-child(3) { transition-delay: 0.12s; }
+    .doc-drive-card:hover .doc-drive-file:nth-child(4) { transition-delay: 0.17s; }
+
+    /* Button — lifts and gets a light sweep on hover */
+    .doc-drive-btn {
+      position: relative;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       background: var(--amber);
       color: #fff;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.55rem 1.1rem;
+      padding: 0.6rem 1.2rem;
       border-radius: 8px;
-      white-space: nowrap;
+      letter-spacing: 0.01em;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .doc-drive-card:hover .doc-drive-btn {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(192,90,53,0.35);
+    }
+    .doc-drive-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+      transform: skewX(-20deg);
+    }
+    .doc-drive-card:hover .doc-drive-btn::after { animation: drive-shine 0.9s ease 0.1s; }
+    @keyframes drive-shine { to { left: 130%; } }
+    .doc-drive-btn-arrow { transition: transform 0.2s ease; }
+    .doc-drive-card:hover .doc-drive-btn-arrow { transform: translate(2px, -2px); }
+
+    .doc-drive-note { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 0.7rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .doc-drive-card, .doc-drive-card *, .doc-drive-btn::after { transition: none !important; animation: none !important; }
     }
 
     /* ── MEETINGS ── */
@@ -1643,6 +1711,6 @@
       .update-card p.clampable { display: block !important; -webkit-line-clamp: unset !important; overflow: visible !important; }
       .contact-item a[href^="mailto"]::after,
       .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
-      .meeting-item, .contact-item, .faq-item, .doc-row, .doc-drive-banner { page-break-inside: avoid; }
+      .meeting-item, .contact-item, .faq-item, .doc-row, .doc-drive-card { page-break-inside: avoid; }
       h2 { page-break-after: avoid; }
     }
