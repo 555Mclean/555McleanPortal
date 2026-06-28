@@ -50,14 +50,35 @@ export function renderSlots(type) {
     slotsEl.appendChild(empty);
     if (footerEl) footerEl.innerHTML = '';
   } else {
+    const VISIBLE = 3;
     apts.forEach(function (apt, i) {
       const slot = document.createElement('div');
-      slot.className = 'wl-slot filled';
+      slot.className = 'wl-slot filled' + (i >= VISIBLE ? ' wl-slot-extra' : '');
+      if (i >= VISIBLE) slot.style.animationDelay = ((i - VISIBLE) * 45) + 'ms';
       slot.innerHTML =
         '<span class="wl-slot-pos">#' + (i + 1) + '</span>' +
         '<span class="wl-slot-apt">' + apt + '</span>';
       slotsEl.appendChild(slot);
     });
+    // Keep the queue short: show the first few, collapse the rest behind a toggle.
+    if (apts.length > VISIBLE) {
+      slotsEl.classList.add('wl-collapsed');
+      const hiddenCount = apts.length - VISIBLE;
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'wl-more-btn';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.innerHTML =
+        '<span class="wl-more-label">Show ' + hiddenCount + ' more</span>' +
+        '<span class="wl-more-chevron" aria-hidden="true">⌄</span>';
+      toggle.addEventListener('click', function () {
+        const open = slotsEl.classList.toggle('wl-collapsed') === false;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.querySelector('.wl-more-label').textContent =
+          open ? 'Show less' : ('Show ' + hiddenCount + ' more');
+      });
+      slotsEl.appendChild(toggle);
+    }
     const next = apts.length + 1;
     if (footerEl) footerEl.innerHTML =
       '<strong>' + apts.length + ' ' + (apts.length === 1 ? 'person' : 'people') + '</strong> currently waiting · Sign up to join at <strong>#' + next + '</strong>';
@@ -81,13 +102,19 @@ export function renderSlots(type) {
 // Filter the visible slots of a queue by position number or identifier.
 export function filterQueue(type, query) {
   const q = (query || '').toLowerCase().trim();
-  const slots = document.querySelectorAll('#' + type + '-slots .wl-slot');
+  const slotsEl = document.getElementById(type + '-slots');
+  if (!slotsEl) return;
+  const slots = slotsEl.querySelectorAll('.wl-slot');
+  const moreBtn = slotsEl.querySelector('.wl-more-btn');
   let any = false;
   slots.forEach(s => {
-    const show = !q || s.textContent.toLowerCase().includes(q);
-    s.style.display = show ? '' : 'none';
+    if (!q) { s.style.display = ''; return; }       // restore collapse behaviour
+    const show = s.textContent.toLowerCase().includes(q);
+    s.style.display = show ? 'flex' : 'none';        // inline beats the collapsed rule
     if (show) any = true;
   });
+  // While searching, surface every match (ignore the collapse) and hide the toggle.
+  if (moreBtn) moreBtn.style.display = q ? 'none' : '';
   const noMatch = document.getElementById(type + '-no-match');
   if (noMatch) noMatch.hidden = any || !q;
 }
