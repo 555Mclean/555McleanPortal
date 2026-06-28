@@ -323,7 +323,7 @@ export function submitWaitlist(type) {
       (phone ? '\nPhone: ' + phone : '') +
       extra
     );
-    window.location.href = 'mailto:board@example.com?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:555mcleanboard@gmail.com?subject=' + subject + '&body=' + body;
   }
 
   document.getElementById(type + '-form').style.display = 'none';
