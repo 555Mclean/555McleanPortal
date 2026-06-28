@@ -5,13 +5,26 @@ the board just needs to supply the information.
 
 ---
 
-## 🔴 Urgent — Replace Before Going Live
+## 🔴 Remaining Board To-Dos
 
-- [ ] **Board email** — replace every `board@example.com` with the real board address
-- [ ] **Managing agent email** — replace `info@example.com` with the agent's real address
-- [ ] **Managing agent name** — replace "Name & contact to be confirmed" in the Contact section
-- [ ] **Emergency phone number** — replace `(914) 555-0000` with the real building emergency number
-- [ ] Remove the "early version" notice from the footer and Contact section once the above are done
+The launch placeholders are now filled in. What's left:
+
+- [ ] **Shareholder Drive folder** — the "Secure Shareholder Folder" card currently
+      shows **Coming soon**. Create the private Google Drive folder, then follow the
+      comment above the card in `index.html` to turn it back into a working link.
+- [ ] **Building-specific emergency numbers** — in `docs/emergency-contacts.html`,
+      fill the two "to be confirmed" rows (after-hours building emergency line and
+      the superintendent's direct number). The public 911 / fire / water / Con Edison
+      lines are already in place.
+- [ ] **Board email** — `555mcleanboard@gmail.com` is live but temporary; swap it in
+      `index.html` and `main.js` if/when a permanent address is chosen.
+
+### ✅ Done
+- Board email, managing agent (Gramatan — name, address, phone, email) and emergency
+  routing (911 + Emergency Contacts page) are all in.
+- Public Yonkers emergency numbers (Fire non-emergency, city helpline, Water Bureau,
+  Con Edison, Police, Poison Control) added.
+- "Early version" placeholder notices removed from the Contact section and footer.
 
 ---
 
