@@ -268,7 +268,7 @@ describe('submitWaitlist', () => {
     });
 
     it('navigates to a mailto: URL', () => {
-      expect(locationMock.href).toMatch(/^mailto:board@example\.com/);
+      expect(locationMock.href).toMatch(/^mailto:555mcleanboard@gmail\.com/);
     });
 
     it('includes the parking subject line', () => {
