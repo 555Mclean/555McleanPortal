@@ -17,16 +17,18 @@ the board just needs to supply the information.
 
 ## 📄 Documents Section — Upload PDFs When Available
 
-The Documents section is live on the site with placeholder cards.
-To publish a document, open `index.html`, find the matching `.doc-card` div,
-and replace the `<div class="doc-card">` with:
+The Documents section is live on the site as a compact list of rows.
+To publish or update a document, open `index.html`, find the matching
+`<a class="doc-row">` row, and point its `href` at the file:
 
 ```html
-<a href="PATH-TO-PDF.pdf" class="doc-card fade-in" target="_blank" rel="noopener">
-  <span class="doc-card-icon">📋</span>
-  <h4>Document Title</h4>
-  <p>Short description.</p>
-  <span class="res-link">Download PDF →</span>
+<a class="doc-row fade-in" href="PATH-TO-FILE">
+  <span class="doc-row-icon" aria-hidden="true">📋</span>
+  <span class="doc-row-main">
+    <span class="doc-row-title">Document Title</span>
+    <span class="doc-row-hint">Short one-line hint.</span>
+  </span>
+  <span class="doc-row-arrow" aria-hidden="true">→</span>
 </a>
 ```
 

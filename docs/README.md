@@ -27,33 +27,24 @@ The following contain sensitive or personal information and must stay in the **p
 - Sublet Application
 - Alteration Agreement
 
-## How to publish a PDF
+## How to publish a document
 
-1. Add the PDF to this folder (e.g. `docs/house-rules.pdf`)
-2. In `index.html`, find the matching `<div class="doc-card fade-in">` and:
-   - Change the opening tag from `<div` to `<a`
-   - Add `href="./docs/house-rules.pdf"` and `download` attributes
-   - Change the closing tag from `</div>` to `</a>`
-   - Replace the `<span class="doc-coming">⏳ Coming Soon</span>` line with `<span class="doc-coming">⬇ Download PDF</span>`
-3. Commit both the PDF and the updated `index.html` to `main`
+Each item in the Documents list is a row link. To add or update one:
 
-### Example — before:
+1. Add the file to this folder (e.g. `docs/house-rules.html` or `docs/house-rules.pdf`)
+2. In `index.html`, find the matching `<a class="doc-row fade-in">` row and point its `href` at the file
+3. Update the title (`doc-row-title`) and the one-line hint (`doc-row-hint`) if needed
+4. Commit both the document and the updated `index.html` to `main`
+
+### Example row
 ```html
-<div class="doc-card fade-in">
-  <span class="doc-card-icon">📋</span>
-  <h4>House Rules</h4>
-  <p>The building's governing house rules...</p>
-  <span class="doc-coming">⏳ Coming Soon</span>
-</div>
-```
-
-### Example — after:
-```html
-<a class="doc-card fade-in" href="./docs/house-rules.pdf" download>
-  <span class="doc-card-icon">📋</span>
-  <h4>House Rules</h4>
-  <p>The building's governing house rules...</p>
-  <span class="doc-coming">⬇ Download PDF</span>
+<a class="doc-row fade-in" href="./docs/house-rules.html">
+  <span class="doc-row-icon" aria-hidden="true">📋</span>
+  <span class="doc-row-main">
+    <span class="doc-row-title">House Rules</span>
+    <span class="doc-row-hint">Noise, moves, guests &amp; common-area rules</span>
+  </span>
+  <span class="doc-row-arrow" aria-hidden="true">→</span>
 </a>
 ```
 

@@ -1615,6 +1615,6 @@
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }
       .contact-item a[href^="mailto"]::after,
       .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
-      .meeting-item, .contact-item, .faq-item { page-break-inside: avoid; }
+      .meeting-item, .contact-item, .faq-item, .doc-row, .doc-drive-banner { page-break-inside: avoid; }
       h2 { page-break-after: avoid; }
     }
