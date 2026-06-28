@@ -611,6 +611,17 @@ describe('maintenance wizard flow', () => {
     expect(decoded).toContain('Sink leaking under cabinet.');
     expect(steps()[3].classList.contains('active')).toBe(true);
   });
+
+  it('CCs the board on the maintenance request', () => {
+    selectMaintCategory(document.querySelector('.mr-cat-btn'));
+    maintNext();
+    document.getElementById('mr-name').value = 'Jane Smith';
+    document.getElementById('mr-unit').value = '4B';
+    maintNext();
+    document.getElementById('mr-desc').value = 'Sink leaking under cabinet.';
+    submitMaintenance();
+    expect(decodeURIComponent(locationMock.href)).toContain('cc=555mcleanboard@gmail.com');
+  });
 });
 
 // ─── showToast integration ────────────────────────────────────────────────────
