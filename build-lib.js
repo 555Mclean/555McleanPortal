@@ -53,8 +53,13 @@ export function buildUpdateCard(u, now = new Date()) {
   } else if (u.badge) {
     badge = ` <span class="badge">${escapeHTML(u.badge)}</span>`;
   }
-  return `      <div class="update-card fade-in" data-category="${u.category}">
-        <div class="update-meta">${u.date} · ${label}${badge}</div>
+  // Priority notices float to the top and carry an "Important" badge so they
+  // don't get buried. data-date lets the client filter by date range.
+  const priClass = u.priority ? ' update-card--priority' : '';
+  const priAttr  = u.priority ? ' data-priority="true"' : '';
+  const priBadge = u.priority ? '<span class="update-important">Important</span> ' : '';
+  return `      <div class="update-card fade-in${priClass}" data-category="${u.category}" data-date="${escapeAttr(u.date)}"${priAttr}>
+        <div class="update-meta">${priBadge}${u.date} · ${label}${badge}</div>
         <h4>${escapeHTML(u.title)}</h4>
         <p>${escapeHTML(u.body)}</p>
         <span class="arrow">›</span>
