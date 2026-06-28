@@ -323,7 +323,9 @@ export function submitWaitlist(type) {
       (phone ? '\nPhone: ' + phone : '') +
       extra
     );
-    window.location.href = 'mailto:' + BOARD_EMAIL + '?subject=' + subject + '&body=' + body;
+    // CC the resident so they keep a copy of their request as a digital trail.
+    const cc = email ? '&cc=' + encodeURIComponent(email) : '';
+    window.location.href = 'mailto:' + BOARD_EMAIL + '?subject=' + subject + cc + '&body=' + body;
   }
 
   document.getElementById(type + '-form').style.display = 'none';

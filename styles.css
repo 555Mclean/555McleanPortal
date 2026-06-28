@@ -685,6 +685,23 @@
     }
     .update-card:hover { background: var(--bg-card-hover); }
 
+    /* Priority notices — 'Important' badge + a red accent, floated to the top */
+    .update-card--priority { box-shadow: inset 3px 0 0 var(--red); }
+    .update-important {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--red);
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+
     .update-card .update-meta {
       font-size: 0.7rem;
       font-weight: 600;
@@ -1510,6 +1527,23 @@
     }
     .filter-btn:hover { border-color: var(--amber); color: var(--amber); }
     .filter-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
+    /* Date-range dropdown — sits at the end of the filter row */
+    .update-date-filter {
+      margin-left: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-ui);
+      border-radius: 20px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.3rem 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .update-date-filter:hover { border-color: var(--amber); color: var(--amber); }
+    .update-date-filter:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+    @media (max-width: 540px) { .update-date-filter { margin-left: 0; } }
 
     /* ── ADD TO CALENDAR BUTTON ── */
     .cal-btn {

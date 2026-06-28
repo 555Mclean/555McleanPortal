@@ -121,6 +121,12 @@
       <button class="filter-btn" data-filter="general" onclick="filterUpdates(this)">General Notice</button>
       <button class="filter-btn" data-filter="reminder" onclick="filterUpdates(this)">Reminder</button>
       <!-- FILTERS-END -->
+      <select class="update-date-filter" id="updates-date" onchange="filterUpdatesByDate(this.value)" aria-label="Filter updates by date">
+        <option value="all">Any time</option>
+        <option value="30">Past 30 days</option>
+        <option value="90">Past 3 months</option>
+        <option value="365">Past year</option>
+      </select>
     </div>
 
     <!-- ── BOARD: edit data/updates.json to add/update building news ── -->
@@ -756,18 +762,27 @@
     // "latest 3" default view that expands on demand or while searching/filtering.
     let updCategory = 'all';
     let updQuery = '';
+    let updDateDays = 0;          // 0 = any time; otherwise notices newer than N days
     let updExpanded = false;
     const UPD_LIMIT = 3;
+    function withinDateRange(card) {
+      if (!updDateDays) return true;
+      const t = Date.parse(card.dataset.date || '');
+      if (isNaN(t)) return true;  // undated notices always pass the date filter
+      return t >= Date.now() - updDateDays * 86400000;
+    }
     function applyUpdateFilters() {
-      // In the default view (no search, no category) we show only the latest few.
-      const collapsing = !updExpanded && updCategory === 'all' && !updQuery;
-      let matched = 0, shown = 0;
+      // Default view (no search, category or date filter) shows only the latest few.
+      const collapsing = !updExpanded && updCategory === 'all' && !updQuery && !updDateDays;
+      let matched = 0, shown = 0, nonPriorityShown = 0;
       document.querySelectorAll('.update-card').forEach(card => {
-        const matches = updateCardMatches(card._searchText ?? card.textContent, card.dataset.category, updCategory, updQuery);
+        const matches = updateCardMatches(card._searchText ?? card.textContent, card.dataset.category, updCategory, updQuery) && withinDateRange(card);
         if (matches) matched++;
+        const isPriority = card.dataset.priority === 'true';
         let show = matches;
-        if (show && collapsing && shown >= UPD_LIMIT) show = false;
-        if (show) shown++;
+        // Priority notices stay visible and don't count toward the collapse limit.
+        if (show && collapsing && !isPriority && nonPriorityShown >= UPD_LIMIT) show = false;
+        if (show) { shown++; if (!isPriority) nonPriorityShown++; }
         card.style.display = show ? '' : 'none';
       });
       const noRes = document.getElementById('updates-no-results');
@@ -780,7 +795,7 @@
           btn.style.display = '';
           btn.textContent = 'View all ' + matched + ' updates →';
           btn.setAttribute('aria-expanded', 'false');
-        } else if (updExpanded && updCategory === 'all' && !updQuery && matched > UPD_LIMIT) {
+        } else if (updExpanded && updCategory === 'all' && !updQuery && !updDateDays && matched > UPD_LIMIT) {
           btn.style.display = '';
           btn.textContent = 'Show less ↑';
           btn.setAttribute('aria-expanded', 'true');
@@ -839,17 +854,26 @@
       updQuery = val.toLowerCase().trim();
       applyUpdateFilters();
     };
+    window.filterUpdatesByDate = function(val) {
+      updDateDays = val === 'all' ? 0 : parseInt(val, 10) || 0;
+      applyUpdateFilters();
+    };
     setupReadMore();
     applyUpdateFilters();
     window.addEventListener('resize', measureReadMore, { passive: true });
 
-    // "Last updated" — show the date of the newest notice (first card's meta).
+    // "Last updated" — the most recent notice date (priority cards can sit on top,
+    // so scan every card and keep the newest rather than trusting the first one).
     (function () {
-      const firstMeta = document.querySelector('.update-card .update-meta');
       const out = document.getElementById('updates-updated');
-      if (!firstMeta || !out) return;
-      const date = firstMeta.textContent.split('·')[0].trim();
-      if (date) out.textContent = '🕒 Last updated ' + date;
+      if (!out) return;
+      let best = null, bestStr = '';
+      document.querySelectorAll('.update-card .update-meta').forEach(meta => {
+        const dateStr = meta.textContent.replace(/^Important\s*/, '').split('·')[0].trim();
+        const t = Date.parse(dateStr);
+        if (!isNaN(t) && (best === null || t > best)) { best = t; bestStr = dateStr; }
+      });
+      if (bestStr) out.textContent = '🕒 Last updated ' + bestStr;
     })();
 
     // Relative event badges (Today / Tomorrow / date) — recomputed on load so

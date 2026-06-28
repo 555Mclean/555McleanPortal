@@ -289,6 +289,10 @@ describe('submitWaitlist', () => {
       expect(decodeURIComponent(locationMock.href)).toContain('Email: jane@example.com');
     });
 
+    it('CCs the resident so they keep a copy', () => {
+      expect(decodeURIComponent(locationMock.href)).toContain('cc=jane@example.com');
+    });
+
     it('includes the phone number in the body when provided', () => {
       expect(decodeURIComponent(locationMock.href)).toContain('Phone: (914) 555-1234');
     });
