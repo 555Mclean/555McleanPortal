@@ -494,6 +494,17 @@
 
     .doc-drive-note { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 0.7rem; }
 
+    /* Pending state — folder link not set yet ("Coming soon") */
+    .doc-drive-pending { cursor: default; }
+    .doc-drive-btn-soon {
+      background: var(--amber-glow);
+      border: 1px solid rgba(192,90,53,0.4);
+      color: var(--amber);
+      cursor: default;
+    }
+    .doc-drive-btn-soon::after { display: none; }
+    .doc-drive-card:hover .doc-drive-btn-soon { transform: none; box-shadow: none; }
+
     @media (prefers-reduced-motion: reduce) {
       .doc-drive-card, .doc-drive-card *, .doc-drive-btn::after { transition: none !important; animation: none !important; }
     }
@@ -542,6 +553,30 @@
       .doc-row-icon, .qa-icon, .meeting-date, .meeting-date.next,
       .contact-item .cicon, .cal-btn::after, .faq-chevron { transition: none !important; animation: none !important; }
     }
+
+    /* Keyboard focus — a clear ring plus the same feedback hover gives, so
+       keyboard and touch users aren't left out of the interactive cues. */
+    .doc-row:focus-visible,
+    .qa-tile:focus-visible,
+    .doc-drive-card:focus-visible,
+    .wl-more-btn:focus-visible,
+    .faq-question:focus-visible,
+    .contact-item:focus-within,
+    .cal-btn:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+    .doc-row:focus-visible .doc-row-icon { transform: scale(1.12) rotate(-3deg); background: var(--amber-glow); }
+    .qa-tile:focus-visible .qa-icon { transform: scale(1.14) translateY(-2px); }
+    .qa-tile:focus-visible .qa-icon.amber { box-shadow: 0 7px 16px var(--amber-glow); }
+    .qa-tile:focus-visible .qa-icon.blue  { box-shadow: 0 7px 16px var(--blue-glow); }
+    .qa-tile:focus-visible .qa-icon.green { box-shadow: 0 7px 16px var(--green-glow); }
+    .qa-tile:focus-visible .qa-icon.red   { box-shadow: 0 7px 16px rgba(248,113,113,0.3); }
+    .doc-drive-card:focus-visible .folder-closed { opacity: 0; transform: scale(0.5); }
+    .doc-drive-card:focus-visible .folder-open { opacity: 1; transform: scale(1.15) rotate(0); }
+    .contact-item:focus-within .cicon { transform: scale(1.18) rotate(-5deg); }
+    .faq-question:focus-visible .faq-chevron { transform: scale(1.2); }
 
     /* ── MEETINGS ── */
     #meetings {
@@ -622,6 +657,16 @@
 
     /* ── UPDATES ── */
     #updates { border-top: 1px solid var(--border-light); }
+    .updates-updated {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      font-weight: 500;
+      margin: -1.8rem 0 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .updates-updated:empty { display: none; }
     .update-grid {
       display: grid;
       gap: 1px;

@@ -86,11 +86,11 @@
           <strong>Parking &amp; Storage</strong>
         </div>
       </a>
-      <a href="tel:+19145550000" class="qa-tile">
+      <a href="./docs/emergency-contacts.html" class="qa-tile">
         <div class="qa-icon red">🚨</div>
         <div class="qa-text">
-          <small>Building Emergency</small>
-          <strong>(914) 555-0000</strong>
+          <small>Emergency</small>
+          <strong>911 &amp; Key Contacts</strong>
         </div>
       </a>
       <a href="https://www.clickpay.com/Home.html" class="qa-tile" target="_blank" rel="noopener noreferrer">
@@ -108,6 +108,8 @@
     <div class="section-eyebrow">News &amp; Notices</div>
     <h2 class="section-title">Building Updates</h2>
     <p class="section-sub">Stay informed with the latest announcements from the board and managing agent.</p>
+
+    <p class="updates-updated" id="updates-updated"></p>
 
     <input type="search" class="faq-search updates-search" id="updates-search" placeholder="Search updates…" oninput="searchUpdates(this.value)" aria-label="Search building updates" />
 
@@ -273,25 +275,30 @@
 
       <!-- SHAREHOLDER DOCUMENTS — private Google Drive folder (URL to be updated by board) -->
       <p class="doc-tier-heading">🔒 Shareholder Documents</p>
-      <!-- TODO: Replace href with the actual shared Google Drive folder URL once created -->
-      <a class="doc-drive-card fade-in" href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+      <!-- BOARD: once the shared Google Drive folder exists, turn this card back into a link:
+           change the opening <div ...> to
+             <a class="doc-drive-card fade-in" href="PASTE-FOLDER-URL" target="_blank" rel="noopener noreferrer">
+           change the closing </div> to </a>, swap the "Coming soon" button for
+             <span class="doc-drive-btn">Open Google Drive <span class="doc-drive-btn-arrow" aria-hidden="true">↗</span></span>
+           and restore the description to mention signing in. -->
+      <div class="doc-drive-card doc-drive-pending fade-in">
         <span class="doc-drive-icon" aria-hidden="true">
           <span class="folder-closed">📁</span>
           <span class="folder-open">📂</span>
         </span>
         <span class="doc-drive-body">
           <span class="doc-drive-title">Secure Shareholder Folder</span>
-          <span class="doc-drive-desc">Official co-op documents are kept in a private Google Drive folder. Sign in with your Google account and request access from the board.</span>
+          <span class="doc-drive-desc">Official co-op documents will be kept in a private Google Drive folder. The board is setting this up — access will be available here soon.</span>
           <span class="doc-drive-contents">
             <span class="doc-drive-file"><span class="doc-drive-file-icon" aria-hidden="true">📜</span> Proprietary Lease</span>
             <span class="doc-drive-file"><span class="doc-drive-file-icon" aria-hidden="true">📘</span> Bylaws</span>
             <span class="doc-drive-file"><span class="doc-drive-file-icon" aria-hidden="true">✍️</span> Sublet Application</span>
             <span class="doc-drive-file"><span class="doc-drive-file-icon" aria-hidden="true">🛠️</span> Alteration Agreement</span>
           </span>
-          <span class="doc-drive-btn">Open Google Drive <span class="doc-drive-btn-arrow" aria-hidden="true">↗</span></span>
+          <span class="doc-drive-btn doc-drive-btn-soon">Coming soon</span>
           <span class="doc-drive-note">🔒 Sign-in required · Access granted by the board</span>
         </span>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -508,7 +515,7 @@
         <div class="contact-item fade-in">
           <span class="cicon">🚨</span>
           <h4>Emergencies</h4>
-          <p>Building emergencies:<br><a href="tel:+19145550000" class="emergency">(914) 555-0000</a></p>
+          <p>For any life-threatening emergency, call <a href="tel:911" class="emergency">911</a>.<br><a href="./docs/emergency-contacts.html">All emergency &amp; city contacts →</a></p>
         </div>
       </div>
 
@@ -837,6 +844,15 @@
     setupReadMore();
     applyUpdateFilters();
     window.addEventListener('resize', measureReadMore, { passive: true });
+
+    // "Last updated" — show the date of the newest notice (first card's meta).
+    (function () {
+      const firstMeta = document.querySelector('.update-card .update-meta');
+      const out = document.getElementById('updates-updated');
+      if (!firstMeta || !out) return;
+      const date = firstMeta.textContent.split('·')[0].trim();
+      if (date) out.textContent = '🕒 Last updated ' + date;
+    })();
 
     // Relative event badges (Today / Tomorrow / date) — recomputed on load so
     // they stay accurate even when the site hasn't been rebuilt
