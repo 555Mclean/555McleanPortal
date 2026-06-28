@@ -50,4 +50,4 @@ Each item in the Documents list is a row link. To add or update one:
 
 ## Google Drive folder
 
-The shareholder-only folder URL needs to be updated in `index.html` once the board creates the shared Drive folder. Search for the comment `TODO: Replace href` in `index.html`.
+The shareholder-only folder URL needs to be updated in `index.html` once the board creates the shared Drive folder. In `index.html`, search for the comment that starts `<!-- BOARD: once the shared Google Drive folder exists` — it sits just above the **Secure Shareholder Folder** card and walks through the exact tags to change.
