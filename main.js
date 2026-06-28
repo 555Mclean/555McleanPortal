@@ -323,7 +323,7 @@ export function submitWaitlist(type) {
       (phone ? '\nPhone: ' + phone : '') +
       extra
     );
-    window.location.href = 'mailto:555mcleanboard@gmail.com?subject=' + subject + '&body=' + body;
+    window.location.href = 'mailto:' + BOARD_EMAIL + '?subject=' + subject + '&body=' + body;
   }
 
   document.getElementById(type + '-form').style.display = 'none';
@@ -335,6 +335,8 @@ export function submitWaitlist(type) {
 
 // ── Maintenance Request Wizard ──
 export const MAINT_EMAIL = 'info@gramatanmanagement.com';
+// Board address — CC'd on maintenance requests and used for the waitlist email.
+export const BOARD_EMAIL = '555mcleanboard@gmail.com';
 
 // Optional capture for maintenance requests. When a form-service URL is set the
 // request is POSTed there (so the agent gets a logged entry); otherwise it falls
@@ -446,7 +448,8 @@ export function submitMaintenance() {
   } else {
     const { subject, body } = buildMaintenanceEmail(d);
     window.location.href = 'mailto:' + MAINT_EMAIL +
-      '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      '?cc=' + encodeURIComponent(BOARD_EMAIL) +
+      '&subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     if (window.showToast) window.showToast('Request drafted — press Send in your email app ✓');
   }
 
