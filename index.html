@@ -748,7 +748,7 @@
       const collapsing = !updExpanded && updCategory === 'all' && !updQuery;
       let matched = 0, shown = 0;
       document.querySelectorAll('.update-card').forEach(card => {
-        const matches = updateCardMatches(card.textContent, card.dataset.category, updCategory, updQuery);
+        const matches = updateCardMatches(card._searchText ?? card.textContent, card.dataset.category, updCategory, updQuery);
         if (matches) matched++;
         let show = matches;
         if (show && collapsing && shown >= UPD_LIMIT) show = false;
@@ -773,6 +773,39 @@
           btn.style.display = 'none';
         }
       }
+      measureReadMore();
+    }
+    // Per-card "Read more": long notices are clamped to a few lines with a toggle,
+    // so the feed stays short. Short notices are left untouched.
+    function measureReadMore() {
+      document.querySelectorAll('.update-card[data-readmore="on"]').forEach(card => {
+        const p = card.querySelector('p.clampable');
+        const btn = card.querySelector('.update-readmore');
+        if (!p || !btn || card.style.display === 'none') return;
+        const overflowing = p.scrollHeight - p.clientHeight > 2;
+        btn.hidden = !overflowing && !p.classList.contains('show-full');
+      });
+    }
+    function setupReadMore() {
+      document.querySelectorAll('.update-card').forEach(card => {
+        const p = card.querySelector('p');
+        if (!p) return;
+        card._searchText = card.textContent;     // cache before the button is added
+        if (p.textContent.length < 300) return;  // short notices stay as they are
+        p.classList.add('clampable');
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'update-readmore';
+        btn.textContent = 'Read more';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.addEventListener('click', () => {
+          const full = p.classList.toggle('show-full');
+          btn.textContent = full ? 'Read less' : 'Read more';
+          btn.setAttribute('aria-expanded', String(full));
+        });
+        p.after(btn);
+        card.dataset.readmore = 'on';
+      });
     }
     window.toggleUpdates = function() {
       updExpanded = !updExpanded;
@@ -791,7 +824,9 @@
       updQuery = val.toLowerCase().trim();
       applyUpdateFilters();
     };
+    setupReadMore();
     applyUpdateFilters();
+    window.addEventListener('resize', measureReadMore, { passive: true });
 
     // Relative event badges (Today / Tomorrow / date) — recomputed on load so
     // they stay accurate even when the site hasn't been rebuilt

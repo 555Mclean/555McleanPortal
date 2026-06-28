@@ -551,6 +551,33 @@
       font-weight: 300;
       max-width: 600px;
     }
+    /* Long notices are clamped to a few lines until "Read more" expands them. */
+    .update-card p.clampable {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+    }
+    .update-card p.clampable.show-full {
+      display: block;
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+    .update-readmore {
+      margin-top: 0.6rem;
+      padding: 0;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--blue);
+      cursor: pointer;
+    }
+    .update-readmore:hover { text-decoration: underline; }
+    .update-readmore::after { content: ' ›'; }
+    .update-readmore[aria-expanded="true"]::after { content: ' ‹'; }
 
     .update-card .arrow {
       position: absolute;
@@ -1611,8 +1638,9 @@
       .cal-btn, .wl-tabs, .wl-submit-row,
       .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
-      .theme-toggle, .nav-toggle, .faq-search { display: none !important; }
+      .theme-toggle, .nav-toggle, .faq-search, .update-readmore { display: none !important; }
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }
+      .update-card p.clampable { display: block !important; -webkit-line-clamp: unset !important; overflow: visible !important; }
       .contact-item a[href^="mailto"]::after,
       .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
       .meeting-item, .contact-item, .faq-item, .doc-row, .doc-drive-banner { page-break-inside: avoid; }
