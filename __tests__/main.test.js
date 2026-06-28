@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
-  WL_DATA, renderSlots, switchWLTab, submitWaitlist, init,
+  WL_DATA, renderSlots, submitWaitlist, init,
   prefillWaitlist, WL_STORE_KEY,
   buildMaintenanceEmail, openMaintWizard, closeMaintWizard, selectMaintCategory,
   maintNext, maintBack, submitMaintenance, MAINT_EMAIL,
@@ -12,33 +12,15 @@ function setupDOM() {
   document.body.innerHTML = `
     <div id="parking-slots"></div>
     <div id="parking-footer"></div>
-    <div id="storage-slots"></div>
-    <div id="storage-footer"></div>
 
-    <button class="wl-tab-btn active" id="btn-parking">Parking</button>
-    <button class="wl-tab-btn" id="btn-storage">Storage</button>
-
-    <div class="wl-panel active" id="wl-panel-parking">
-      <div id="parking-form">
-        <input id="p-name" />
-        <input id="p-unit" />
-        <input id="p-email" />
-        <input id="p-phone" />
-      </div>
-      <div id="parking-error" style="display:none"></div>
-      <div id="parking-success" style="display:none"></div>
+    <div id="parking-form">
+      <input id="p-name" />
+      <input id="p-unit" />
+      <input id="p-email" />
+      <input id="p-phone" />
     </div>
-
-    <div class="wl-panel" id="wl-panel-storage">
-      <div id="storage-form">
-        <input id="s-name" />
-        <input id="s-unit" />
-        <input id="s-email" />
-        <input id="s-phone" />
-      </div>
-      <div id="storage-error" style="display:none"></div>
-      <div id="storage-success" style="display:none"></div>
-    </div>
+    <div id="parking-error" style="display:none"></div>
+    <div id="parking-success" style="display:none"></div>
   `;
 }
 
@@ -55,17 +37,11 @@ describe('renderSlots', () => {
   beforeEach(() => {
     setupDOM();
     WL_DATA.parking = ['2A', '4B', '7C'];
-    WL_DATA.storage = ['1D', '3A', '5B', '6C', '8A'];
   });
 
   it('renders one filled slot per apartment in the parking list', () => {
     renderSlots('parking');
     expect(document.querySelectorAll('#parking-slots .wl-slot.filled')).toHaveLength(3);
-  });
-
-  it('renders one filled slot per apartment in the storage list', () => {
-    renderSlots('storage');
-    expect(document.querySelectorAll('#storage-slots .wl-slot.filled')).toHaveLength(5);
   });
 
   it('numbers positions starting at #1', () => {
@@ -122,49 +98,6 @@ describe('renderSlots', () => {
     WL_DATA.parking = ['5A'];
     renderSlots('parking'); // should now show only 1
     expect(document.querySelectorAll('#parking-slots .wl-slot.filled')).toHaveLength(1);
-  });
-});
-
-// ─── switchWLTab ─────────────────────────────────────────────────────────────
-
-describe('switchWLTab', () => {
-  beforeEach(setupDOM);
-
-  it('adds the active class to the clicked button', () => {
-    const storageBtn = document.getElementById('btn-storage');
-    switchWLTab('storage', storageBtn);
-    expect(storageBtn.classList.contains('active')).toBe(true);
-  });
-
-  it('removes the active class from all other buttons', () => {
-    const storageBtn = document.getElementById('btn-storage');
-    switchWLTab('storage', storageBtn);
-    expect(document.getElementById('btn-parking').classList.contains('active')).toBe(false);
-  });
-
-  it('shows the panel matching the selected type', () => {
-    const storageBtn = document.getElementById('btn-storage');
-    switchWLTab('storage', storageBtn);
-    expect(document.getElementById('wl-panel-storage').classList.contains('active')).toBe(true);
-  });
-
-  it('hides the previously active panel', () => {
-    const storageBtn = document.getElementById('btn-storage');
-    switchWLTab('storage', storageBtn);
-    expect(document.getElementById('wl-panel-parking').classList.contains('active')).toBe(false);
-  });
-
-  it('can switch back from storage to parking', () => {
-    const storageBtn = document.getElementById('btn-storage');
-    switchWLTab('storage', storageBtn);
-
-    const parkingBtn = document.getElementById('btn-parking');
-    switchWLTab('parking', parkingBtn);
-
-    expect(document.getElementById('wl-panel-parking').classList.contains('active')).toBe(true);
-    expect(document.getElementById('wl-panel-storage').classList.contains('active')).toBe(false);
-    expect(parkingBtn.classList.contains('active')).toBe(true);
-    expect(storageBtn.classList.contains('active')).toBe(false);
   });
 });
 
@@ -306,27 +239,10 @@ describe('submitWaitlist', () => {
     });
   });
 
-  // ── successful storage submission ──
-
-  describe('valid storage submission', () => {
-    beforeEach(() => {
-      fillForm('s', { name: 'Bob', unit: '2C', email: 'bob@example.com' });
-      submitWaitlist('storage');
-    });
-
-    it('includes the storage subject line', () => {
-      expect(locationMock.href).toContain(
-        encodeURIComponent('Waiting List Request – Storage Unit')
-      );
-    });
-
-    it('omits the phone line from the body when phone is empty', () => {
-      expect(decodeURIComponent(locationMock.href)).not.toContain('Phone:');
-    });
-
-    it('shows the storage success message', () => {
-      expect(document.getElementById('storage-success').style.display).toBe('block');
-    });
+  it('omits the phone line from the body when phone is empty', () => {
+    fillForm('p', { name: 'Bob', unit: '2C', email: 'bob@example.com' });
+    submitWaitlist('parking');
+    expect(decodeURIComponent(locationMock.href)).not.toContain('Phone:');
   });
 
   // ── edge cases ──
@@ -744,15 +660,12 @@ describe('init', () => {
 
   beforeEach(() => {
     WL_DATA.parking = ['2A'];
-    WL_DATA.storage = ['1D'];
 
     document.body.innerHTML = `
       <div class="fade-in"></div>
       <div class="fade-in"></div>
       <div id="parking-slots"></div>
       <div id="parking-footer"></div>
-      <div id="storage-slots"></div>
-      <div id="storage-footer"></div>
     `;
 
     observeMock = vi.fn();
@@ -769,11 +682,6 @@ describe('init', () => {
   it('renders parking slots on startup', () => {
     init();
     expect(document.querySelector('#parking-slots .wl-slot')).not.toBeNull();
-  });
-
-  it('renders storage slots on startup', () => {
-    init();
-    expect(document.querySelector('#storage-slots .wl-slot')).not.toBeNull();
   });
 
   it('adds the visible class to intersecting elements via the observer callback', () => {

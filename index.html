@@ -41,7 +41,7 @@
       <a href="#updates">Updates</a>
       <a href="#meetings">Meetings</a>
       <a href="#documents">Documents</a>
-      <a href="#waitlist">Waiting Lists</a>
+      <a href="#waitlist">Parking</a>
       <a href="#contact">Contact</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -82,8 +82,8 @@
       <a href="#waitlist" class="qa-tile">
         <div class="qa-icon green">🚗</div>
         <div class="qa-text">
-          <small>Waiting Lists</small>
-          <strong>Parking &amp; Storage</strong>
+          <small>Waiting List</small>
+          <strong>Parking Queue</strong>
         </div>
       </a>
       <a href="./docs/emergency-contacts.html" class="qa-tile">
@@ -312,40 +312,28 @@
   <section id="waitlist">
     <div class="inner">
       <div class="section-eyebrow">Join the Queue</div>
-      <h2 class="section-title">Waiting Lists</h2>
-      <p class="section-sub">Submit your information to be added to the parking or storage waiting list. The board will contact you when a spot becomes available.</p>
+      <h2 class="section-title">Parking Waiting List</h2>
+      <p class="section-sub">See the current parking queue and add your name in one place. Spots are offered in the order requests are received — the board will contact you when one opens up.</p>
 
-      <p class="site-notice">This is an example — waitlist data and submission handling will be updated accordingly once the board has reviewed and confirmed the process.</p>
+      <p class="site-notice">This is an example — waitlist data and submission handling will be updated once the board has reviewed and confirmed the process.</p>
 
       <!-- ── BOARD: edit data/waitlist.json to add/remove apartment numbers ── -->
 
-      <div class="wl-counts" id="wl-counts-display">
-        <div class="wl-count-card">
-          <div class="wl-count-label">🚗 Parking Queue</div>
+      <div class="wl-card">
+        <!-- Live queue -->
+        <div class="wl-queue">
+          <div class="wl-count-label">🚗 Current Queue</div>
           <input type="search" class="wl-queue-search" id="parking-search" placeholder="Find a position or unit…" oninput="filterQueue('parking', this.value)" aria-label="Search the parking queue" />
           <div class="wl-slots" id="parking-slots"></div>
           <p class="wl-queue-nomatch" id="parking-no-match" role="status" aria-live="polite" hidden>No match in this queue.</p>
           <div class="wl-meter" aria-hidden="true"><div class="wl-meter-fill" id="parking-meter"></div></div>
           <div class="wl-count-footer" id="parking-footer"></div>
         </div>
-        <div class="wl-count-card">
-          <div class="wl-count-label">📦 Storage Queue</div>
-          <input type="search" class="wl-queue-search" id="storage-search" placeholder="Find a position or unit…" oninput="filterQueue('storage', this.value)" aria-label="Search the storage queue" />
-          <div class="wl-slots" id="storage-slots"></div>
-          <p class="wl-queue-nomatch" id="storage-no-match" role="status" aria-live="polite" hidden>No match in this queue.</p>
-          <div class="wl-meter" aria-hidden="true"><div class="wl-meter-fill" id="storage-meter"></div></div>
-          <div class="wl-count-footer" id="storage-footer"></div>
-        </div>
-      </div>
 
-      <div class="wl-tabs" role="tablist" aria-label="Waiting list type">
-        <button class="wl-tab-btn active" role="tab" id="wl-tab-parking" aria-selected="true" aria-controls="wl-panel-parking" tabindex="0" onclick="switchWLTab('parking', this)">🚗 Parking Spot</button>
-        <button class="wl-tab-btn" role="tab" id="wl-tab-storage" aria-selected="false" aria-controls="wl-panel-storage" tabindex="-1" onclick="switchWLTab('storage', this)">📦 Storage Unit</button>
-      </div>
-
-      <!-- Parking Panel -->
-      <div class="wl-panel active" id="wl-panel-parking">
-        <div id="parking-form">
+        <!-- Sign-up -->
+        <div class="wl-signup">
+          <div class="wl-signup-head">Add your name</div>
+          <div id="parking-form">
           <div class="wl-dots" aria-hidden="true">
             <span class="wl-dot done"></span><span class="wl-dot"></span><span class="wl-dot"></span>
           </div>
@@ -427,71 +415,11 @@
 
           <div class="wl-error" id="parking-error">Please fill in your name, apartment number, and a valid email address.</div>
         </div>
-        <div class="wl-success" id="parking-success">
-          <div class="wl-success-icon">✓</div>
-          <h4>You're on the list!</h4>
-          <p>Your parking spot request has been received.<br>The board will reach out when one becomes available.</p>
-        </div>
-      </div>
-
-      <!-- Storage Panel -->
-      <div class="wl-panel" id="wl-panel-storage">
-        <div id="storage-form">
-          <div class="wl-dots" aria-hidden="true">
-            <span class="wl-dot done"></span><span class="wl-dot"></span>
+          <div class="wl-success" id="parking-success">
+            <div class="wl-success-icon">✓</div>
+            <h4>You're on the list!</h4>
+            <p>Your parking spot request has been received.<br>The board will reach out when one becomes available.</p>
           </div>
-
-          <!-- Step 1 — Contact -->
-          <div class="wl-step active" data-step="1">
-            <p class="wl-step-label">Step 1 of 2 — Your details</p>
-            <p class="wl-panel-desc">Join the waiting list for an available storage unit. Units are assigned based on availability and request order.</p>
-            <div class="wl-field-row">
-              <div class="wl-field">
-                <label for="s-name">Full Name</label>
-                <input type="text" id="s-name" placeholder="Jane Smith" autocomplete="name" />
-              </div>
-              <div class="wl-field">
-                <label for="s-unit">Apartment #</label>
-                <input type="text" id="s-unit" placeholder="4B" />
-              </div>
-            </div>
-            <div class="wl-field-row">
-              <div class="wl-field">
-                <label for="s-email">Email Address</label>
-                <input type="email" id="s-email" placeholder="jane@email.com" autocomplete="email" />
-              </div>
-              <div class="wl-field">
-                <label for="s-phone">Phone (optional)</label>
-                <input type="tel" id="s-phone" placeholder="(914) 555-0000" autocomplete="tel" />
-              </div>
-            </div>
-            <div class="wl-step-nav">
-              <span class="wl-hint">Your request will be sent to the board.</span>
-              <button type="button" class="btn-primary" onclick="wlNext('storage')">Review →</button>
-            </div>
-          </div>
-
-          <!-- Step 2 — Review -->
-          <div class="wl-step" data-step="2">
-            <p class="wl-step-label">Step 2 of 2 — Review &amp; send</p>
-            <p class="wl-panel-desc">Here's what we'll send to the board. Go back to make changes, or send it now.</p>
-            <div class="wl-review" id="storage-review"></div>
-            <div class="wl-position-chip">
-              <span class="wl-position-dot"></span>
-              You'll join the storage queue at position <strong data-join-hint="storage">#6</strong>
-            </div>
-            <div class="wl-step-nav">
-              <button type="button" class="btn-ghost wl-back-btn" onclick="wlBack('storage')">← Back</button>
-              <button type="button" class="btn-primary" onclick="submitWaitlist('storage')">Join Storage List →</button>
-            </div>
-          </div>
-
-          <div class="wl-error" id="storage-error">Please fill in your name, apartment number, and a valid email address.</div>
-        </div>
-        <div class="wl-success" id="storage-success">
-          <div class="wl-success-icon">✓</div>
-          <h4>You're on the list!</h4>
-          <p>Your storage unit request has been received.<br>The board will reach out when one becomes available.</p>
         </div>
       </div>
 
@@ -568,11 +496,11 @@
 
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFAQ(this)" aria-expanded="false" aria-controls="faq-a-3">
-            How do I get on the parking or storage waiting list?
+            How do I get on the parking waiting list?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer" id="faq-a-3">
-            <p>Scroll to the Waiting Lists section on this page and complete the form for parking or storage. The board will contact you when a spot becomes available. Current wait times vary — submit early.</p>
+            <p>Scroll to the Parking Waiting List section on this page, review the current queue, and complete the sign-up form. The board will contact you when a spot becomes available. Current wait times vary — submit early.</p>
           </div>
         </div>
 
@@ -655,7 +583,7 @@
         <a href="#updates">Updates</a>
         <a href="#meetings">Meetings</a>
         <a href="#documents">Documents</a>
-        <a href="#waitlist">Waiting Lists</a>
+        <a href="#waitlist">Parking</a>
         <a href="#contact">Contact</a>
         <a href="#faq">FAQ</a>
       </div>
@@ -663,14 +591,13 @@
   </footer>
 
   <script type="module">
-    import { init, switchWLTab, submitWaitlist,
+    import { init, submitWaitlist,
              wlNext, wlBack, filterQueue,
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
              updateCardMatches, buildICS } from './ui.js';
     import { initAssistant } from './assistant.js';
-    window.switchWLTab = switchWLTab;
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
     window.wlBack = wlBack;

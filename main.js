@@ -1,6 +1,5 @@
 export const WL_DATA = {
   parking: ['P55501', 'P55502', 'P55503'],
-  storage: ['S55501', 'S55502', 'S55503', 'S55504', 'S55505'],
 };
 
 // The position a resident will take if they sign up right now (1-based).
@@ -119,34 +118,15 @@ export function filterQueue(type, query) {
   if (noMatch) noMatch.hidden = any || !q;
 }
 
-export function switchWLTab(type, btn) {
-  document.querySelectorAll('.wl-tab-btn').forEach(b => {
-    b.classList.remove('active');
-    b.setAttribute('aria-selected', 'false');
-    b.setAttribute('tabindex', '-1');
-  });
-  document.querySelectorAll('.wl-panel').forEach(p => p.classList.remove('active'));
-  if (btn) {
-    btn.classList.add('active');
-    btn.setAttribute('aria-selected', 'true');
-    btn.setAttribute('tabindex', '0');
-  }
-  const panel = document.getElementById('wl-panel-' + type);
-  if (panel) panel.classList.add('active');
-  // Refresh the live "you'll join at #N" hints for the newly shown panel.
-  updateJoinHints();
-}
-
 // ── Parking sign-up wizard ──────────────────────────────────────────────────
 // The parking form is presented as a 3-step wizard (contact → preferences →
 // review). All inputs stay in the DOM the whole time, so submitWaitlist() still
 // reads them exactly as before — the steps are purely a presentation layer.
 
-// Each queue's form is a small wizard: parking has 3 steps (contact →
-// preferences → review), storage has 2 (contact → review). State and step
-// count are tracked per type so the two wizards don't interfere.
-const wlStep = { parking: 1, storage: 1 };
-const WL_MAX_STEP = { parking: 3, storage: 2 };
+// The parking form is a 3-step wizard (contact → preferences → review). State
+// and step count are tracked by type to keep the wizard helpers generic.
+const wlStep = { parking: 1 };
+const WL_MAX_STEP = { parking: 3 };
 
 function wlShowStep(type) {
   const form = document.getElementById(type + '-form');
@@ -236,16 +216,14 @@ function saveResident(r) {
 export function prefillWaitlist() {
   const r = readResident();
   if (!r.name && !r.unit && !r.email && !r.phone) return;
-  ['p', 's'].forEach(prefix => {
-    const set = (field, val) => {
-      const el = document.getElementById(prefix + '-' + field);
-      if (el && !el.value && val) el.value = val;
-    };
-    set('name', r.name);
-    set('unit', r.unit);
-    set('email', r.email);
-    set('phone', r.phone);
-  });
+  const set = (field, val) => {
+    const el = document.getElementById('p-' + field);
+    if (el && !el.value && val) el.value = val;
+  };
+  set('name', r.name);
+  set('unit', r.unit);
+  set('email', r.email);
+  set('phone', r.phone);
 }
 
 // Where sign-ups go. When a form-service URL is configured the request is
@@ -471,7 +449,6 @@ export function init() {
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   renderSlots('parking');
-  renderSlots('storage');
   prefillWaitlist();
 
   // Live inline validation — turn a field green once its value looks valid.
