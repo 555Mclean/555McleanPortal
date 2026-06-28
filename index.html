@@ -774,15 +774,13 @@
     function applyUpdateFilters() {
       // Default view (no search, category or date filter) shows only the latest few.
       const collapsing = !updExpanded && updCategory === 'all' && !updQuery && !updDateDays;
-      let matched = 0, shown = 0, nonPriorityShown = 0;
+      let matched = 0, shown = 0;
       document.querySelectorAll('.update-card').forEach(card => {
         const matches = updateCardMatches(card._searchText ?? card.textContent, card.dataset.category, updCategory, updQuery) && withinDateRange(card);
         if (matches) matched++;
-        const isPriority = card.dataset.priority === 'true';
         let show = matches;
-        // Priority notices stay visible and don't count toward the collapse limit.
-        if (show && collapsing && !isPriority && nonPriorityShown >= UPD_LIMIT) show = false;
-        if (show) { shown++; if (!isPriority) nonPriorityShown++; }
+        if (show && collapsing && shown >= UPD_LIMIT) show = false;
+        if (show) shown++;
         card.style.display = show ? '' : 'none';
       });
       const noRes = document.getElementById('updates-no-results');
@@ -862,14 +860,13 @@
     applyUpdateFilters();
     window.addEventListener('resize', measureReadMore, { passive: true });
 
-    // "Last updated" — the most recent notice date (priority cards can sit on top,
-    // so scan every card and keep the newest rather than trusting the first one).
+    // "Last updated" — the most recent notice date across the feed.
     (function () {
       const out = document.getElementById('updates-updated');
       if (!out) return;
       let best = null, bestStr = '';
       document.querySelectorAll('.update-card .update-meta').forEach(meta => {
-        const dateStr = meta.textContent.replace(/^Important\s*/, '').split('·')[0].trim();
+        const dateStr = meta.textContent.split('·')[0].trim();
         const t = Date.parse(dateStr);
         if (!isNaN(t) && (best === null || t > best)) { best = t; bestStr = dateStr; }
       });

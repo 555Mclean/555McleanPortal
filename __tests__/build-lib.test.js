@@ -148,19 +148,6 @@ describe('buildUpdateCard', () => {
     expect(html).not.toContain('>New<');
   });
 
-  it('marks a priority notice with the data attribute, class and Important badge', () => {
-    const html = buildUpdateCard({ ...base, priority: true }, NOW);
-    expect(html).toContain('data-priority="true"');
-    expect(html).toContain('update-card--priority');
-    expect(html).toContain('update-important');
-  });
-
-  it('leaves a normal notice without any priority markup', () => {
-    const html = buildUpdateCard(base, NOW);
-    expect(html).not.toContain('data-priority');
-    expect(html).not.toContain('update-card--priority');
-  });
-
   it('exposes the date as a data attribute for the date filter', () => {
     expect(buildUpdateCard({ ...base, date: 'June 28, 2026' }, NOW))
       .toContain('data-date="June 28, 2026"');
