@@ -323,45 +323,55 @@
       border-top: 1px solid var(--border-light);
     }
     #documents .inner { max-width: 980px; margin: 0 auto; }
-    .doc-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--border-light);
+    /* Compact list rows — clean, scannable, low height */
+    .doc-list {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
       border: 1px solid var(--border-light);
-      border-radius: 20px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--shadow);
     }
-    .doc-card {
-      background: var(--bg-card);
-      padding: 1.8rem;
+    .doc-row {
       display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      transition: background 0.2s;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.95rem 1.4rem;
       text-decoration: none;
       color: inherit;
+      border-top: 1px solid var(--border-light);
+      transition: background 0.18s;
     }
-    .doc-card:hover { background: var(--bg-card-hover); }
-    .doc-card-icon { font-size: 1.4rem; }
-    .doc-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-    .doc-card p { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; flex: 1; }
-    .doc-coming {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--text-tertiary);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      margin-top: 0.75rem;
-      padding: 0.3rem 0.6rem;
+    .doc-row:first-child { border-top: none; }
+    .doc-row:hover { background: var(--bg-card-hover); }
+    .doc-row-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      width: 2.4rem;
+      height: 2.4rem;
+      display: grid;
+      place-items: center;
       background: var(--bg-2);
-      border-radius: 4px;
-      align-self: flex-start;
+      border-radius: 10px;
     }
+    .doc-row-main { display: flex; flex-direction: column; gap: 0.1rem; flex: 1; min-width: 0; }
+    .doc-row-title { font-size: 0.92rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
+    .doc-row-hint {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .doc-row-arrow {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      transition: transform 0.18s, color 0.18s;
+    }
+    .doc-row:hover .doc-row-arrow { transform: translateX(3px); color: var(--amber); }
     .doc-tier-heading {
       font-size: 0.72rem;
       font-weight: 700;
@@ -380,40 +390,45 @@
       height: 1px;
       background: var(--border-light);
     }
-    .doc-drive-card {
+    /* Shareholder Drive — slim single-row banner */
+    .doc-drive-banner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.4rem;
+      margin-top: 1rem;
       background: var(--amber-glow);
       border: 1.5px solid rgba(192,90,53,0.30);
-      border-radius: 16px;
-      padding: 1.8rem 2rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-      margin-top: 1rem;
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
       box-shadow: var(--shadow);
+      transition: background 0.18s;
     }
-    .doc-drive-icon { font-size: 2rem; flex-shrink: 0; margin-top: 0.1rem; }
-    .doc-drive-body { flex: 1; }
-    .doc-drive-body h4 { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; margin-bottom: 0.4rem; }
-    .doc-drive-body > p { font-size: 0.82rem; color: var(--text-secondary); font-weight: 300; line-height: 1.6; margin-bottom: 1rem; }
-    .doc-drive-contents { list-style: none; padding: 0; margin: 0 0 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; }
-    .doc-drive-contents li { font-size: 0.78rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem; }
-    .doc-drive-contents li::before { content: '→'; color: var(--amber); font-weight: 700; }
-    .doc-drive-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
+    .doc-drive-banner:hover { background: rgba(192,90,53,0.16); }
+    .doc-drive-banner-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: grid;
+      place-items: center;
+      background: rgba(192,90,53,0.12);
+      border-radius: 10px;
+    }
+    .doc-drive-banner-main { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 0; }
+    .doc-drive-banner-title { font-size: 0.95rem; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .doc-drive-banner-hint { font-size: 0.78rem; color: var(--text-secondary); font-weight: 300; line-height: 1.5; }
+    .doc-drive-banner-cta {
+      flex-shrink: 0;
       background: var(--amber);
       color: #fff;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      padding: 0.6rem 1.2rem;
+      padding: 0.55rem 1.1rem;
       border-radius: 8px;
-      text-decoration: none;
-      transition: opacity 0.15s;
-      letter-spacing: 0.01em;
+      white-space: nowrap;
     }
-    .doc-drive-btn:hover { opacity: 0.85; }
-    .doc-drive-note { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 0.6rem; }
 
     /* ── MEETINGS ── */
     #meetings {
@@ -1118,6 +1133,10 @@
     @media (max-width: 540px) {
       .wl-counts { grid-template-columns: 1fr; }
       .wl-field-row { grid-template-columns: 1fr; }
+      .doc-row { padding: 0.85rem 1.1rem; gap: 0.8rem; }
+      .doc-row-hint { white-space: normal; }
+      .doc-drive-banner { flex-wrap: wrap; }
+      .doc-drive-banner-cta { width: 100%; text-align: center; }
     }
 
     /* ── SITE NOTICE / BETA ── */
@@ -1596,6 +1615,6 @@
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }
       .contact-item a[href^="mailto"]::after,
       .contact-item a[href^="tel"]::after { content: " (" attr(href) ")"; font-size: 0.8em; color: #555; }
-      .meeting-item, .contact-item, .faq-item { page-break-inside: avoid; }
+      .meeting-item, .contact-item, .faq-item, .doc-row, .doc-drive-banner { page-break-inside: avoid; }
       h2 { page-break-after: avoid; }
     }
