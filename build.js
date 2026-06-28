@@ -53,7 +53,7 @@ html = html.replace(NEXT_MEETING_RE,
 const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
 if (LAST_UPDATED_RE.test(html)) {
   const built = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
-  html = html.replace(LAST_UPDATED_RE, `· Last updated ${built}`);
+  html = html.replace(LAST_UPDATED_RE, `Last updated ${built}`);
 }
 
 // ── Cache-busting ──
