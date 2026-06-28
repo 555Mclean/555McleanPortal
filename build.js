@@ -73,7 +73,6 @@ const WL_RE = /export const WL_DATA = \{[\s\S]*?\};/;
 if (!WL_RE.test(js)) { console.error('ERROR: WL_DATA block missing'); process.exit(1); }
 js = js.replace(WL_RE, `export const WL_DATA = {
   parking: ${JSON.stringify(waitlist.parking)},
-  storage: ${JSON.stringify(waitlist.storage)},
 };`);
 
 // ── Write dist/ ──
@@ -111,5 +110,5 @@ if (existsSync('./docs')) {
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
 console.log(
   `Built: ${meetings.length} meetings · ${updates.length} updates · ` +
-  `${waitlist.parking.length} parking · ${waitlist.storage.length} storage · ${noticeStatus}`
+  `${waitlist.parking.length} parking · ${noticeStatus}`
 );

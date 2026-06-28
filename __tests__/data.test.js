@@ -117,16 +117,12 @@ describe('data/notices.json', () => {
 describe('data/waitlist.json', () => {
   const waitlist = load('waitlist.json');
 
-  it('has parking and storage arrays of strings', () => {
-    for (const key of ['parking', 'storage']) {
-      expect(Array.isArray(waitlist[key]), `${key} should be an array`).toBe(true);
-      for (const entry of waitlist[key]) expect(typeof entry).toBe('string');
-    }
+  it('has a parking array of strings', () => {
+    expect(Array.isArray(waitlist.parking), 'parking should be an array').toBe(true);
+    for (const entry of waitlist.parking) expect(typeof entry).toBe('string');
   });
 
-  it('has no duplicate entries within a list', () => {
-    for (const key of ['parking', 'storage']) {
-      expect(new Set(waitlist[key]).size).toBe(waitlist[key].length);
-    }
+  it('has no duplicate entries in the parking list', () => {
+    expect(new Set(waitlist.parking).size).toBe(waitlist.parking.length);
   });
 });

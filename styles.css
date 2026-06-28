@@ -758,40 +758,35 @@
     }
     #waitlist .inner { max-width: 980px; margin: 0 auto; }
 
-    .wl-tabs {
-      display: flex;
-      gap: 8px;
+    /* Unified card — live queue and sign-up together, side by side */
+    .wl-card {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
       margin-top: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .wl-tab-btn {
-      flex: 1;
-      max-width: 200px;
-      padding: 0.55rem 1.2rem;
-      border-radius: 980px;
-      border: 1px solid var(--border-ui);
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-      font-weight: 500;
-      font-family: inherit;
-      cursor: pointer;
-      letter-spacing: -0.01em;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .wl-tab-btn.active { background: var(--bg-card); color: var(--text); border-color: var(--border-ui); }
-    .wl-tab-btn:not(.active):hover { color: var(--text); }
-
-    .wl-panel {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
       border-radius: 20px;
-      padding: 2rem;
-      display: none;
+      overflow: hidden;
       box-shadow: var(--shadow);
     }
-    .wl-panel.active { display: block; }
+    .wl-queue {
+      padding: 2rem;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border-light);
+    }
+    .wl-signup { padding: 2rem; }
+    .wl-signup-head {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1.2rem;
+    }
+    @media (max-width: 760px) {
+      .wl-card { grid-template-columns: 1fr; }
+      .wl-queue { border-right: none; border-bottom: 1px solid var(--border-light); }
+    }
 
     .wl-panel-desc {
       font-size: 0.85rem;
@@ -899,20 +894,6 @@
       font-weight: 300;
       line-height: 1.6;
     }
-
-    .wl-counts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border-light);
-      border: 1px solid var(--border-light);
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow);
-    }
-
-    .wl-count-card { background: var(--bg-card); padding: 2rem; }
 
     .wl-count-label {
       font-size: 0.7rem;
@@ -1350,7 +1331,6 @@
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 540px) {
-      .wl-counts { grid-template-columns: 1fr; }
       .wl-field-row { grid-template-columns: 1fr; }
       .doc-row { padding: 0.85rem 1.1rem; gap: 0.8rem; }
       .doc-row-hint { white-space: normal; }
@@ -1842,7 +1822,7 @@
     @media print {
       #progress-bar, header, .notice-bar,
       .back-to-top, .toast, .assistant, .hero-cta, .update-filters,
-      .cal-btn, .wl-tabs, .wl-submit-row,
+      .cal-btn, .wl-submit-row,
       .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
       .theme-toggle, .nav-toggle, .faq-search, .update-readmore, .wl-more-btn { display: none !important; }
