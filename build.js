@@ -16,9 +16,7 @@ const notice   = loadJSON('./data/notices.json');
 const updates  = loadJSON('./data/updates.json');
 
 const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
-// Priority notices render first (stable sort keeps the rest in chronological order).
-const sortedUpdates = [...updates].sort((a, b) => (b.priority ? 1 : 0) - (a.priority ? 1 : 0));
-const updatesHTML  = sortedUpdates.map(u => buildUpdateCard(u)).join('\n');
+const updatesHTML  = updates.map(u => buildUpdateCard(u)).join('\n');
 const filtersHTML  = buildFilterButtons(updates);
 
 // ── Build notice bar HTML (empty string when inactive or expired) ──
