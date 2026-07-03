@@ -1,7 +1,7 @@
 {
-  "active": false,
+  "active": true,
   "type": "warning",
-  "message": "Hot water service will be temporarily interrupted on Tuesday, June 16 and Wednesday, June 17, approximately 9:00 AM–3:00 PM each day, for scheduled boiler maintenance. Service will be restored as soon as the day's work is complete.",
+  "message": "Heat Advisory in effect through Monday, July 6. Dangerous heat and humidity are expected this weekend. Stay hydrated, limit time outdoors during peak afternoon hours, and check on elderly neighbors. See Updates below for cooling tips and building safety guidance.",
   "dismissible": true,
-  "expires": "2026-06-17T15:30"
+  "expires": "2026-07-06T21:00"
 }
