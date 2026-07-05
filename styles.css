@@ -1490,23 +1490,6 @@
     }
     .filter-btn:hover { border-color: var(--amber); color: var(--amber); }
     .filter-btn.active { background: var(--amber); border-color: var(--amber); color: #fff; }
-    /* Date-range dropdown — sits at the end of the filter row */
-    .update-date-filter {
-      margin-left: auto;
-      background: var(--bg-card);
-      border: 1px solid var(--border-ui);
-      border-radius: 20px;
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 500;
-      padding: 0.3rem 0.9rem;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .update-date-filter:hover { border-color: var(--amber); color: var(--amber); }
-    .update-date-filter:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
-    @media (max-width: 540px) { .update-date-filter { margin-left: 0; } }
 
     /* ── ADD TO CALENDAR BUTTON ── */
     .cal-btn {
