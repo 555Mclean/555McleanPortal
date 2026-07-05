@@ -80,7 +80,9 @@ Quick version:
 
 ## 📋 Future Sections to Add (when info is available)
 
-- [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
+- [x] **Financial transparency** — a note in the Resources & Documents section now directs
+      shareholders to request the annual budget, reserve-fund status, and financial statements
+      from the board / managing agent (add a budget summary or reserve figures here later if desired)
 - [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the page uncluttered; standalone `docs/amenities.html` retired
 - [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
 - [x] **ClickPay onboarding info** — published as `docs/clickpay-guide.html`
