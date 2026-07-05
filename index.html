@@ -122,10 +122,9 @@
       <button class="filter-btn" data-filter="reminder" onclick="filterUpdates(this)">Reminder</button>
       <!-- FILTERS-END -->
       <select class="update-date-filter" id="updates-date" onchange="filterUpdatesByDate(this.value)" aria-label="Filter updates by date">
-        <option value="all">Any time</option>
         <option value="30">Past 30 days</option>
         <option value="90">Past 3 months</option>
-        <option value="365">Past year</option>
+        <option value="365" selected>Past year</option>
       </select>
     </div>
 
@@ -693,7 +692,7 @@
     // "latest 3" default view that expands on demand or while searching/filtering.
     let updCategory = 'all';
     let updQuery = '';
-    let updDateDays = 0;          // 0 = any time; otherwise notices newer than N days
+    let updDateDays = 365;        // default matches the "Past year" date filter; notices newer than N days
     let updExpanded = false;
     const UPD_LIMIT = 3;
     function withinDateRange(card) {
