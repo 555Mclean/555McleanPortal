@@ -1,14 +1,8 @@
 [
   {
     "day": "TBD",
-    "month": "Jul",
-    "next": true,
-    "title": "Monthly Board Meeting",
-    "detail": "Date &amp; time to be announced · Community Room, 555 McLean Ave"
-  },
-  {
-    "day": "TBD",
     "month": "Aug",
+    "next": true,
     "title": "Monthly Board Meeting",
     "detail": "Date &amp; time to be announced · Community Room, 555 McLean Ave"
   },

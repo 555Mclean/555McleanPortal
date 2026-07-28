@@ -1,7 +1,7 @@
 {
   "active": true,
-  "type": "warning",
-  "message": "Heat Advisory in effect through Monday, July 6. Dangerous heat and humidity are expected this weekend. Stay hydrated, limit time outdoors during peak afternoon hours, and check on elderly neighbors. See Updates below for cooling tips and building safety guidance.",
+  "type": "info",
+  "message": "Superintendent Rudy is on vacation through Sunday, August 9. Mr. Luis Lopez is covering in his absence. For regular or urgent building issues, contact Gramatan Management at (914) 654-1414; for any emergency, call 911. See Updates below for details.",
   "dismissible": true,
-  "expires": "2026-07-06T21:00"
+  "expires": "2026-08-10T09:00"
 }
