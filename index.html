@@ -52,6 +52,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-inner">
+      <p class="hero-greeting" id="hero-greeting" hidden></p>
       <div class="hero-tag">🏡 Cooperative Housing · Yonkers, New York</div>
       <h1>Welcome Home to<br><em>555 McLean Ave</em></h1>
       <p class="hero-sub">A resident-owned cooperative in Yonkers — your home for building news, meetings, and community resources.</p>
@@ -590,7 +591,7 @@
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
-             updateCardMatches, buildICS } from './ui.js';
+             updateCardMatches, buildICS, holidayGreeting } from './ui.js';
     import { initAssistant } from './assistant.js';
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
@@ -604,6 +605,17 @@
     window.submitMaintenance = submitMaintenance;
     init();
     initAssistant();
+
+    // Holiday greeting — picked from the visitor's own date, so it stays correct
+    // between deploys. Hidden on ordinary days. The body data attribute is a hook
+    // for holiday-specific styling.
+    const greeting = holidayGreeting();
+    const greetingEl = document.getElementById('hero-greeting');
+    if (greeting && greetingEl) {
+      greetingEl.textContent = greeting.emoji + ' ' + greeting.message;
+      greetingEl.hidden = false;
+      document.body.dataset.holiday = greeting.name;
+    }
 
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');

@@ -4,6 +4,7 @@ import {
   buildMeetingItem, buildUpdateCard, buildFilterButtons,
   noticeState, nextMeetingTile,
 } from './build-lib.js';
+import { OBSERVANCE_DATES } from './ui.js';
 
 function loadJSON(path) {
   try { return JSON.parse(readFileSync(path, 'utf8')); }
@@ -105,6 +106,21 @@ if (existsSync('./docs')) {
     mkdirSync('./dist/docs', { recursive: true });
     for (const f of docPages) copyFileSync(`./docs/${f}`, `./dist/docs/${f}`);
   }
+}
+
+// ── Holiday greeting: warn when the hand-maintained observance table lapses ──
+// Lunar/Hebrew-calendar dates can't be computed, so they're listed per year in
+// ui.js. A missing year is safe (the observance is skipped rather than shown on
+// a wrong date) but it should be topped up, so surface it in the build log.
+const thisYear = new Date().getFullYear();
+const lapsed = Object.entries(OBSERVANCE_DATES)
+  .filter(([, years]) => !years[thisYear])
+  .map(([name]) => name);
+if (lapsed.length) {
+  console.warn(
+    `WARNING: no ${thisYear} date in ui.js OBSERVANCE_DATES for: ${lapsed.join(', ')} — ` +
+    'these greetings will not appear until the table is extended.'
+  );
 }
 
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
