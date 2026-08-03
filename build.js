@@ -112,14 +112,17 @@ if (existsSync('./docs')) {
 // Lunar/Hebrew-calendar dates can't be computed, so they're listed per year in
 // ui.js. A missing year is safe (the observance is skipped rather than shown on
 // a wrong date) but it should be topped up, so surface it in the build log.
-const thisYear = new Date().getFullYear();
+// Warn a year ahead rather than on the day it runs dry, so there is time to top
+// the table up before a greeting silently stops appearing.
+const horizon = new Date().getFullYear() + 1;
 const lapsed = Object.entries(OBSERVANCE_DATES)
-  .filter(([, years]) => !years[thisYear])
-  .map(([name]) => name);
+  .map(([name, years]) => [name, Math.max(...Object.keys(years).map(Number), 0)])
+  .filter(([, lastYear]) => lastYear < horizon);
 if (lapsed.length) {
   console.warn(
-    `WARNING: no ${thisYear} date in ui.js OBSERVANCE_DATES for: ${lapsed.join(', ')} — ` +
-    'these greetings will not appear until the table is extended.'
+    `WARNING: ui.js OBSERVANCE_DATES runs out before ${horizon} for ` +
+    lapsed.map(([name, lastYear]) => `${name} (through ${lastYear})`).join(', ') +
+    ' — top the table up or these greetings will stop appearing.'
   );
 }
 

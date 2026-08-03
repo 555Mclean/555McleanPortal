@@ -248,4 +248,10 @@ describe('HOLIDAYS table', () => {
     const names = HOLIDAYS.map(h => h.name);
     for (const key of Object.keys(OBSERVANCE_DATES)) expect(names).toContain(key);
   });
+
+  it('resolves observances to null in a year the table does not cover', () => {
+    for (const key of Object.keys(OBSERVANCE_DATES)) {
+      expect(HOLIDAYS.find(h => h.name === key).on(2100), key).toBeNull();
+    }
+  });
 });

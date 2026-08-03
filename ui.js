@@ -87,8 +87,10 @@ export const OBSERVANCE_DATES = {
   'Diwali':         { 2026: [11, 8], 2027: [10, 29], 2028: [11, 15] },
 };
 
+// An observance with no entry for `year` — or a name missing from the table
+// entirely — resolves to null, so it is skipped rather than shown on a guess.
 function observance(name) {
-  return year => OBSERVANCE_DATES[name][year] || null;
+  return year => (OBSERVANCE_DATES[name] || {})[year] || null;
 }
 
 // The greeting calendar. `on(year)` returns [month, day] (1-based) or null when
