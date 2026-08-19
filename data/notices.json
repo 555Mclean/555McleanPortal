@@ -1,7 +1,7 @@
 {
   "active": true,
-  "type": "info",
-  "message": "Superintendent Rudy is on vacation through Sunday, August 9. Mr. Luis Lopez is covering in his absence. For regular or urgent building issues, contact Gramatan Management at (914) 654-1414; for any emergency, call 911. See Updates below for details.",
+  "type": "warning",
+  "message": "Hot water service is interrupted today, Wednesday, August 19, from 9:00 AM to 12:00 PM for a plumbing repair. The B line has a full water shut down (no hot or cold water) during this window. When service returns, open your faucets slowly and run them until the water is clear — full details in Updates below.",
   "dismissible": true,
-  "expires": "2026-08-10T09:00"
+  "expires": "2026-08-20T09:00"
 }
