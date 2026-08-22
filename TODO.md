@@ -78,9 +78,34 @@ Quick version:
 
 ---
 
+## 💰 Sponsor Slots (Ad Revenue) — Optional Board Setup
+
+The portal can run a **Local Sponsors** section powered by Google AdSense.
+It is **built and shipped switched off** — no ad script loads and no section
+renders until the board fills in real AdSense ids.
+Full guide: **`docs/ads-setup.html`**.
+
+Quick version:
+- [ ] Read the expectations section of the guide first — realistic income is
+      **single-digit dollars per year**, AdSense doesn't pay out below **$100**,
+      approval isn't guaranteed, and `ads.txt` can't be served from this repo
+      (project pages can't publish at the domain root), so expect a standing
+      warning in the AdSense dashboard
+- [ ] Get an AdSense **publisher id** (`ca-pub-…`) and a **slot id** for one
+      responsive display unit
+- [ ] Put both in `data/ads.json` and set `"enabled": true`, then commit
+- [ ] Set `"enabled": false` to remove ads again — nothing else to undo
+
+> The section stays hidden unless an ad actually fills, so blocked or unsold
+> ads leave the page looking exactly as it does today. Every ad carries a
+> disclosure line saying it is served by Google and is not a board endorsement.
+
+---
+
 ## 📋 Future Sections to Add (when info is available)
 
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
+- [x] **Sponsor slots / ad revenue** — built and shipped off; see `docs/ads-setup.html` and the Sponsor Slots section above
 - [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the page uncluttered; standalone `docs/amenities.html` retired
 - [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
 - [x] **ClickPay onboarding info** — published as `docs/clickpay-guide.html`

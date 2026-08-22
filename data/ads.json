@@ -1,0 +1,17 @@
+{
+  "enabled": false,
+  "client": "",
+  "eyebrow": "Supporting the Portal",
+  "heading": "Local Sponsors",
+  "blurb": "Advertising on this page helps offset the cost of running the portal. Sponsors are served automatically by Google — the Board does not choose, review, or endorse them.",
+  "disclosure": "Advertisement · served by Google AdSense. Not an endorsement by the Board of 555 McLean Ave.",
+  "units": [
+    {
+      "id": "sponsors-main",
+      "slot": "",
+      "format": "auto",
+      "responsive": true,
+      "label": "Sponsors section advertisement"
+    }
+  ]
+}

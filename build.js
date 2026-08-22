@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, readd
 import {
   escapeHTML, escapeAttr,
   buildMeetingItem, buildUpdateCard, buildFilterButtons,
-  noticeState, nextMeetingTile,
+  noticeState, nextMeetingTile, adsState,
 } from './build-lib.js';
 
 function loadJSON(path) {
@@ -14,6 +14,7 @@ const meetings = loadJSON('./data/meetings.json');
 const waitlist = loadJSON('./data/waitlist.json');
 const notice   = loadJSON('./data/notices.json');
 const updates  = loadJSON('./data/updates.json');
+const ads      = existsSync('./data/ads.json') ? loadJSON('./data/ads.json') : { enabled: false };
 
 const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 const updatesHTML  = updates.map(u => buildUpdateCard(u)).join('\n');
@@ -50,6 +51,23 @@ if (!NEXT_MEETING_RE.test(html)) { console.error('ERROR: NEXT-MEETING markers mi
 html = html.replace(NEXT_MEETING_RE,
   `<!-- NEXT-MEETING-START -->${nextMeetingTile(meetings)}<!-- NEXT-MEETING-END -->`);
 
+// ── Sponsor slots (data/ads.json) ──
+// All three markers are replaced together: an empty state leaves the markers in
+// place, so a page built with ads off is byte-identical to the pre-ads page.
+const adState = adsState(ads);
+
+const ADS_HEAD_RE = /<!-- ADS-HEAD -->/;
+if (!ADS_HEAD_RE.test(html)) { console.error('ERROR: ADS-HEAD marker missing'); process.exit(1); }
+if (adState.headHTML) html = html.replace(ADS_HEAD_RE, adState.headHTML);
+
+const ADS_NAV_RE = /<!-- ADS-NAV -->/;
+if (!ADS_NAV_RE.test(html)) { console.error('ERROR: ADS-NAV marker missing'); process.exit(1); }
+if (adState.navHTML) html = html.replace(ADS_NAV_RE, adState.navHTML);
+
+const ADS_SECTION_RE = /<!-- ADS-SECTION-START -->[\s\S]*?<!-- ADS-SECTION-END -->/;
+if (!ADS_SECTION_RE.test(html)) { console.error('ERROR: ADS-SECTION markers missing'); process.exit(1); }
+if (adState.sectionHTML) html = html.replace(ADS_SECTION_RE, adState.sectionHTML);
+
 const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
 if (LAST_UPDATED_RE.test(html)) {
   const built = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
@@ -65,7 +83,8 @@ html = html
   .replace(/(href="\.\/styles\.css)"/g, `$1?v=${VERSION}"`)
   .replace(/(from '\.\/main\.js)'/g, `$1?v=${VERSION}'`)
   .replace(/(from '\.\/ui\.js)'/g, `$1?v=${VERSION}'`)
-  .replace(/(from '\.\/assistant\.js)'/g, `$1?v=${VERSION}'`);
+  .replace(/(from '\.\/assistant\.js)'/g, `$1?v=${VERSION}'`)
+  .replace(/(from '\.\/ads\.js)'/g, `$1?v=${VERSION}'`);
 
 // ── Patch main.js WL_DATA from data/waitlist.json ──
 let js = readFileSync('./main.js', 'utf8');
@@ -82,6 +101,7 @@ writeFileSync('./dist/main.js', js);
 if (existsSync('./styles.css'))  copyFileSync('./styles.css',  './dist/styles.css');
 if (existsSync('./ui.js'))       copyFileSync('./ui.js',       './dist/ui.js');
 if (existsSync('./assistant.js')) copyFileSync('./assistant.js', './dist/assistant.js');
+if (existsSync('./ads.js'))      copyFileSync('./ads.js',      './dist/ads.js');
 if (existsSync('./sitemap.xml')) copyFileSync('./sitemap.xml', './dist/sitemap.xml');
 if (existsSync('./robots.txt'))  copyFileSync('./robots.txt',  './dist/robots.txt');
 if (existsSync('./.nojekyll'))   copyFileSync('./.nojekyll',   './dist/.nojekyll');
@@ -110,5 +130,5 @@ if (existsSync('./docs')) {
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
 console.log(
   `Built: ${meetings.length} meetings · ${updates.length} updates · ` +
-  `${waitlist.parking.length} parking · ${noticeStatus}`
+  `${waitlist.parking.length} parking · ${noticeStatus} · ads: ${adState.enabled ? adState.reason : 'off (' + adState.reason + ')'}`
 );

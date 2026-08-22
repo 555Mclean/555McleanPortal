@@ -107,3 +107,55 @@ export function nextMeetingTile(meetings, now = new Date()) {
   }
   return meetings.length ? `${meetings[0].month} · Date TBD` : 'Date TBD';
 }
+
+// ── Sponsor (ad) section ──
+// The board runs Google AdSense from data/ads.json. Nothing renders until the
+// config is switched on AND carries a real publisher id plus at least one slot
+// id — an ad script with placeholder ids just prints console errors for every
+// visitor, so an unconfigured file is treated as "off" rather than half-wired.
+export const AD_CLIENT_RE = /^ca-pub-\d{10,}$/;
+export const AD_SLOT_RE = /^\d{6,}$/;
+
+export function adUnits(config) {
+  return (config.units || []).filter(u => AD_SLOT_RE.test(String(u.slot || '')));
+}
+
+export function adsState(config = {}) {
+  const client = String(config.client || '');
+  const units = adUnits(config);
+
+  if (!config.enabled) return { enabled: false, reason: 'off', headHTML: '', navHTML: '', sectionHTML: '' };
+  if (!AD_CLIENT_RE.test(client)) return { enabled: false, reason: 'no publisher id', headHTML: '', navHTML: '', sectionHTML: '' };
+  if (!units.length) return { enabled: false, reason: 'no ad slots', headHTML: '', navHTML: '', sectionHTML: '' };
+
+  const headHTML =
+    `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${escapeAttr(client)}" crossorigin="anonymous"></script>`;
+
+  const navHTML = `<a href="#sponsors" id="sponsors-nav" hidden>Sponsors</a>`;
+
+  const insHTML = units.map(u => `        <div class="ad-unit">
+          <ins class="adsbygoogle"
+               style="display:block"
+               aria-label="${escapeAttr(u.label || 'Advertisement')}"
+               data-ad-client="${escapeAttr(client)}"
+               data-ad-slot="${escapeAttr(String(u.slot))}"
+               data-ad-format="${escapeAttr(u.format || 'auto')}"
+               data-full-width-responsive="${u.responsive === false ? 'false' : 'true'}"></ins>
+        </div>`).join('\n');
+
+  // Starts hidden and is revealed by ads.js only once a unit actually fills, so
+  // blocked or unsold ads leave no empty gap in the page.
+  const sectionHTML = `<section id="sponsors" hidden>
+    <div class="inner">
+      <div class="section-eyebrow">${escapeHTML(config.eyebrow || 'Supporting the Portal')}</div>
+      <h2 class="section-title">${escapeHTML(config.heading || 'Local Sponsors')}</h2>
+      <p class="section-sub">${escapeHTML(config.blurb || '')}</p>
+      <div class="ad-stack">
+${insHTML}
+      </div>
+      <p class="ad-disclosure">${escapeHTML(config.disclosure || 'Advertisement.')}</p>
+    </div>
+  </section>`;
+
+  return { enabled: true, reason: `${units.length} unit(s)`, headHTML, navHTML, sectionHTML };
+}

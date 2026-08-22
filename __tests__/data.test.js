@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { CATEGORY_LABELS, ICONS } from '../build-lib.js';
+import { CATEGORY_LABELS, ICONS, AD_CLIENT_RE, adUnits } from '../build-lib.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const load = name => JSON.parse(readFileSync(resolve(root, 'data', name), 'utf8'));
@@ -124,5 +124,37 @@ describe('data/waitlist.json', () => {
 
   it('has no duplicate entries in the parking list', () => {
     expect(new Set(waitlist.parking).size).toBe(waitlist.parking.length);
+  });
+});
+
+// ─── ads.json ─────────────────────────────────────────────────────────────────
+
+describe('data/ads.json', () => {
+  const ads = load('ads.json');
+
+  it('has the fields build.js reads', () => {
+    expect(typeof ads.enabled).toBe('boolean');
+    expect(typeof ads.client).toBe('string');
+    expect(Array.isArray(ads.units)).toBe(true);
+  });
+
+  it('carries a disclosure line for any ad it renders', () => {
+    expect(typeof ads.disclosure).toBe('string');
+    expect(ads.disclosure.length).toBeGreaterThan(0);
+  });
+
+  it('gives every unit an id and a slot field', () => {
+    for (const u of ads.units) {
+      expect(typeof u.id, JSON.stringify(u)).toBe('string');
+      expect(typeof u.slot).toBe('string');
+    }
+  });
+
+  // Guards the board against a half-finished edit reaching production: turning
+  // ads on with a placeholder publisher id would break the page for everyone.
+  it('is only switched on once real AdSense ids are filled in', () => {
+    if (!ads.enabled) return;
+    expect(ads.client, 'ads.enabled is true but client is not a real ca-pub- id').toMatch(AD_CLIENT_RE);
+    expect(adUnits(ads).length, 'ads.enabled is true but no unit has a real slot id').toBeGreaterThan(0);
   });
 });

@@ -48,6 +48,13 @@ Each item in the Documents list is a row link. To add or update one:
 </a>
 ```
 
+## Board setup references (not linked publicly)
+
+| File | What it covers |
+|---|---|
+| `waitlist-automation.html` | Wiring the self-updating parking queue to a Google Form |
+| `ads-setup.html` | Turning on the Local Sponsors (AdSense) section — and what to expect from it |
+
 ## Google Drive folder
 
 The shareholder-only folder URL needs to be updated in `index.html` once the board creates the shared Drive folder. Search for the comment `TODO: Replace href` in `index.html`.

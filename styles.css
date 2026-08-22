@@ -1801,6 +1801,41 @@
     .mr-success { text-align: center; padding: 1rem 0 0.4rem; }
     .mr-success .big { font-size: 2.2rem; margin-bottom: 0.5rem; }
 
+    /* ── SPONSORS (ad slots — generated from data/ads.json) ── */
+    /* The section ships hidden and ads.js reveals it only once a unit fills, so
+       blocked or unsold ads leave no empty band in the page. */
+    #sponsors {
+      background: var(--bg);
+      max-width: 100%;
+      padding: 3.2rem 2rem;
+      border-top: 1px solid var(--border-light);
+    }
+    #sponsors[hidden] { display: none; }
+    #sponsors .inner { max-width: 980px; margin: 0 auto; }
+    #sponsors .section-sub { margin-bottom: 1.8rem; }
+
+    .ad-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .ad-unit {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 0.9rem;
+      overflow: hidden;
+      /* Holds a stable box so revealing a filled ad doesn't shove the page. */
+      min-height: 120px;
+    }
+    .ad-unit .adsbygoogle { width: 100%; }
+    .ad-disclosure {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      margin-top: 0.9rem;
+      line-height: 1.5;
+    }
+
     /* ── PRINT ── */
     @media print {
       #progress-bar, header, .notice-bar,
@@ -1808,7 +1843,8 @@
       .cal-btn, .wl-submit-row,
       .wl-step-nav, .wl-queue-search, .wl-meter, .wl-dots,
       .suggestion-callout, .footer-links, .footer-beta,
-      .theme-toggle, .nav-toggle, .faq-search, .update-readmore, .wl-more-btn { display: none !important; }
+      .theme-toggle, .nav-toggle, .faq-search, .update-readmore, .wl-more-btn,
+      #sponsors { display: none !important; }
       body { font-size: 11pt; color: #000 !important; background: #fff !important; }
       .update-card p.clampable { display: block !important; -webkit-line-clamp: unset !important; overflow: visible !important; }
       .wl-slots.wl-collapsed .wl-slot-extra { display: flex !important; }

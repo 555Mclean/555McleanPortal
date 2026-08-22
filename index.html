@@ -24,6 +24,8 @@
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
 
+  <!-- ADS-HEAD -->
+
 </head>
 <body>
 
@@ -44,6 +46,7 @@
       <a href="#waitlist">Parking</a>
       <a href="#contact">Contact</a>
       <a href="#faq">FAQ</a>
+      <!-- ADS-NAV -->
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="toggleNav()">☰</button>
@@ -420,6 +423,9 @@
     </div>
   </section>
 
+  <!-- SPONSORS (generated from data/ads.json — see docs/ads-setup.html) -->
+  <!-- ADS-SECTION-START --><!-- ADS-SECTION-END -->
+
   <!-- ABOUT & CONTACT -->
   <section id="contact">
     <div class="inner">
@@ -602,6 +608,7 @@
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
              updateCardMatches, buildICS } from './ui.js';
     import { initAssistant } from './assistant.js';
+    import { initAds } from './ads.js';
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
     window.wlBack = wlBack;
@@ -614,6 +621,7 @@
     window.submitMaintenance = submitMaintenance;
     init();
     initAssistant();
+    initAds();
 
     // Scroll progress bar
     const bar = document.getElementById('progress-bar');
@@ -623,7 +631,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#updates, #meetings, #documents, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#updates, #meetings, #documents, #waitlist, #sponsors, #contact, #faq');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
