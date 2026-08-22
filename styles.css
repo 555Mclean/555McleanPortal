@@ -1802,8 +1802,11 @@
     .mr-success .big { font-size: 2.2rem; margin-bottom: 0.5rem; }
 
     /* ── SPONSORS (ad slots — generated from data/ads.json) ── */
-    /* The section ships hidden and ads.js reveals it only once a unit fills, so
-       blocked or unsold ads leave no empty band in the page. */
+    /* The section ships in .ads-pending and ads.js reveals it only once a unit
+       actually fills, so blocked or unsold ads leave no empty band in the page.
+       Pending must keep the slot's WIDTH — AdSense measures it and will not
+       fill a zero-width slot — so it collapses height and hides the heading
+       rather than using display:none. */
     #sponsors {
       background: var(--bg);
       max-width: 100%;
@@ -1811,6 +1814,23 @@
       border-top: 1px solid var(--border-light);
     }
     #sponsors[hidden] { display: none; }
+    /* Pending: no visible height, no chrome — but still full width. */
+    #sponsors.ads-pending {
+      padding-top: 0;
+      padding-bottom: 0;
+      border-top: none;
+    }
+    #sponsors.ads-pending .section-eyebrow,
+    #sponsors.ads-pending .section-title,
+    #sponsors.ads-pending .section-sub,
+    #sponsors.ads-pending .ad-disclosure { display: none; }
+    #sponsors.ads-pending .ad-stack { height: 0; overflow: hidden; }
+    #sponsors.ads-pending .ad-unit {
+      min-height: 0;
+      padding: 0;
+      border: none;
+      background: none;
+    }
     #sponsors .inner { max-width: 980px; margin: 0 auto; }
     #sponsors .section-sub { margin-bottom: 1.8rem; }
 

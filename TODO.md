@@ -96,9 +96,10 @@ Quick version:
 - [ ] Put both in `data/ads.json` and set `"enabled": true`, then commit
 - [ ] Set `"enabled": false` to remove ads again — nothing else to undo
 
-> The section stays hidden unless an ad actually fills, so blocked or unsold
-> ads leave the page looking exactly as it does today. Every ad carries a
-> disclosure line saying it is served by Google and is not a board endorsement.
+> The section stays invisible unless an ad actually fills, so blocked or unsold
+> ads leave the page looking exactly as it does today — and if nothing fills,
+> the slot is removed rather than left hidden. Every ad carries a disclosure
+> line saying it is served by Google and is not a board endorsement.
 
 ---
 

@@ -153,7 +153,9 @@
       <h2><span class="num">4.</span>What residents see</h2>
       <ul>
         <li>A <strong>Local Sponsors</strong> section between the parking waitlist and the About &amp; Contact section, plus a <em>Sponsors</em> link in the top navigation.</li>
-        <li>The section is <strong>hidden until an ad actually loads</strong>. If the ad is blocked, unsold, or the script fails, residents see no empty box and no “Sponsors” nav link — the page looks exactly as it does today.</li>
+        <li>The section <strong>stays invisible until an ad actually loads</strong>. If the ad is blocked, unsold, or the script fails, residents see no empty box and no “Sponsors” nav link — the page looks exactly as it does today. (Technically the slot is present but collapsed to zero height while it waits: AdSense measures the slot's width to decide what to serve and will not fill a hidden one, so it has to occupy width without occupying space.)</li>
+        <li>If the ad never loads, the slot is <strong>removed from the page</strong> rather than left hidden — an ad that loads inside a hidden box would count as an impression no resident ever saw.</li>
+        <li>With JavaScript turned off, nothing about the section is ever shown.</li>
         <li>A disclosure line under every ad stating it is served by Google and is not a board endorsement. Keep it: it is the honest signal to shareholders that the board does not vouch for whoever appears there.</li>
         <li>Nothing prints — ads are excluded from the print stylesheet.</li>
       </ul>

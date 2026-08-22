@@ -4,6 +4,15 @@
 export const escapeHTML = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 export const escapeAttr = s => s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;');
 
+// Replace a build marker with generated HTML.
+// String.replace treats "$" sequences in the replacement as patterns — "$&"
+// re-inserts the marker and "$'" splices in the whole rest of the file — so a
+// board member writing a dollar amount into data/*.json could silently corrupt
+// the built page. A replacer function is passed through verbatim.
+export function inject(html, pattern, replacement) {
+  return html.replace(pattern, () => replacement);
+}
+
 export const CATEGORY_LABELS = {
   election: 'Election', general: 'General Notice',
   maintenance: 'Maintenance', reminder: 'Reminder',
@@ -143,9 +152,11 @@ export function adsState(config = {}) {
                data-full-width-responsive="${u.responsive === false ? 'false' : 'true'}"></ins>
         </div>`).join('\n');
 
-  // Starts hidden and is revealed by ads.js only once a unit actually fills, so
-  // blocked or unsold ads leave no empty gap in the page.
-  const sectionHTML = `<section id="sponsors" hidden>
+  // Ships "pending": full-width and in the flow so AdSense has a width to
+  // measure, but collapsed to no visible height with its heading hidden.
+  // ads.js reveals it only once a unit actually fills, so blocked or unsold ads
+  // leave no empty gap — and a visitor with JS off never sees it at all.
+  const sectionHTML = `<section id="sponsors" class="ads-pending">
     <div class="inner">
       <div class="section-eyebrow">${escapeHTML(config.eyebrow || 'Supporting the Portal')}</div>
       <h2 class="section-title">${escapeHTML(config.heading || 'Local Sponsors')}</h2>

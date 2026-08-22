@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, copyFileSync, existsSync, readd
 import {
   escapeHTML, escapeAttr,
   buildMeetingItem, buildUpdateCard, buildFilterButtons,
-  noticeState, nextMeetingTile, adsState,
+  noticeState, nextMeetingTile, adsState, inject,
 } from './build-lib.js';
 
 function loadJSON(path) {
@@ -28,27 +28,27 @@ let html = readFileSync('./index.html', 'utf8');
 
 const MEETINGS_RE = /<!-- MEETINGS-LIST-START -->[\s\S]*?<!-- MEETINGS-LIST-END -->/;
 if (!MEETINGS_RE.test(html)) { console.error('ERROR: MEETINGS-LIST markers missing'); process.exit(1); }
-html = html.replace(MEETINGS_RE,
+html = inject(html, MEETINGS_RE,
   `<!-- MEETINGS-LIST-START -->\n${meetingsHTML}\n      <!-- MEETINGS-LIST-END -->`);
 
 const UPDATES_RE = /<!-- UPDATES-LIST-START -->[\s\S]*?<!-- UPDATES-LIST-END -->/;
 if (!UPDATES_RE.test(html)) { console.error('ERROR: UPDATES-LIST markers missing'); process.exit(1); }
-html = html.replace(UPDATES_RE,
+html = inject(html, UPDATES_RE,
   `<!-- UPDATES-LIST-START -->\n${updatesHTML}\n      <!-- UPDATES-LIST-END -->`);
 
 const FILTERS_RE = /<!-- FILTERS-START -->[\s\S]*?<!-- FILTERS-END -->/;
 if (!FILTERS_RE.test(html)) { console.error('ERROR: FILTERS markers missing'); process.exit(1); }
-html = html.replace(FILTERS_RE,
+html = inject(html, FILTERS_RE,
   `<!-- FILTERS-START -->\n${filtersHTML}\n      <!-- FILTERS-END -->`);
 
 const NOTICE_RE = /<!-- NOTICE-BAR -->/;
 if (!NOTICE_RE.test(html)) { console.error('ERROR: NOTICE-BAR marker missing'); process.exit(1); }
-html = html.replace(NOTICE_RE, noticeHTML ? noticeHTML + '\n\n  ' : '<!-- NOTICE-BAR -->');
+html = inject(html, NOTICE_RE, noticeHTML ? noticeHTML + '\n\n  ' : '<!-- NOTICE-BAR -->');
 
 // ── Next-meeting Quick Actions tile ──
 const NEXT_MEETING_RE = /<!-- NEXT-MEETING-START -->[\s\S]*?<!-- NEXT-MEETING-END -->/;
 if (!NEXT_MEETING_RE.test(html)) { console.error('ERROR: NEXT-MEETING markers missing'); process.exit(1); }
-html = html.replace(NEXT_MEETING_RE,
+html = inject(html, NEXT_MEETING_RE,
   `<!-- NEXT-MEETING-START -->${nextMeetingTile(meetings)}<!-- NEXT-MEETING-END -->`);
 
 // ── Sponsor slots (data/ads.json) ──
@@ -58,20 +58,20 @@ const adState = adsState(ads);
 
 const ADS_HEAD_RE = /<!-- ADS-HEAD -->/;
 if (!ADS_HEAD_RE.test(html)) { console.error('ERROR: ADS-HEAD marker missing'); process.exit(1); }
-if (adState.headHTML) html = html.replace(ADS_HEAD_RE, adState.headHTML);
+if (adState.headHTML) html = inject(html, ADS_HEAD_RE, adState.headHTML);
 
 const ADS_NAV_RE = /<!-- ADS-NAV -->/;
 if (!ADS_NAV_RE.test(html)) { console.error('ERROR: ADS-NAV marker missing'); process.exit(1); }
-if (adState.navHTML) html = html.replace(ADS_NAV_RE, adState.navHTML);
+if (adState.navHTML) html = inject(html, ADS_NAV_RE, adState.navHTML);
 
 const ADS_SECTION_RE = /<!-- ADS-SECTION-START -->[\s\S]*?<!-- ADS-SECTION-END -->/;
 if (!ADS_SECTION_RE.test(html)) { console.error('ERROR: ADS-SECTION markers missing'); process.exit(1); }
-if (adState.sectionHTML) html = html.replace(ADS_SECTION_RE, adState.sectionHTML);
+if (adState.sectionHTML) html = inject(html, ADS_SECTION_RE, adState.sectionHTML);
 
 const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
 if (LAST_UPDATED_RE.test(html)) {
   const built = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' });
-  html = html.replace(LAST_UPDATED_RE, `Last updated ${built}`);
+  html = inject(html, LAST_UPDATED_RE, `Last updated ${built}`);
 }
 
 // ── Cache-busting ──
@@ -90,7 +90,7 @@ html = html
 let js = readFileSync('./main.js', 'utf8');
 const WL_RE = /export const WL_DATA = \{[\s\S]*?\};/;
 if (!WL_RE.test(js)) { console.error('ERROR: WL_DATA block missing'); process.exit(1); }
-js = js.replace(WL_RE, `export const WL_DATA = {
+js = inject(js, WL_RE, `export const WL_DATA = {
   parking: ${JSON.stringify(waitlist.parking)},
 };`);
 

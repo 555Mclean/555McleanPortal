@@ -1,14 +1,25 @@
 // Sponsor (ad) slot handling for the portal.
 //
-// The markup for #sponsors is generated at build time from data/ads.json and
-// ships hidden. This module asks AdSense to fill each unit and only then
-// reveals the section — if the ads are blocked, unsold, or the script never
-// loads (all common here), residents see the page exactly as before instead of
-// a labelled empty box. Everything degrades to "no section" on failure.
+// The markup for #sponsors is generated at build time from data/ads.json. This
+// module asks AdSense to fill each unit and shows the section only if one
+// actually fills — if the ads are blocked, unsold, or the script never loads
+// (all common here), residents see the page exactly as before instead of a
+// labelled empty box.
+//
+// The section therefore ships in a "pending" state rather than hidden:
+// AdSense measures the slot's width to decide what to serve and refuses a
+// zero-width slot, so display:none would deadlock — no width, no fill, no
+// reveal. Pending keeps the section full-width and in the flow but collapses
+// its height and hides its heading, so it gives AdSense a real width while
+// taking up no visible space.
 
-// How long to wait for AdSense to mark the units before giving up and leaving
-// the section hidden.
-export const AD_FILL_TIMEOUT = 4000;
+// Class the build ships on the section; removed to reveal it.
+export const PENDING_CLASS = 'ads-pending';
+
+// How long to wait for AdSense to mark the units before giving up. Generous:
+// while pending the section is already invisible, so waiting costs nothing,
+// and a slow connection should still get its chance to fill.
+export const AD_FILL_TIMEOUT = 10000;
 
 // AdSense stamps each <ins> with data-ad-status once it decides.
 // true = filled, false = unfilled, null = not decided yet.
@@ -31,12 +42,6 @@ export function fillVerdict(units) {
   return allDecided ? false : null;
 }
 
-function reveal(section) {
-  section.hidden = false;
-  const nav = document.getElementById('sponsors-nav');
-  if (nav) nav.hidden = false;
-}
-
 export function initAds(doc = document) {
   const section = doc.getElementById('sponsors');
   if (!section) return false; // ads off — build.js left the section out entirely
@@ -44,30 +49,51 @@ export function initAds(doc = document) {
   const units = Array.from(section.querySelectorAll('ins.adsbygoogle'));
   if (!units.length) return false;
 
+  const reveal = () => {
+    section.classList.remove(PENDING_CLASS);
+    const nav = doc.getElementById('sponsors-nav');
+    if (nav) nav.hidden = false;
+  };
+
+  // Giving up removes the units outright rather than just hiding the section:
+  // an <ins> left inside a hidden container can still fill later and would then
+  // count as an impression no resident ever saw.
+  const giveUp = () => {
+    for (const el of units) el.remove();
+    section.hidden = true;
+  };
+
   // Hand each unit to AdSense. The queue works whether or not the script has
   // finished loading, and a throw here must not take the rest of init with it.
   try {
     units.forEach(() => { (window.adsbygoogle = window.adsbygoogle || []).push({}); });
-  } catch { return false; }
+  } catch {
+    giveUp();
+    return false;
+  }
 
   let settled = false;
-  const finish = () => {
-    if (settled) return;
-    const verdict = fillVerdict(units);
-    if (verdict === true) { settled = true; reveal(section); }
-    else if (verdict === false) { settled = true; } // stays hidden
+  const settle = verdict => {
+    if (settled || verdict === null) return;
+    settled = true;
+    if (verdict) reveal(); else giveUp();
   };
 
   // data-ad-status is set asynchronously, so watch for it rather than polling.
   if (typeof MutationObserver === 'function') {
     const observer = new MutationObserver(() => {
-      finish();
+      settle(fillVerdict(units));
       if (settled) observer.disconnect();
     });
     for (const el of units) observer.observe(el, { attributes: true, attributeFilter: ['data-ad-status'] });
-    setTimeout(() => { observer.disconnect(); finish(); settled = true; }, AD_FILL_TIMEOUT);
+    setTimeout(() => {
+      // No answer by now counts as unfilled. Disconnect first so the removal
+      // below can't re-enter through the observer.
+      observer.disconnect();
+      settle(fillVerdict(units) ?? false);
+    }, AD_FILL_TIMEOUT);
   } else {
-    setTimeout(finish, AD_FILL_TIMEOUT);
+    setTimeout(() => settle(fillVerdict(units) ?? false), AD_FILL_TIMEOUT);
   }
 
   return true;
