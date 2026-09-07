@@ -11,7 +11,7 @@
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^5.0.0",
     "jsdom": "^30.0.0",
     "vitest": "^4.1.10"
   }
