@@ -39,6 +39,14 @@ export function updateCardMatches(text, category, activeCategory, query) {
   return matchesCat && matchesQuery;
 }
 
+// Whether a FAQ entry should stay visible for a search query. `text` is the
+// whole entry — question *and* answer — so a resident searching for wording
+// that only appears in the answer ("brown water", "ClickPay") still finds it.
+export function faqMatches(text, query) {
+  const q = (query || '').toLowerCase().trim();
+  return !q || String(text).toLowerCase().includes(q);
+}
+
 // Build an RFC-5545 VCALENDAR document for a single meeting (\r\n separated).
 export function buildICS(dateStr, title, location, startTime, endTime, now = new Date()) {
   const esc = s => s.replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,');

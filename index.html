@@ -600,7 +600,7 @@
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
-             updateCardMatches, buildICS } from './ui.js';
+             updateCardMatches, faqMatches, buildICS } from './ui.js';
     import { initAssistant } from './assistant.js';
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
@@ -864,16 +864,19 @@
       }
     };
 
-    // FAQ search filter
+    // FAQ search filter — matches the answer text as well as the question, so
+    // searching for something the answer covers ("brown water", "ClickPay")
+    // finds the entry even when the wording isn't in the question itself.
     window.filterFAQ = function(val) {
       const q = val.toLowerCase().trim();
       let any = false;
       document.querySelectorAll('.faq-item').forEach(item => {
-        const match = !q || item.querySelector('.faq-question').textContent.toLowerCase().includes(q);
+        const match = faqMatches(item.textContent, q);
         item.style.display = match ? '' : 'none';
         if (match) any = true;
       });
-      document.getElementById('faq-no-results').style.display = any || !q ? 'none' : 'block';
+      const noRes = document.getElementById('faq-no-results');
+      if (noRes) noRes.style.display = any || !q ? 'none' : 'block';
     };
 
     // Toast notification

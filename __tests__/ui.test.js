@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   relativeDateLabel, countdownLabel, prefersDarkDefault,
-  updateCardMatches, buildICS,
+  updateCardMatches, faqMatches, buildICS,
 } from '../ui.js';
 
 const NOW = new Date(2026, 5, 24, 12, 0, 0); // 2026-06-24 12:00 local
@@ -136,5 +136,45 @@ describe('buildICS', () => {
     const ics = buildICS('2026-06-08', 'Board Meeting', 'Lobby', '19:00', '20:00', STAMP);
     expect(ics.split('\r\n')[0]).toBe('BEGIN:VCALENDAR');
     expect(ics).not.toContain('\n\n');
+  });
+});
+
+// ─── faqMatches ────────────────────────────────────────────────────────────────
+
+describe('faqMatches', () => {
+  const entry = 'How do I submit a maintenance request? '
+    + 'Use the Maintenance Request form in the Quick Actions bar.';
+
+  it('keeps every entry when the query is empty', () => {
+    expect(faqMatches(entry, '')).toBe(true);
+  });
+
+  it('keeps every entry when the query is only whitespace', () => {
+    expect(faqMatches(entry, '   ')).toBe(true);
+  });
+
+  it('matches wording from the question', () => {
+    expect(faqMatches(entry, 'maintenance request')).toBe(true);
+  });
+
+  it('matches wording that appears only in the answer', () => {
+    // The old filter searched the question alone, so this missed.
+    expect(faqMatches(entry, 'quick actions')).toBe(true);
+  });
+
+  it('ignores case on both sides', () => {
+    expect(faqMatches(entry, 'QUICK ACTIONS')).toBe(true);
+  });
+
+  it('trims surrounding whitespace from the query', () => {
+    expect(faqMatches(entry, '  quick actions  ')).toBe(true);
+  });
+
+  it('rejects an entry that contains neither', () => {
+    expect(faqMatches(entry, 'snow removal')).toBe(false);
+  });
+
+  it('treats a null query as empty', () => {
+    expect(faqMatches(entry, null)).toBe(true);
   });
 });

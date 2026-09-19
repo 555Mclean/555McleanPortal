@@ -3,7 +3,7 @@ import {
   WL_DATA, renderSlots, submitWaitlist, init,
   prefillWaitlist, WL_STORE_KEY,
   buildMaintenanceEmail, openMaintWizard, closeMaintWizard, selectMaintCategory,
-  maintNext, maintBack, submitMaintenance, MAINT_EMAIL,
+  maintNext, maintBack, submitMaintenance, MAINT_EMAIL, WL_JOINED_KEY,
 } from '../main.js';
 
 // ─── DOM fixture ────────────────────────────────────────────────────────────
@@ -98,6 +98,68 @@ describe('renderSlots', () => {
     WL_DATA.parking = ['5A'];
     renderSlots('parking'); // should now show only 1
     expect(document.querySelectorAll('#parking-slots .wl-slot.filled')).toHaveLength(1);
+  });
+});
+
+// ─── renderSlots: the resident's own "you" marker ───────────────────────────
+
+describe("renderSlots — the resident's own position marker", () => {
+  beforeEach(() => {
+    setupDOM();
+    localStorage.clear();
+  });
+
+  afterEach(() => localStorage.clear());
+
+  const youRow = () => document.querySelector('#parking-slots .wl-slot.you');
+
+  it('marks the position a resident joined at, past the end of the queue', () => {
+    WL_DATA.parking = ['2A', '4B', '7C'];
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify({ parking: 4 }));
+    renderSlots('parking');
+    expect(youRow()).not.toBeNull();
+    expect(youRow().textContent).toContain('#4');
+  });
+
+  it('places the marker above the "Show N more" toggle, not after it', () => {
+    WL_DATA.parking = ['2A', '4B', '7C', '9D'];
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify({ parking: 5 }));
+    renderSlots('parking');
+    const kids = [...document.getElementById('parking-slots').children];
+    const youIdx = kids.findIndex(el => el.classList.contains('you'));
+    const btnIdx = kids.findIndex(el => el.classList.contains('wl-more-btn'));
+    expect(youIdx).toBeGreaterThan(-1);
+    expect(btnIdx).toBeGreaterThan(-1);
+    expect(youIdx).toBeLessThan(btnIdx);
+  });
+
+  it('drops the marker once the published queue reaches that position', () => {
+    // The board has since added the resident, so the real row covers them —
+    // keeping the marker would show the same person twice.
+    WL_DATA.parking = ['2A', '4B', '7C', '9D'];
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify({ parking: 4 }));
+    renderSlots('parking');
+    expect(youRow()).toBeNull();
+  });
+
+  it('drops the marker when the queue has grown past that position', () => {
+    WL_DATA.parking = ['2A', '4B', '7C', '9D', '11E'];
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify({ parking: 4 }));
+    renderSlots('parking');
+    expect(youRow()).toBeNull();
+  });
+
+  it('shows no marker for a resident who has not signed up', () => {
+    WL_DATA.parking = ['2A', '4B', '7C'];
+    renderSlots('parking');
+    expect(youRow()).toBeNull();
+  });
+
+  it('still marks position #1 on an empty queue', () => {
+    WL_DATA.parking = [];
+    localStorage.setItem(WL_JOINED_KEY, JSON.stringify({ parking: 1 }));
+    renderSlots('parking');
+    expect(youRow()).not.toBeNull();
   });
 });
 
