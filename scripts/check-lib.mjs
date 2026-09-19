@@ -32,7 +32,16 @@ export const PLACEHOLDER_CHECKS = [
   },
 ];
 
+// Form inputs carry example values in placeholder="..." attributes — the phone
+// field's "(914) 555-0000" is a formatting hint for the resident, not the
+// building's emergency number. Strip those attribute values before matching so
+// the health check doesn't file an issue about contact info that is already in.
+export function stripInputPlaceholders(html) {
+  return html.replace(/\splaceholder\s*=\s*(?:"[^"]*"|'[^']*')/gi, ' ');
+}
+
 // Descriptions of every placeholder still present in the given HTML.
 export function findPlaceholders(html, checks = PLACEHOLDER_CHECKS) {
-  return checks.filter(({ needle }) => html.includes(needle)).map(({ desc }) => desc);
+  const content = stripInputPlaceholders(html);
+  return checks.filter(({ needle }) => content.includes(needle)).map(({ desc }) => desc);
 }

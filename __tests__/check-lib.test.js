@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
-  parseLocalDate, upcomingMeetings, findPlaceholders, PLACEHOLDER_CHECKS,
+  parseLocalDate, upcomingMeetings, findPlaceholders, stripInputPlaceholders,
+  PLACEHOLDER_CHECKS,
 } from '../scripts/check-lib.mjs';
 
 // ─── parseLocalDate ────────────────────────────────────────────────────────────
@@ -82,11 +83,49 @@ describe('findPlaceholders', () => {
     expect(findPlaceholders('a TODO here', checks)).toEqual(['todo marker present']);
   });
 
+  it('ignores example values inside input placeholder attributes', () => {
+    // The parking form's phone field uses (914) 555-0000 as a formatting hint.
+    const html = '<input type="tel" id="p-phone" placeholder="(914) 555-0000" />';
+    expect(findPlaceholders(html)).toEqual([]);
+  });
+
+  it('still flags a real number that only looks like a placeholder example', () => {
+    const html = '<p>Building emergency line: (914) 555-0000</p>'
+      + '<input type="tel" placeholder="(914) 555-0000" />';
+    expect(findPlaceholders(html))
+      .toContain('Emergency phone number is still a placeholder ((914) 555-0000)');
+  });
+
   it('ships with one description per built-in check', () => {
     expect(PLACEHOLDER_CHECKS).toHaveLength(4);
     for (const c of PLACEHOLDER_CHECKS) {
       expect(c).toHaveProperty('needle');
       expect(c).toHaveProperty('desc');
     }
+  });
+});
+
+// ─── stripInputPlaceholders ────────────────────────────────────────────────────
+
+describe('stripInputPlaceholders', () => {
+  it('removes double-quoted placeholder attributes', () => {
+    expect(stripInputPlaceholders('<input placeholder="jane@email.com" />'))
+      .not.toContain('jane@email.com');
+  });
+
+  it('removes single-quoted placeholder attributes', () => {
+    expect(stripInputPlaceholders("<input placeholder='Apt 4B' />"))
+      .not.toContain('Apt 4B');
+  });
+
+  it('leaves the rest of the markup intact', () => {
+    const out = stripInputPlaceholders('<input type="tel" placeholder="(914) 555-0000" id="p-phone" />');
+    expect(out).toContain('type="tel"');
+    expect(out).toContain('id="p-phone"');
+  });
+
+  it('does not swallow a word ending in "placeholder"', () => {
+    expect(stripInputPlaceholders('<p>data-placeholder="keep me"</p>'))
+      .toContain('keep me');
   });
 });
