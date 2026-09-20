@@ -84,15 +84,20 @@ export function renderSlots(type) {
   }
 
   // After the resident has joined, mark their projected position in the queue.
+  // The marker stands for a request the board hasn't published yet, so it only
+  // belongs past the end of the queue: once the published list reaches their
+  // position they are in it for real, and a second "you" row would show them
+  // twice. It also goes before the "Show N more" toggle, which is always last.
   const joined = readJoined()[type];
-  if (joined) {
+  if (joined && joined > apts.length) {
     const you = document.createElement('div');
     you.className = 'wl-slot you';
     you.innerHTML =
       '<span class="wl-slot-pos">#' + joined + '</span>' +
       '<span class="wl-slot-apt">You — request sent</span>' +
       '<span class="wl-you-badge">You</span>';
-    slotsEl.appendChild(you);
+    const moreBtn = slotsEl.querySelector('.wl-more-btn');
+    slotsEl.insertBefore(you, moreBtn);
   }
 
   updateQueueMeter(type);

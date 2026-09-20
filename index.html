@@ -484,7 +484,7 @@
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer" id="faq-a-2">
-            <p>Use the Maintenance Request form — available from the Quick Actions bar at the top of the page. It walks you through a few quick steps and prepares a complete email to the managing agent, copying the board. For building emergencies, use the emergency contact in the Contact section.</p>
+            <p>Use the Maintenance Request form — available from the Quick Actions bar at the top of the page. It walks you through a few quick steps and prepares a complete email to the managing agent, copying the board. For a building emergency, don’t use the form — call Gramatan Management at <a href="tel:+19146541414">(914) 654-1414</a> (the after-hours answering service reaches the right people), and call <a href="tel:911" class="emergency">911</a> first for anything life-threatening.</p>
           </div>
         </div>
 
@@ -564,7 +564,7 @@
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer" id="faq-a-8">
-            <p>Use the contact details at the bottom of this page or email the board directly. For non-urgent matters, allow up to 5 business days for a response. Building emergencies should be reported to the emergency contact number in the Contact section.</p>
+            <p>Use the contact details at the bottom of this page or email the board directly. For non-urgent matters, allow up to 5 business days for a response. Building emergencies go to Gramatan Management at <a href="tel:+19146541414">(914) 654-1414</a>, not to the board — see <a href="./docs/emergency-contacts.html">Emergency Contacts</a> for the full list.</p>
           </div>
         </div>
 
@@ -600,7 +600,7 @@
              openMaintWizard, closeMaintWizard, selectMaintCategory,
              maintNext, maintBack, submitMaintenance } from './main.js';
     import { relativeDateLabel, countdownLabel, prefersDarkDefault,
-             updateCardMatches, buildICS } from './ui.js';
+             updateCardMatches, faqMatches, buildICS } from './ui.js';
     import { initAssistant } from './assistant.js';
     window.submitWaitlist = submitWaitlist;
     window.wlNext = wlNext;
@@ -864,16 +864,19 @@
       }
     };
 
-    // FAQ search filter
+    // FAQ search filter — matches the answer text as well as the question, so
+    // searching for something the answer covers ("brown water", "ClickPay")
+    // finds the entry even when the wording isn't in the question itself.
     window.filterFAQ = function(val) {
       const q = val.toLowerCase().trim();
       let any = false;
       document.querySelectorAll('.faq-item').forEach(item => {
-        const match = !q || item.querySelector('.faq-question').textContent.toLowerCase().includes(q);
+        const match = faqMatches(item.textContent, q);
         item.style.display = match ? '' : 'none';
         if (match) any = true;
       });
-      document.getElementById('faq-no-results').style.display = any || !q ? 'none' : 'block';
+      const noRes = document.getElementById('faq-no-results');
+      if (noRes) noRes.style.display = any || !q ? 'none' : 'block';
     };
 
     // Toast notification

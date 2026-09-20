@@ -1,7 +1,6 @@
 {
-  "active": true,
-  "type": "warning",
-  "message": "Hot water service is interrupted today, Wednesday, August 19, from 9:00 AM to 12:00 PM for a plumbing repair. The B line has a full water shut down (no hot or cold water) during this window. When service returns, open your faucets slowly and run them until the water is clear — full details in Updates below.",
-  "dismissible": true,
-  "expires": "2026-08-20T09:00"
+  "active": false,
+  "type": "info",
+  "message": "",
+  "dismissible": true
 }

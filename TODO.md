@@ -18,6 +18,28 @@ The launch placeholders are now filled in. What's left:
       lines are already in place.
 - [ ] **Board email** — `555mcleanboard@gmail.com` is live but temporary; swap it in
       `index.html` and `main.js` if/when a permanent address is chosen.
+- [ ] **Meeting dates** — `data/meetings.json` still reads **Date TBD** for both the
+      monthly board meeting and the Annual Shareholders Meeting. Add the real dates
+      (`day`, `month`, plus an `isoDate` and optional `calendar` block for the
+      countdown chip and the "+ Add to Calendar" button). Until an `isoDate` is set,
+      the weekly health check keeps an open *"Meeting schedule needs updating"* issue.
+
+---
+
+## 🔄 Routine Refresh — What to Check Each Month
+
+The portal shows dated content, so a few things go stale on their own. A quick pass:
+
+- **`data/notices.json`** — set `"active": false` once a banner's event has passed.
+  An `expires` timestamp hides it on the live site automatically, but the file should
+  be switched off too so the next edit doesn't accidentally republish an old message.
+- **`data/meetings.json`** — roll past meetings forward; the Quick Actions tile falls
+  back to the *first* entry's month when no date is confirmed, so a past month there
+  advertises a meeting that already happened.
+- **`data/updates.json`** — newest first. Entries with an `eventDate` show a
+  Today/Tomorrow badge that disappears on its own once the date passes.
+- **`docs/emergency-contacts.html`** — temporary coverage notes (a super on vacation,
+  a stand-in) should come out once they no longer apply.
 
 ### ✅ Done
 - Board email, managing agent (Gramatan — name, address, phone, email) and emergency
