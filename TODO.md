@@ -40,6 +40,9 @@ The portal shows dated content, so a few things go stale on their own. A quick p
   Today/Tomorrow badge that disappears on its own once the date passes.
 - **`docs/emergency-contacts.html`** — temporary coverage notes (a super on vacation,
   a stand-in) should come out once they no longer apply.
+- **`data/sponsors.json`** — a sponsorship that has run its term comes off the page
+  on its own if you set `"expires"`; otherwise set `"active": false` (or delete the
+  entry) when the vendor's term ends.
 
 ### ✅ Done
 - Board email, managing agent (Gramatan — name, address, phone, email) and emergency
@@ -100,8 +103,61 @@ Quick version:
 
 ---
 
+## 🤝 Sponsors — Adding a Vendor Ad
+
+The **Community Sponsors** section at the bottom of the portal is built from
+`data/sponsors.json`. Until a sponsor is added it shows a "This space is open"
+card inviting local businesses to get in touch — nothing else to switch on.
+
+To list a vendor, add one object to the `sponsors` array and push to `main`:
+
+```json
+{
+  "enabled": true,
+  "intro": "Local businesses that support 555 McLean Ave. …",
+  "sponsors": [
+    {
+      "name": "Ace Plumbing & Heating",
+      "category": "Plumbing",
+      "icon": "🔧",
+      "tier": "featured",
+      "tagline": "Same-day service across Yonkers, licensed and insured.",
+      "offer": "10% off labor for 555 McLean residents",
+      "url": "https://aceplumbing.example.com",
+      "phone": "(914) 555-0123",
+      "expires": "2026-12-31"
+    }
+  ]
+}
+```
+
+| Field | Required | What it does |
+|---|---|---|
+| `name` | yes | Business name on the card |
+| `category` | no | Small label above the name (e.g. "Plumbing") |
+| `icon` | no | Emoji in the tile — defaults to 🏪 |
+| `tier` | no | `"featured"` gets a full-width card and a **Featured** ribbon; anything else is a normal card |
+| `tagline` | no | One line of ad copy |
+| `offer` | no | Resident offer, shown as a green chip |
+| `url` | no | Website — must start with `http://` or `https://` or it is dropped |
+| `phone` | no | Shown as a tap-to-call link |
+| `active` | no | `false` hides the entry without deleting it |
+| `expires` | no | `YYYY-MM-DD` (inclusive) — the card disappears after that day |
+
+Notes for the board:
+- Featured sponsors are listed first; the rest keep the order of the file.
+- Ad copy is escaped and outbound links carry `rel="sponsored"`, so vendor-supplied
+  text can't break the page and the ads are correctly labelled for search engines.
+- Setting `"enabled": false` removes the whole section **and** its Sponsors links
+  in the header and footer.
+- Sponsorship terms, rates and money handling are the board's business —
+  the portal only displays what is in the file.
+
+---
+
 ## 📋 Future Sections to Add (when info is available)
 
+- [x] **Community sponsors / local vendor ads** — live section driven by `data/sponsors.json` (see above)
 - [ ] **Financial transparency** — annual budget summary, reserve fund status, or a note directing shareholders to request financials
 - [x] **Building amenities & policies** — folded into `docs/house-rules.html` (Laundry, Packages) to keep the page uncluttered; standalone `docs/amenities.html` retired
 - [x] **Extended emergency contacts** — published as `docs/emergency-contacts.html` (confirm building-specific numbers)
@@ -129,3 +185,5 @@ Quick version:
 - Resident info pages — Emergency Contacts, ClickPay Setup Guide (amenities folded into House Rules)
 - Installable PWA — works offline; assets are version-stamped so updates always reach visitors
 - Automated CI — tests run on every push, deploys to GitHub Pages automatically
+- Community Sponsors section — local vendor ads from `data/sponsors.json`, with a
+  "this space is open" card while no sponsor is live

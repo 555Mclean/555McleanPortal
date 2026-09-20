@@ -44,6 +44,7 @@
       <a href="#waitlist">Parking</a>
       <a href="#contact">Contact</a>
       <a href="#faq">FAQ</a>
+      <a href="#sponsors" data-section="sponsors">Sponsors</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">🌙</button>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav" onclick="toggleNav()">☰</button>
@@ -572,6 +573,27 @@
     </div>
   </section>
 
+  <!-- SPONSORS — generated from data/sponsors.json by build.js.
+       BOARD: add a vendor by appending an object to that file's "sponsors"
+       array; set "enabled": false there to remove the section (and its nav
+       links) entirely. Everything between the markers below is overwritten on
+       each build, so edit the JSON, not this block. -->
+  <!-- SPONSORS-START -->
+  <section id="sponsors">
+    <div class="inner">
+      <div class="section-eyebrow">Community Sponsors</div>
+      <h2 class="section-title">Local Businesses<br>Supporting Us</h2>
+      <p class="section-sub">Local businesses that support 555 McLean Ave. Sponsorships help cover community costs — a listing here is paid placement, not a board endorsement.</p>
+        <div class="sponsor-empty fade-in">
+          <span class="sponsor-empty-icon" aria-hidden="true">🤝</span>
+          <h3>This space is open</h3>
+          <p>Local businesses can reach every household at 555 McLean Ave here. Sponsorships are arranged by the board — get in touch for placement and rates.</p>
+          <a class="btn-primary" href="mailto:555mcleanboard@gmail.com?subject=Sponsorship%20enquiry%20%E2%80%94%20555%20McLean%20Ave%20portal">Become a Sponsor →</a>
+        </div>
+    </div>
+  </section>
+  <!-- SPONSORS-END -->
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-inner">
@@ -590,6 +612,7 @@
         <a href="#waitlist">Parking</a>
         <a href="#contact">Contact</a>
         <a href="#faq">FAQ</a>
+        <a href="#sponsors" data-section="sponsors">Sponsors</a>
       </div>
     </div>
   </footer>
@@ -623,7 +646,7 @@
     }, { passive: true });
 
     // Active nav highlight
-    const sections = document.querySelectorAll('#updates, #meetings, #documents, #waitlist, #contact, #faq');
+    const sections = document.querySelectorAll('#updates, #meetings, #documents, #waitlist, #contact, #faq, #sponsors');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const navObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

@@ -107,3 +107,100 @@ export function nextMeetingTile(meetings, now = new Date()) {
   }
   return meetings.length ? `${meetings[0].month} · Date TBD` : 'Date TBD';
 }
+
+// ── Sponsors / local vendor ads ────────────────────────────────────────────
+// Rendered from data/sponsors.json. The board adds a vendor by appending an
+// object to "sponsors"; nothing else needs editing. Every value is escaped and
+// links are scheme-checked here, because the file is hand-edited and the ad
+// copy comes from outside the building.
+
+// Where sponsorship enquiries go (the board's address).
+export const SPONSOR_EMAIL = '555mcleanboard@gmail.com';
+
+// Only http(s) links are rendered — a "javascript:" or "data:" href supplied by
+// a vendor must never reach the page.
+export function safeUrl(url) {
+  const u = String(url || '').trim();
+  return /^https?:\/\/\S+$/i.test(u) ? u : '';
+}
+
+// "(914) 654-1414" → "+19146541414". Returns '' when there aren't enough
+// digits to dial, so the caller can skip the link.
+export function telHref(phone) {
+  const digits = String(phone || '').replace(/\D/g, '');
+  if (digits.length === 10) return '+1' + digits;
+  if (digits.length === 11 && digits.startsWith('1')) return '+' + digits;
+  return digits.length >= 7 ? '+' + digits : '';
+}
+
+// A sponsor shows when it has a name, hasn't been switched off, and its run
+// hasn't ended. "expires" is an ISO date (inclusive — live through that day) or
+// a full ISO datetime.
+export function sponsorIsLive(s, now = new Date()) {
+  if (!s || !s.name || s.active === false) return false;
+  if (!s.expires) return true;
+  const end = String(s.expires).includes('T')
+    ? new Date(s.expires)
+    : new Date(`${s.expires}T23:59:59`);
+  return !(end <= now);
+}
+
+// Live sponsors, featured ones first (order within a tier is preserved).
+export function activeSponsors(data, now = new Date()) {
+  const list = (data && Array.isArray(data.sponsors) ? data.sponsors : []).filter(s => sponsorIsLive(s, now));
+  return [...list.filter(s => s.tier === 'featured'), ...list.filter(s => s.tier !== 'featured')];
+}
+
+export function buildSponsorCard(s) {
+  const featured = s.tier === 'featured';
+  const url = safeUrl(s.url);
+  const tel = telHref(s.phone);
+  const links = [
+    url ? `<a class="sponsor-link" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer sponsored">Visit website <span aria-hidden="true">↗</span></a>` : '',
+    tel ? `<a class="sponsor-link" href="tel:${escapeAttr(tel)}">${escapeHTML(String(s.phone))}</a>` : '',
+  ].filter(Boolean).join('\n            ');
+  return `        <article class="sponsor-card fade-in${featured ? ' sponsor-featured' : ''}">
+${featured ? '          <span class="sponsor-ribbon">Featured</span>\n' : ''}          <span class="sponsor-logo" aria-hidden="true">${escapeHTML(String(s.icon || '🏪'))}</span>
+          <div class="sponsor-body">
+${s.category ? `            <span class="sponsor-cat">${escapeHTML(String(s.category))}</span>\n` : ''}            <h3 class="sponsor-name">${escapeHTML(String(s.name))}</h3>
+${s.tagline ? `            <p class="sponsor-tagline">${escapeHTML(String(s.tagline))}</p>\n` : ''}${s.offer ? `            <p class="sponsor-offer">🎟️ ${escapeHTML(String(s.offer))}</p>\n` : ''}${links ? `            <div class="sponsor-links">\n            ${links}\n            </div>\n` : ''}          </div>
+        </article>`;
+}
+
+// Shown in place of the grid while no sponsor is live, so the section always
+// reads as an open invitation rather than an empty shelf.
+export function buildSponsorsEmpty() {
+  const subject = encodeURIComponent('Sponsorship enquiry — 555 McLean Ave portal');
+  return `        <div class="sponsor-empty fade-in">
+          <span class="sponsor-empty-icon" aria-hidden="true">🤝</span>
+          <h3>This space is open</h3>
+          <p>Local businesses can reach every household at 555 McLean Ave here. Sponsorships are arranged by the board — get in touch for placement and rates.</p>
+          <a class="btn-primary" href="mailto:${SPONSOR_EMAIL}?subject=${subject}">Become a Sponsor →</a>
+        </div>`;
+}
+
+// The whole section — or '' when the board switches sponsors off in
+// data/sponsors.json, in which case build.js also drops the nav links to it.
+export function buildSponsorsSection(data, now = new Date()) {
+  if (!data || data.enabled === false) return '';
+  const live = activeSponsors(data, now);
+  const intro = data.intro
+    ? `      <p class="section-sub">${escapeHTML(String(data.intro))}</p>\n`
+    : '';
+  const body = live.length
+    ? `      <div class="sponsor-grid">\n${live.map(buildSponsorCard).join('\n')}\n      </div>\n` +
+      `      <p class="sponsor-cta">Interested in sponsoring? <a href="mailto:${SPONSOR_EMAIL}?subject=${encodeURIComponent('Sponsorship enquiry — 555 McLean Ave portal')}">Email the board</a> for placement and rates.</p>\n`
+    : buildSponsorsEmpty() + '\n';
+  return `  <section id="sponsors">
+    <div class="inner">
+      <div class="section-eyebrow">Community Sponsors</div>
+      <h2 class="section-title">Local Businesses<br>Supporting Us</h2>
+${intro}${body}    </div>
+  </section>`;
+}
+
+// With the section gone, its "Sponsors" links would scroll nowhere — strip the
+// anchors the header and footer mark with data-section="sponsors".
+export function stripSponsorNavLinks(html) {
+  return html.replace(/[ \t]*<a [^>]*data-section="sponsors"[^>]*>[\s\S]*?<\/a>\n?/g, '');
+}

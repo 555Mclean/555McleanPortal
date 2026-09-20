@@ -3,6 +3,7 @@ import {
   escapeHTML, escapeAttr,
   buildMeetingItem, buildUpdateCard, buildFilterButtons,
   noticeState, nextMeetingTile,
+  activeSponsors, buildSponsorsSection, stripSponsorNavLinks,
 } from './build-lib.js';
 
 function loadJSON(path) {
@@ -10,10 +11,18 @@ function loadJSON(path) {
   catch (e) { console.error(`ERROR: Could not parse ${path} — ${e.message}`); process.exit(1); }
 }
 
+// A malformed file still fails the build (the board would want to know), but a
+// missing one simply means the feature is off.
+function loadOptionalJSON(path, fallback) {
+  if (!existsSync(path)) return fallback;
+  return loadJSON(path);
+}
+
 const meetings = loadJSON('./data/meetings.json');
 const waitlist = loadJSON('./data/waitlist.json');
 const notice   = loadJSON('./data/notices.json');
 const updates  = loadJSON('./data/updates.json');
+const sponsors = loadOptionalJSON('./data/sponsors.json', { enabled: false, sponsors: [] });
 
 const meetingsHTML = meetings.map(buildMeetingItem).join('\n');
 const updatesHTML  = updates.map(u => buildUpdateCard(u)).join('\n');
@@ -49,6 +58,16 @@ const NEXT_MEETING_RE = /<!-- NEXT-MEETING-START -->[\s\S]*?<!-- NEXT-MEETING-EN
 if (!NEXT_MEETING_RE.test(html)) { console.error('ERROR: NEXT-MEETING markers missing'); process.exit(1); }
 html = html.replace(NEXT_MEETING_RE,
   `<!-- NEXT-MEETING-START -->${nextMeetingTile(meetings)}<!-- NEXT-MEETING-END -->`);
+
+// ── Sponsors section (data/sponsors.json) ──
+// Replaces the whole section: an empty string removes it, and the header/footer
+// links to it go with it so nothing points at a missing anchor.
+const SPONSORS_RE = /<!-- SPONSORS-START -->[\s\S]*?<!-- SPONSORS-END -->/;
+if (!SPONSORS_RE.test(html)) { console.error('ERROR: SPONSORS markers missing'); process.exit(1); }
+const sponsorsHTML = buildSponsorsSection(sponsors);
+html = html.replace(SPONSORS_RE,
+  `<!-- SPONSORS-START -->\n${sponsorsHTML}\n  <!-- SPONSORS-END -->`);
+if (!sponsorsHTML) html = stripSponsorNavLinks(html);
 
 const LAST_UPDATED_RE = /<!-- LAST-UPDATED -->/;
 if (LAST_UPDATED_RE.test(html)) {
@@ -108,7 +127,10 @@ if (existsSync('./docs')) {
 }
 
 const noticeStatus = noticeActive ? `notice: "${notice.message}"` : noticeExpired ? 'notice: expired' : 'notice: off';
+const sponsorStatus = sponsors.enabled === false
+  ? 'sponsors: off'
+  : `${activeSponsors(sponsors).length} sponsors`;
 console.log(
   `Built: ${meetings.length} meetings · ${updates.length} updates · ` +
-  `${waitlist.parking.length} parking · ${noticeStatus}`
+  `${waitlist.parking.length} parking · ${sponsorStatus} · ${noticeStatus}`
 );

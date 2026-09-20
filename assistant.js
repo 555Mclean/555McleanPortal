@@ -89,6 +89,10 @@ export const ASSISTANT_TOPICS = [
     keywords: ['documents','document','lease','bylaws','sublet','subletting','forms','library','proprietary','alteration'],
     body: 'Find building documents and guides in the Resources & Documents section.',
     link: '#documents', linkText: 'Open Documents' },
+  { id: 'sponsors', title: 'Community sponsors & resident offers',
+    keywords: ['sponsor','sponsors','sponsorship','vendor','vendors','advertise','advertising','ad','ads','discount','discounts','deal','deals','local','business','businesses','shop','store','coupon'],
+    body: 'Local businesses that sponsor the co-op are listed in the Community Sponsors section, along with any offers they extend to residents.',
+    link: '#sponsors', linkText: 'See sponsors' },
 ];
 
 function esc(s) {

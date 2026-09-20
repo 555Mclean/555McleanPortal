@@ -3,6 +3,8 @@ import {
   escapeHTML, escapeAttr, CATEGORY_LABELS, ICONS,
   buildMeetingItem, eventBadgeLabel, buildUpdateCard,
   buildFilterButtons, noticeState, nextMeetingTile,
+  safeUrl, telHref, sponsorIsLive, activeSponsors,
+  buildSponsorCard, buildSponsorsSection, stripSponsorNavLinks,
 } from '../build-lib.js';
 
 // A fixed "now" so date-relative output is deterministic.
@@ -280,5 +282,181 @@ describe('nextMeetingTile', () => {
       { month: 'Jul', day: '8', title: '<x>', isoDate: '2026-07-08' },
     ], NOW);
     expect(tile).toContain('&lt;x&gt;');
+  });
+});
+
+// ─── sponsors / vendor ads ─────────────────────────────────────────────────
+
+describe('safeUrl', () => {
+  it('passes http and https links through unchanged', () => {
+    expect(safeUrl('https://example.com/shop')).toBe('https://example.com/shop');
+    expect(safeUrl('http://example.com')).toBe('http://example.com');
+  });
+
+  it('rejects javascript: and other non-http schemes', () => {
+    expect(safeUrl('javascript:alert(1)')).toBe('');
+    expect(safeUrl('data:text/html,<script>')).toBe('');
+    expect(safeUrl('example.com')).toBe('');
+  });
+
+  it('returns an empty string for a missing url', () => {
+    expect(safeUrl(undefined)).toBe('');
+  });
+});
+
+describe('telHref', () => {
+  it('turns a formatted US number into a dialable href', () => {
+    expect(telHref('(914) 654-1414')).toBe('+19146541414');
+  });
+
+  it('keeps a leading country code without doubling it', () => {
+    expect(telHref('1-914-654-1414')).toBe('+19146541414');
+  });
+
+  it('returns an empty string when there are too few digits', () => {
+    expect(telHref('call us')).toBe('');
+    expect(telHref('12345')).toBe('');
+  });
+});
+
+describe('sponsorIsLive', () => {
+  it('shows a plain sponsor with a name', () => {
+    expect(sponsorIsLive({ name: 'Deli' }, NOW)).toBe(true);
+  });
+
+  it('hides one switched off or missing a name', () => {
+    expect(sponsorIsLive({ name: 'Deli', active: false }, NOW)).toBe(false);
+    expect(sponsorIsLive({ tagline: 'no name' }, NOW)).toBe(false);
+  });
+
+  it('keeps a sponsor through the whole of its expiry date', () => {
+    expect(sponsorIsLive({ name: 'Deli', expires: '2026-06-24' }, NOW)).toBe(true);
+    expect(sponsorIsLive({ name: 'Deli', expires: '2026-06-23' }, NOW)).toBe(false);
+  });
+
+  it('honors a full ISO datetime expiry', () => {
+    expect(sponsorIsLive({ name: 'Deli', expires: '2026-06-24T11:00' }, NOW)).toBe(false);
+    expect(sponsorIsLive({ name: 'Deli', expires: '2026-06-24T13:00' }, NOW)).toBe(true);
+  });
+});
+
+describe('activeSponsors', () => {
+  const data = {
+    sponsors: [
+      { name: 'Deli' },
+      { name: 'Expired', expires: '2020-01-01' },
+      { name: 'Plumber', tier: 'featured' },
+      { name: 'Off', active: false },
+      { name: 'Locksmith' },
+    ],
+  };
+
+  it('drops expired and switched-off sponsors', () => {
+    expect(activeSponsors(data, NOW).map(s => s.name)).not.toContain('Expired');
+    expect(activeSponsors(data, NOW).map(s => s.name)).not.toContain('Off');
+  });
+
+  it('puts featured sponsors first and keeps the rest in file order', () => {
+    expect(activeSponsors(data, NOW).map(s => s.name)).toEqual(['Plumber', 'Deli', 'Locksmith']);
+  });
+
+  it('tolerates a missing or malformed sponsors array', () => {
+    expect(activeSponsors({}, NOW)).toEqual([]);
+    expect(activeSponsors(null, NOW)).toEqual([]);
+  });
+});
+
+describe('buildSponsorCard', () => {
+  const base = {
+    name: 'Ace Plumbing & Heating', category: 'Plumbing', icon: '🔧',
+    tagline: 'Same-day service in Yonkers', offer: '10% off for residents',
+    url: 'https://ace.example.com', phone: '(914) 654-1414',
+  };
+
+  it('renders the name, category, tagline and offer', () => {
+    const html = buildSponsorCard(base);
+    expect(html).toContain('Ace Plumbing &amp; Heating');
+    expect(html).toContain('Plumbing');
+    expect(html).toContain('Same-day service in Yonkers');
+    expect(html).toContain('10% off for residents');
+  });
+
+  it('marks paid outbound links rel="sponsored" and opens them safely', () => {
+    const html = buildSponsorCard(base);
+    expect(html).toContain('href="https://ace.example.com"');
+    expect(html).toContain('rel="noopener noreferrer sponsored"');
+    expect(html).toContain('target="_blank"');
+  });
+
+  it('links the phone number for dialing', () => {
+    expect(buildSponsorCard(base)).toContain('href="tel:+19146541414"');
+  });
+
+  it('drops an unsafe url instead of rendering it', () => {
+    const html = buildSponsorCard({ ...base, url: 'javascript:alert(1)' });
+    expect(html).not.toContain('javascript:');
+    expect(html).toContain('href="tel:');
+  });
+
+  it('escapes vendor-supplied copy', () => {
+    const html = buildSponsorCard({ name: '<script>x</script>' });
+    expect(html).not.toContain('<script>');
+    expect(html).toContain('&lt;script&gt;');
+  });
+
+  it('renders a name-only sponsor without empty markup', () => {
+    const html = buildSponsorCard({ name: 'Corner Deli' });
+    expect(html).toContain('Corner Deli');
+    expect(html).not.toContain('sponsor-links');
+    expect(html).not.toContain('sponsor-offer');
+    expect(html).not.toContain('sponsor-cat');
+  });
+
+  it('adds the featured ribbon only for the featured tier', () => {
+    expect(buildSponsorCard({ ...base, tier: 'featured' })).toContain('sponsor-ribbon');
+    expect(buildSponsorCard(base)).not.toContain('sponsor-ribbon');
+  });
+});
+
+describe('buildSponsorsSection', () => {
+  it('renders a grid of live sponsors', () => {
+    const html = buildSponsorsSection({ enabled: true, sponsors: [{ name: 'Corner Deli' }] }, NOW);
+    expect(html).toContain('id="sponsors"');
+    expect(html).toContain('sponsor-grid');
+    expect(html).toContain('Corner Deli');
+  });
+
+  it('falls back to the "become a sponsor" card when none are live', () => {
+    const html = buildSponsorsSection({ enabled: true, sponsors: [] }, NOW);
+    expect(html).toContain('sponsor-empty');
+    expect(html).toContain('mailto:555mcleanboard@gmail.com');
+    expect(html).not.toContain('sponsor-grid');
+  });
+
+  it('returns nothing when the board switches the section off', () => {
+    expect(buildSponsorsSection({ enabled: false, sponsors: [{ name: 'Deli' }] }, NOW)).toBe('');
+    expect(buildSponsorsSection(null, NOW)).toBe('');
+  });
+
+  it('escapes the intro line', () => {
+    const html = buildSponsorsSection({ enabled: true, intro: 'A & B', sponsors: [] }, NOW);
+    expect(html).toContain('A &amp; B');
+  });
+});
+
+describe('stripSponsorNavLinks', () => {
+  it('removes header and footer links to a section that is not rendered', () => {
+    const html = `<nav>
+      <a href="#faq">FAQ</a>
+      <a href="#sponsors" data-section="sponsors">Sponsors</a>
+    </nav>`;
+    const out = stripSponsorNavLinks(html);
+    expect(out).not.toContain('#sponsors');
+    expect(out).toContain('#faq');
+  });
+
+  it('leaves other links alone', () => {
+    const html = '<a href="#contact">Contact</a>';
+    expect(stripSponsorNavLinks(html)).toBe(html);
   });
 });

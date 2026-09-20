@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { CATEGORY_LABELS, ICONS } from '../build-lib.js';
+import { CATEGORY_LABELS, ICONS, safeUrl } from '../build-lib.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const load = name => JSON.parse(readFileSync(resolve(root, 'data', name), 'utf8'));
@@ -124,5 +124,49 @@ describe('data/waitlist.json', () => {
 
   it('has no duplicate entries in the parking list', () => {
     expect(new Set(waitlist.parking).size).toBe(waitlist.parking.length);
+  });
+});
+
+// ─── sponsors.json ─────────────────────────────────────────────────────────────
+
+describe('data/sponsors.json', () => {
+  const data = load('sponsors.json');
+
+  it('is an object with a boolean "enabled" flag and a sponsors array', () => {
+    expect(typeof data).toBe('object');
+    expect(typeof data.enabled).toBe('boolean');
+    expect(Array.isArray(data.sponsors)).toBe(true);
+  });
+
+  it('gives every sponsor a name', () => {
+    for (const s of data.sponsors) {
+      expect(typeof s.name, JSON.stringify(s)).toBe('string');
+      expect(s.name.trim().length).toBeGreaterThan(0);
+    }
+  });
+
+  it('only uses http(s) links, so nothing unsafe reaches the page', () => {
+    for (const s of data.sponsors) {
+      if (s.url !== undefined) expect(safeUrl(s.url), `unsafe url on "${s.name}"`).toBe(s.url);
+    }
+  });
+
+  it('uses a known tier wherever one is set', () => {
+    for (const s of data.sponsors) {
+      if (s.tier !== undefined) expect(['featured', 'supporter']).toContain(s.tier);
+    }
+  });
+
+  it('uses a valid ISO date or datetime for expires when present', () => {
+    for (const s of data.sponsors) {
+      if (s.expires === undefined) continue;
+      expect(s.expires).toMatch(s.expires.includes('T') ? ISO_DATETIME : ISO_DATE);
+      expect(Number.isNaN(Date.parse(s.expires))).toBe(false);
+    }
+  });
+
+  it('has no duplicate sponsor names', () => {
+    const names = data.sponsors.map(s => s.name);
+    expect(new Set(names).size).toBe(names.length);
   });
 });
